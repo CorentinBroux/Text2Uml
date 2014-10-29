@@ -1,0 +1,12 @@
+C:\Users\Nicolas\Documents\In'Tech Info\PI\VS\Text2UML\Text2UML\bin\Debug\Text2UML.exe.config
+C:\Users\Nicolas\Documents\In'Tech Info\PI\VS\Text2UML\Text2UML\bin\Debug\Text2UML.exe
+C:\Users\Nicolas\Documents\In'Tech Info\PI\VS\Text2UML\Text2UML\bin\Debug\Text2UML.pdb
+C:\Users\Nicolas\Documents\In'Tech Info\PI\VS\Text2UML\Text2UML\obj\Debug\View\MainWindow.baml
+C:\Users\Nicolas\Documents\In'Tech Info\PI\VS\Text2UML\Text2UML\obj\Debug\View\MainWindow.g.cs
+C:\Users\Nicolas\Documents\In'Tech Info\PI\VS\Text2UML\Text2UML\obj\Debug\App.g.cs
+C:\Users\Nicolas\Documents\In'Tech Info\PI\VS\Text2UML\Text2UML\obj\Debug\Text2UML_MarkupCompile.cache
+C:\Users\Nicolas\Documents\In'Tech Info\PI\VS\Text2UML\Text2UML\obj\Debug\Text2UML.g.resources
+C:\Users\Nicolas\Documents\In'Tech Info\PI\VS\Text2UML\Text2UML\obj\Debug\Text2UML.Properties.Resources.resources
+C:\Users\Nicolas\Documents\In'Tech Info\PI\VS\Text2UML\Text2UML\obj\Debug\Text2UML.csproj.GenerateResource.Cache
+C:\Users\Nicolas\Documents\In'Tech Info\PI\VS\Text2UML\Text2UML\obj\Debug\Text2UML.exe
+C:\Users\Nicolas\Documents\In'Tech Info\PI\VS\Text2UML\Text2UML\obj\Debug\Text2UML.pdb
