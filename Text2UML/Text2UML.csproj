@@ -53,7 +53,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="View\Text2UML.xaml">
+    <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -61,8 +61,16 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="View\Text2UML.xaml.cs">
-      <DependentUpon>Text2UML.xaml</DependentUpon>
+    <Compile Include="Model\Attribute.cs" />
+    <Compile Include="Model\Class.cs" />
+    <Compile Include="Model\ABox.cs" />
+    <Compile Include="Model\Interface.cs" />
+    <Compile Include="Model\Link.cs" />
+    <Compile Include="Model\Method.cs" />
+    <Compile Include="Model\Parser.cs" />
+    <Compile Include="Model\Tokenizer.cs" />
+    <Compile Include="View\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -84,6 +92,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -94,7 +103,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Model\" />
     <Folder Include="ViewModel\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
