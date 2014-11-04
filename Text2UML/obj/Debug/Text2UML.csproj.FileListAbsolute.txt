@@ -16,8 +16,6 @@ C:\Users\Nicolas\Documents\In'Tech Info\PI\Git\Text2Uml\Text2UML\obj\Debug\Text2
 C:\Users\Nicolas\Documents\In'Tech Info\PI\Git\Text2Uml\Text2UML\bin\Debug\Text2UML.exe
 C:\Users\Nicolas\Documents\In'Tech Info\PI\Git\Text2Uml\Text2UML\bin\Debug\Text2UML.pdb
 C:\Users\Nicolas\Documents\In'Tech Info\PI\Git\Text2Uml\Text2UML\obj\Debug\Text2UML.csprojResolveAssemblyReference.cache
-C:\Users\Nicolas\Documents\In'Tech Info\PI\Git\Text2Uml\Text2UML\obj\Debug\View\MainWindow.baml
-C:\Users\Nicolas\Documents\In'Tech Info\PI\Git\Text2Uml\Text2UML\obj\Debug\View\MainWindow.g.cs
 C:\Users\Nicolas\Documents\In'Tech Info\PI\Git\Text2Uml\Text2UML\obj\Debug\App.g.cs
 C:\Users\Nicolas\Documents\In'Tech Info\PI\Git\Text2Uml\Text2UML\obj\Debug\Text2UML_MarkupCompile.cache
 C:\Users\Nicolas\Documents\In'Tech Info\PI\Git\Text2Uml\Text2UML\obj\Debug\Text2UML.g.resources
@@ -26,3 +24,5 @@ C:\Users\Nicolas\Documents\In'Tech Info\PI\Git\Text2Uml\Text2UML\obj\Debug\Text2
 C:\Users\Nicolas\Documents\In'Tech Info\PI\Git\___Text2Uml\Text2UML\bin\Debug\Text2UML.exe.config
 C:\Users\Nicolas\Documents\In'Tech Info\PI\Git\___Text2Uml\Text2UML\obj\Debug\Text2UML.exe
 C:\Users\Nicolas\Documents\In'Tech Info\PI\Git\___Text2Uml\Text2UML\obj\Debug\Text2UML.pdb
+C:\Users\Nicolas\Documents\In'Tech Info\PI\Git\Text2Uml\Text2UML\obj\Debug\View\Text2UML.baml
+C:\Users\Nicolas\Documents\In'Tech Info\PI\Git\Text2Uml\Text2UML\obj\Debug\View\Text2UML.g.cs

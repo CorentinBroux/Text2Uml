@@ -53,7 +53,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="View\MainWindow.xaml">
+    <Page Include="View\Text2UML.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -69,8 +69,8 @@
     <Compile Include="Model\Method.cs" />
     <Compile Include="Model\Parser.cs" />
     <Compile Include="Model\Tokenizer.cs" />
-    <Compile Include="View\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="View\Text2UML.xaml.cs">
+      <DependentUpon>Text2UML.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define DEBUG
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Text2UML.Model;
 
 namespace Text2UML
 {
@@ -23,7 +26,15 @@ namespace Text2UML
         public MainWindow()
         {
             InitializeComponent();
-            // test
+            
+
+            #if DEBUG
+            Tokenizer tokenizer = new Tokenizer("$Class");
+            string output = "";
+            Token token = tokenizer.GoToNextToken();
+            output = "value : " + token.Value + "\ntype : " + token.Type;
+            MessageBox.Show(output);
+            #endif
         }
     }
 }
