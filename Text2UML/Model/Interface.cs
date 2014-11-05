@@ -9,17 +9,21 @@ namespace Text2UML.Model
     class Interface : ABox
     {
         #region Constructors
-        public Interface()
+        public Interface(string name)
         {
+            Name = name;
             Attributes = new List<Attribute>();
             Methods = new List<Method>();
         }
 
-        public Interface(List<Attribute> attributes, List<Method> methods)
+        public Interface(string name, List<Attribute> attributes, List<Method> methods)
         {
+            Name = name;
             Attributes = attributes;
             Methods = methods;
         }
         #endregion
+
+
     }
 }

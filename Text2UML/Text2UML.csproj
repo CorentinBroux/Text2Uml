@@ -61,10 +61,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Model\AbstractClass.cs" />
     <Compile Include="Model\Attribute.cs" />
     <Compile Include="Model\Class.cs" />
     <Compile Include="Model\ABox.cs" />
+    <Compile Include="Model\DEBUG_Drawers.cs" />
     <Compile Include="Model\Interface.cs" />
+    <Compile Include="Model\InvalidSyntaxException.cs" />
     <Compile Include="Model\Link.cs" />
     <Compile Include="Model\Method.cs" />
     <Compile Include="Model\Parser.cs" />

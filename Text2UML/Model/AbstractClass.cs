@@ -6,24 +6,22 @@ using System.Threading.Tasks;
 
 namespace Text2UML.Model
 {
-    class Class : ABox
+    class AbstractClass : ABox
     {
         #region Constructors
-        public Class(string name)
+        public AbstractClass(string name)
         {
             Name = name;
             Attributes = new List<Attribute>();
             Methods = new List<Method>();
         }
 
-        public Class(string name,List<Attribute> attributes, List<Method> methods)
+        public AbstractClass(string name,List<Attribute> attributes, List<Method> methods)
         {
             Name = name;
             Attributes = attributes;
             Methods = methods;
         }
         #endregion
-
-
     }
 }

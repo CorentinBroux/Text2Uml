@@ -8,7 +8,8 @@ namespace Text2UML.Model
 {
     public enum LinkTypes
     {
-
+        Include,
+        Extends
     };
 
     class Link
@@ -16,16 +17,28 @@ namespace Text2UML.Model
         
 
         #region Fields and properties
-        public ABox From { get; set; }
-        public ABox To { get; set; }
+        public string From { get; set; }
+        public string To { get; set; }
+        public LinkTypes Type { get; set; }
         #endregion
 
         #region Constructors
-        public Link(ABox from, ABox to)
+        public Link(string from, string to, LinkTypes type)
         {
             From = from;
             To = to;
+            Type = type;
         }
+        #endregion
+
+        #region Static methods
+
+        public static LinkTypes GetLinkTypeFromSymbol(string symbol)
+        {
+            // TODO : implements the method
+            return LinkTypes.Extends;
+        }
+
         #endregion
     }
 }

@@ -11,7 +11,8 @@ namespace Text2UML.Model
         EoF,			//End of File
 		EoL,			//End of Line
 		Keyword,		//Keyword
-        Delimiter,      // Delimiter
+        Delimiter,      //Delimiter
+        LinkSymbol,     //Link symbol
 		Other		    //Parameter
     };
     
@@ -28,6 +29,8 @@ namespace Text2UML.Model
         public bool IsEoL{get{return Type==TokenType.EoL;}}
         public bool IsKeyword{get{return Type==TokenType.Keyword;}}
         public bool IsOther{get{return Type==TokenType.Other;}}
+        public bool IsDelimiter { get { return Type == TokenType.Delimiter; } }
+        public bool IsLinkSymbol { get { return Type == TokenType.LinkSymbol; } }
 
         #endregion
 
@@ -48,7 +51,8 @@ namespace Text2UML.Model
         #region Fields and properties        
         private static List<char> endOfLineDelimiters = new List<char>() { '\n', '\r' };
         private static List<char> otherDelimiters = new List<char>() { '{', '}','(',')' };
-        private static List<string> keyWords = new List<string>() { "$Class", "$Interface", "$Abstract" };
+        private static List<string> keyWords = new List<string>() { "$Class", "$Interface", "$Abstract","$Attributes","$Methods", "$Links" };
+        private static List<string> linkSymbols = new List<string>() { "<>-","<->-","->>",".>","-","-()",".>>","-(",".>","<.","->","><-"};
         public string Text {get;set;}
         private int currentCharIndex;
         public char CurrentChar { get { return currentCharIndex >= Text.Length ? '0': Text[currentCharIndex];}}
@@ -76,27 +80,37 @@ namespace Text2UML.Model
             //if (!EatWhiteSpace()) return new Token(TokenType.EOF);
 
             int tokenColumn = CurrentColumn;
-            //_buffer.Clear();
+            Buffer.Clear();
 
-            if (endOfLineDelimiters.Contains(CurrentChar))
-            {
-                NextChar();
-                return new Token(TokenType.EoL, "EoL", tokenColumn, CurrentLine);
-            }
 
-            if (otherDelimiters.Contains(CurrentChar))
-            {
-                char c = CurrentChar;
-                NextChar();
-                return new Token(TokenType.Delimiter, c.ToString(), tokenColumn, CurrentLine);
-            }
+            if (EndOfFile())
+                return new Token(TokenType.EoF, "EoF", tokenColumn, CurrentLine);
+
 
             do
             {
-                Buffer.Append(CurrentChar);
+                if(!Char.IsWhiteSpace(CurrentChar))
+                    Buffer.Append(CurrentChar);
             } while (!Char.IsWhiteSpace(NextChar()));
 
-            return new Token(keyWords.Contains(StringBuffer) ? TokenType.Keyword : TokenType.Other, StringBuffer, tokenColumn, CurrentLine);
+
+            if (CurrentChar == '\n')
+            {
+                if (CurrentChar == '\n') NextChar();
+                return new Token(TokenType.EoL, "\n", tokenColumn, CurrentLine);
+            }
+
+            if (StringBuffer == "")
+                Buffer.Append(NextChar());
+
+            //if (endOfLineDelimiters.Contains(StringBuffer[0]))
+            //    return new Token(TokenType.EoL, "EoL", tokenColumn, CurrentLine);
+
+            if (otherDelimiters.Contains(StringBuffer[0]))
+                return new Token(TokenType.Delimiter, StringBuffer[0].ToString(), tokenColumn, CurrentLine);
+            
+
+            return new Token(keyWords.Contains(StringBuffer) ? TokenType.Keyword : linkSymbols.Contains(StringBuffer) ? TokenType.LinkSymbol : TokenType.Other, StringBuffer, tokenColumn, CurrentLine);
 
             //if (false)//BeginRead())
             //{
@@ -124,6 +138,7 @@ namespace Text2UML.Model
             return currentCharIndex >= Text.Length ? ' ' : Text[currentCharIndex];
         }
 
+
         //private bool BeginRead()
         //{
         //    if (othersDelimiters.Contains(CurrentChar))
@@ -138,6 +153,19 @@ namespace Text2UML.Model
         //{
         //    return othersDelimiters.Contains(CurrentChar) || endOfLineDelimiters.Contains(CurrentChar);
         //}
+
+        private bool EndOfFile()
+        {
+            try
+            {
+                char c = Text[currentCharIndex+1];
+                return false;
+            }catch(IndexOutOfRangeException){
+                return true;
+            }
+        }
+
+
         #endregion
     }
 }

@@ -9,16 +9,24 @@ namespace Text2UML.Model
     class Method
     {
         # region Fields and properties
-        public List<string> ParamTypes { get; set; }
+        public string Name { get; set; }
         public string ReturnType { get; set; }
+        public List<string> ParamTypes { get; set; }
+        
 
         #endregion
 
         #region Constructors
-        public Method(List<string> paramTypes, string returnType)
+        public Method(string returnType, string name, List<string> paramTypes)
         {
-            ParamTypes = paramTypes;
             ReturnType = returnType;
+            ParamTypes = paramTypes;
+            Name = name;
+        }
+
+        public Method()
+        {
+
         }
         #endregion
     }

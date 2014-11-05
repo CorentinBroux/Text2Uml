@@ -14,7 +14,7 @@ namespace Text2UML.Model
         #endregion
 
         #region Constructors
-        public Attribute(string name, string type)
+        public Attribute(string type, string name)
         {
             Name = name;
             Type = type;
