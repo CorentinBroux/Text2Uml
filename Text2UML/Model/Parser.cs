@@ -98,14 +98,17 @@ namespace Text2UML.Model
                     {
                         Method m = new Method();
                         m.ReturnType = token.Value;
-                        List<string> data = ExtractMethodData(tokenizer.GoToNextToken().Value);
+                        string str ="";
+                        while(!token.Value.Contains(")"))
+                        {
+                            token = tokenizer.GoToNextToken();
+                            str += token.Value;
+                        }
+
+                        List<string> data = ExtractMethodData(str);
                         m.Name = data[0];
                         data.RemoveAt(0);
-                        m.ParamTypes = new List<string>();
-                        foreach (string s in data)
-                        {
-                            m.ParamTypes.Add(s);
-                        }
+                        m.ParamTypes = data;
                         aBox.Methods.Add(m);
                     }
                 }
@@ -174,7 +177,15 @@ namespace Text2UML.Model
 
         private static List<string> ExtractMethodData(string dataString)
         {
-            return new List<string>(){"string 1", "string 2", "string 3", "string 4"};
+            //Format : name(type1, type2, type3)
+
+            List<string> list = new List<string>();
+            string[] strings = dataString.Split(new char[] {'(',')'}, StringSplitOptions.RemoveEmptyEntries); // name      type1, type2, type3
+            list.Add(strings[0]); // Add method name
+            strings = strings[1].Split(new string[]{", "},StringSplitOptions.RemoveEmptyEntries); // type1      type2       type3
+            foreach (string s in strings)
+                list.Add(s); // Add parameter types
+            return list;
         }
     }
 }

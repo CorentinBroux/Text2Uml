@@ -46,7 +46,7 @@ namespace Text2UML
             try
             {
                 string s = "";
-                foreach (ABox box in Parser.ExtractAboxes("$Class Toto { $Attributes int age string name } $Abstract Titi { $Methods bool stuff(int, int) } $Interface Tata { other stuff } $Links { a -> b \n y -> z }"))
+                foreach (ABox box in Parser.ExtractAboxes("$Class Toto { $Attributes int age string name } $Abstract Titi { $Methods bool IsAlive(int, int) void Eat(food) } $Interface Tata { other stuff } $Links { a -> b \n y -> z }"))
                 {
                     s += box.GetType().ToString() + " " + box.Name + "\n" + "Attributes: \n";
                     foreach (Model.Attribute a in box.Attributes)
