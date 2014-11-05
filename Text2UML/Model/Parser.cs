@@ -182,6 +182,8 @@ namespace Text2UML.Model
             List<string> list = new List<string>();
             string[] strings = dataString.Split(new char[] {'(',')'}, StringSplitOptions.RemoveEmptyEntries); // name      type1, type2, type3
             list.Add(strings[0]); // Add method name
+            if (strings.Length == 1)
+                return list;
             strings = strings[1].Split(new string[]{", "},StringSplitOptions.RemoveEmptyEntries); // type1      type2       type3
             foreach (string s in strings)
                 list.Add(s); // Add parameter types

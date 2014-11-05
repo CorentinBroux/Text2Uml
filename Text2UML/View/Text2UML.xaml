@@ -60,10 +60,10 @@
 								<RowDefinition/>
 								<RowDefinition Height="22"/>
 							</Grid.RowDefinitions>
-							<TextBox AcceptsReturn="True" Grid.Row="0" TextWrapping="Wrap" Text="Write native text here" Margin="5" VerticalScrollBarVisibility="Auto"/>
+							<TextBox x:Name="TB_NativeLanguage" AcceptsReturn="True" Grid.Row="0" TextWrapping="Wrap" Text="Write native text here" Margin="5" VerticalScrollBarVisibility="Auto"/>
 							<StackPanel Orientation="Horizontal" Grid.Row="1">
-								<Button Content="Process" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="5,0,0,0"/>
-								<Button Content="Open file..." HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="5,0,0,0"/>
+								<Button x:Name="BT_Process_NL" Content="Process" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="5,0,0,0"/>
+								<Button x:Name="BT_Open_NL" Content="Open file..." HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="5,0,0,0"/>
 							</StackPanel>
 						</Grid>
 					</TabItem>
@@ -73,10 +73,10 @@
 								<RowDefinition/>
 								<RowDefinition Height="22"/>
 							</Grid.RowDefinitions>
-							<TextBox AcceptsReturn="True"  Grid.Row="0" TextWrapping="Wrap" Text="Write pseudo-code here" Margin="5" VerticalScrollBarVisibility="Auto"/>
+							<TextBox x:Name="TB_PseudoCode" AcceptsReturn="True"  Grid.Row="0" TextWrapping="Wrap" Text="Write pseudo-code here" Margin="5" VerticalScrollBarVisibility="Auto"/>
 							<StackPanel Orientation="Horizontal" Grid.Row="1">
-								<Button Content="Process" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="5,0,0,0"/>
-								<Button Content="Open file..." HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="5,0,0,0"/>
+								<Button x:Name="BT_Process_PC" Content="Process" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="5,0,0,0" Click="BT_Process_PC_Click"/>
+								<Button x:Name="BT_Open_PC" Content="Open file..." HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="5,0,0,0"/>
 							</StackPanel>
 						</Grid>
 					</TabItem>

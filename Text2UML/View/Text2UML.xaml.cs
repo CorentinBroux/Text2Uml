@@ -28,25 +28,66 @@ namespace Text2UML
             InitializeComponent();
 
 
-            //#if DEBUG
-            //Tokenizer tokenizer = new Tokenizer("$Class titi { $Methods run() }");
-            //string output = "";
-            //Token token;
+            // DEBUG - PARSER TEST
 
-            //do
+            //try
             //{
-            //    token = tokenizer.GoToNextToken();
-            //    output += "value : " + token.Value + "\ntype : " + token.Type + "\nlength : " + token.Value.Length + "\n\n";
-            //} while (token.Type != TokenType.EoF);
+            //    string s = "";
+            //    foreach (ABox box in Parser.ExtractAboxes("$Class Toto { $Attributes int age string name } $Abstract Titi { $Methods bool IsAlive(int, int) void Eat(food) } $Interface Tata { other stuff } $Links { a -> b \n y -> z }"))
+            //    {
+            //        s += box.GetType().ToString() + " " + box.Name + "\n" + "Attributes: \n";
+            //        foreach (Model.Attribute a in box.Attributes)
+            //        {
+            //            s += "\t" + a.Name + " : " + a.Type + "\n";
+            //        }
+            //        s += "\nMethods: \n";
+            //        foreach (Method m in box.Methods)
+            //        {
+            //            s += "\t" + m.ReturnType + " " + m.Name + "(";
+            //            int i = 1;
+            //            foreach (string str in m.ParamTypes)
+            //            {
+            //                s += str;
+            //                if (i < m.ParamTypes.Count)
+            //                    s += ", ";
+            //                i++;
+            //            }
+            //            s += ")\n";
+            //        }
+            //        s += "\n\n";
+            //    }
+            //    MessageBox.Show(s);
+            //}
+            //catch (InvalidSyntaxException ise)
+            //{
+            //    MessageBox.Show(ise.Message);
+            //}
 
-            //MessageBox.Show(output);
-            //#endif
+        }
 
-
+        private void BT_Process_PC_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
             try
             {
+
+                string source = TB_PseudoCode.Text;
+                source = source.Replace(Environment.NewLine, " ");
+                //string[] strings = source.Split(new char[] {'\r','\n'}, StringSplitOptions.RemoveEmptyEntries);
+                //StringBuilder sb = new StringBuilder();
+                //for (int i = 0; i < strings.Length; i++)
+                //{
+                //    sb.Append(strings[i]);
+                //    if (i < strings.Length - 1)
+                //        sb.Append(" ");
+                //}
+                
+                
+                //MessageBox.Show(source); // DEBUG
+
+
+
                 string s = "";
-                foreach (ABox box in Parser.ExtractAboxes("$Class Toto { $Attributes int age string name } $Abstract Titi { $Methods bool IsAlive(int, int) void Eat(food) } $Interface Tata { other stuff } $Links { a -> b \n y -> z }"))
+                foreach (ABox box in Parser.ExtractAboxes(source))
                 {
                     s += box.GetType().ToString() + " " + box.Name + "\n" + "Attributes: \n";
                     foreach (Model.Attribute a in box.Attributes)
@@ -75,7 +116,6 @@ namespace Text2UML
             {
                 MessageBox.Show(ise.Message);
             }
-
         }
     }
 }
