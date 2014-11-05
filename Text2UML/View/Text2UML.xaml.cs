@@ -83,7 +83,7 @@ namespace Text2UML
                 //}
                 
                 
-                //MessageBox.Show(source); // DEBUG
+                MessageBox.Show(source); // DEBUG
 
 
 
@@ -120,6 +120,11 @@ namespace Text2UML
         }
 
         private void BT_Open_PC_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            LoadPseudoCodeFromFile();
+        }
+
+        private void LoadPseudoCodeFromFile()
         {
             // Configure open file dialog box
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();

@@ -154,6 +154,7 @@ namespace Text2UML.Model
                     {
                         link.To = token.Value;
                         links.Add(link);
+                        newLine = true;
                     }
                 }
                 else if(token.IsLinkSymbol)
