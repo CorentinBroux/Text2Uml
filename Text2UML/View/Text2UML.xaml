@@ -1,25 +1,25 @@
 ﻿<Window x:Class="Text2UML.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="586" Width="851">
+        Title="MainWindow" Height="586" Width="851" Icon="logo 1.png">
     <Grid Background="#FFF0F0F0">
 		<!-- MENU -->
 
 		<Menu Name="menu" HorizontalAlignment="Stretch" Height="25" VerticalAlignment="Top" Grid.ColumnSpan="2" BorderBrush="#FFB0B0B0" BorderThickness="0,0,0,1">
     		<MenuItem Name="menu_file" Header="File" Height="22">
-    			<MenuItem Name="submenu_new" Header="New" HorizontalAlignment="Left" InputGestureText="Ctrl+N"/>
-				<MenuItem Name="submenu_open" Header="Open..." HorizontalAlignment="Left" InputGestureText="Ctrl+O"/>
-				<MenuItem Name="submenu_save" Header="Save" HorizontalAlignment="Left" InputGestureText="Ctrl+S"/>
-				<MenuItem Name="submenu_export" Header="Export..." HorizontalAlignment="Left" InputGestureText="Ctrl+E"/>
+    			<MenuItem Name="submenu_new" Header="New" InputGestureText="Ctrl+N" Margin="0,0,1,0"/>
+				<MenuItem Name="submenu_open" Header="Open..." InputGestureText="Ctrl+O" Margin="0,0,1,0"/>
+				<MenuItem Name="submenu_save" Header="Save" InputGestureText="Ctrl+S" Margin="0,0,1,0"/>
+				<MenuItem Name="submenu_export" Header="Export..." InputGestureText="Ctrl+E" Margin="0,0,1,0"/>
     		</MenuItem>
 			<MenuItem Name="menu_edit" Header="Edit" Height="22">
-				<MenuItem x:Name="submenu_undo" Header="Undo" HorizontalAlignment="Left" InputGestureText="Ctrl+Z"/>
-				<MenuItem x:Name="submenu_redo" Header="Redo" HorizontalAlignment="Left" InputGestureText="Ctrl+Y"/>
+				<MenuItem x:Name="submenu_undo" Header="Undo" InputGestureText="Ctrl+Z" Margin="0,0,1,0"/>
+				<MenuItem x:Name="submenu_redo" Header="Redo" InputGestureText="Ctrl+Y" Margin="0,0,1,0"/>
 			</MenuItem>
 			<MenuItem Name="menu_options" Header="Options" Height="22">
 				<MenuItem x:Name="submenu_lang" Header="Language" HorizontalAlignment="Left">
-					<MenuItem x:Name="submenu_lang_en" Header="English" HorizontalAlignment="Left"/>
-					<MenuItem x:Name="submenu_lang_fr" Header="French" HorizontalAlignment="Left"/>
+					<MenuItem x:Name="submenu_lang_en" Header="English" Margin="0,0,1,0" IsCheckable="True" IsChecked="True" StaysOpenOnClick="True"/>
+                    <MenuItem x:Name="submenu_lang_fr" Header="French" Margin="0,0,1,0" IsCheckable="True" IsChecked="False" StaysOpenOnClick="True"/>
 				</MenuItem>
 			</MenuItem>
 			<MenuItem Name="menu_help" Header="?" Height="22"/>
