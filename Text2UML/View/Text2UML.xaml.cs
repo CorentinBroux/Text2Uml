@@ -146,5 +146,30 @@ namespace Text2UML
                 }
             }
         }
+
+        private void submenu_lang_en_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeCheckedLanguage("en");
+        }
+
+        private void submenu_lang_fr_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeCheckedLanguage("fr");
+        }
+
+        private void ChangeCheckedLanguage(string To)
+        {
+            if(To=="en")
+            {
+                submenu_lang_fr.IsChecked = false;
+            }else if (To == "fr")
+            {
+                submenu_lang_en.IsChecked = false;
+            }
+        }
+
+        
     }
+
+    
 }

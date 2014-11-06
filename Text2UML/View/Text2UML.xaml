@@ -18,8 +18,8 @@
 			</MenuItem>
 			<MenuItem Name="menu_options" Header="Options" Height="22">
 				<MenuItem x:Name="submenu_lang" Header="Language" HorizontalAlignment="Left">
-					<MenuItem x:Name="submenu_lang_en" Header="English" Margin="0,0,1,0" IsCheckable="True" IsChecked="True" StaysOpenOnClick="True"/>
-                    <MenuItem x:Name="submenu_lang_fr" Header="French" Margin="0,0,1,0" IsCheckable="True" IsChecked="False" StaysOpenOnClick="True"/>
+                    <MenuItem x:Name="submenu_lang_en" Header="English" Margin="0,0,1,0" IsCheckable="True" IsChecked="True" StaysOpenOnClick="True" Click="submenu_lang_en_Click"/>
+                    <MenuItem x:Name="submenu_lang_fr" Header="French" Margin="0,0,1,0" IsCheckable="True" IsChecked="False" StaysOpenOnClick="True" Click="submenu_lang_fr_Click"/>
 				</MenuItem>
 			</MenuItem>
 			<MenuItem Name="menu_help" Header="?" Height="22"/>
