@@ -71,8 +71,8 @@ namespace Text2UML
             try
             {
 
-                string source = TB_PseudoCode.Text;
-                source = source.Replace(Environment.NewLine, " ");
+                //string source = TB_PseudoCode.Text;
+                //source = source.Replace(Environment.NewLine, " ");
                 //string[] strings = source.Split(new char[] {'\r','\n'}, StringSplitOptions.RemoveEmptyEntries);
                 //StringBuilder sb = new StringBuilder();
                 //for (int i = 0; i < strings.Length; i++)
@@ -83,12 +83,12 @@ namespace Text2UML
                 //}
                 
                 
-                MessageBox.Show(source); // DEBUG
+                //MessageBox.Show(source); // DEBUG
 
 
 
                 string s = "";
-                foreach (ABox box in Parser.ExtractAboxes(source))
+                foreach (ABox box in Parser.ExtractAboxes(Formatter.FormatForTokenization(TB_PseudoCode.Text)))
                 {
                     s += box.GetType().ToString() + " " + box.Name + "\n" + "Attributes: \n";
                     foreach (Model.Attribute a in box.Attributes)
