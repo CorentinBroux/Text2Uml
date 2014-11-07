@@ -162,9 +162,11 @@ namespace Text2UML
             if(To=="en")
             {
                 submenu_lang_fr.IsChecked = false;
+                submenu_lang_en.IsChecked = true;
             }else if (To == "fr")
             {
                 submenu_lang_en.IsChecked = false;
+                submenu_lang_fr.IsChecked = true;
             }
         }
 
