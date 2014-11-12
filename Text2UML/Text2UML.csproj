@@ -74,6 +74,7 @@
     <Compile Include="Model\Method.cs" />
     <Compile Include="Model\Parser.cs" />
     <Compile Include="Model\Tokenizer.cs" />
+    <Compile Include="View\Drawer.cs" />
     <Compile Include="View\Text2UML.xaml.cs">
       <DependentUpon>Text2UML.xaml</DependentUpon>
       <SubType>Code</SubType>

@@ -90,7 +90,7 @@ namespace Text2UML
                 string s = "";
                 foreach (ABox box in Parser.ExtractAboxes(Formatter.FormatForTokenization(TB_PseudoCode.Text)))
                 {
-                    s += box.GetType().ToString() + " " + box.Name + "\n" + "Attributes: \n";
+                    s += box.GetType().Name + " " + box.Name + "\n" + "Attributes: \n";
                     foreach (Model.Attribute a in box.Attributes)
                     {
                         s += "\t" + a.Name + " : " + a.Type + "\n";
@@ -117,6 +117,9 @@ namespace Text2UML
             {
                 MessageBox.Show(ise.Message);
             }
+
+
+            View.Drawer.DrawBorder(Parser.ExtractAboxes(Formatter.FormatForTokenization(TB_PseudoCode.Text))[0], canvas1, 10, 10);
         }
 
         private void BT_Open_PC_Click(object sender, System.Windows.RoutedEventArgs e)
