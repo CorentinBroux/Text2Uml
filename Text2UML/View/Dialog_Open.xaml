@@ -1,0 +1,20 @@
+﻿<Window x:Class="Text2UML.View.Dialog_Open"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Open file" Height="196" Width="346">
+    <Grid>
+        <Label HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.158,-1.077">
+            <AccessText Height="74" Width="325" Text="Please choose the type of file you want to open :&#xD;&#xA;&#x9;1. A Text2UML save file (.t2u)&#xD;&#xA;&#x9;2. A native language text&#xD;&#xA;&#x9;3. A pseudo-code text"/>
+        </Label>
+        <Button HorizontalAlignment="Left" Margin="10,111,0,0" VerticalAlignment="Top" Width="101" Height="40">
+            <AccessText TextAlignment="Center" Text="Open Text2UML&#xD;&#xA;save file"/>
+        </Button>
+        <Button HorizontalAlignment="Left" Margin="116,111,0,0" VerticalAlignment="Top" Width="101" Height="40">
+            <AccessText TextAlignment="Center" Text="Open a native&#xA;language text"/>
+        </Button>
+        <Button HorizontalAlignment="Left" Margin="222,111,0,0" VerticalAlignment="Top" Width="101" Height="40">
+            <AccessText TextAlignment="Center" Text="Open a native&#xA;pseudo-code text"/>
+        </Button>
+
+    </Grid>
+</Window>
