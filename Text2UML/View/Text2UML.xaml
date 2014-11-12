@@ -40,10 +40,12 @@
 			
 			<Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Margin="5,5,0,5" Background="#FFF0F0F0">
 				<TabControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-					<TabItem Header="Diagram 1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                        <Canvas Name="canvas1">
-                            
-                        </Canvas>
+                    <TabItem Name="tab1" Header="Diagram 1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                        <ScrollViewer Name ="scroll1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                            <Canvas Name="canvas1">
+
+                            </Canvas>
+                        </ScrollViewer>
 					</TabItem>
 					<TabItem Header="Diagram 2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
 						

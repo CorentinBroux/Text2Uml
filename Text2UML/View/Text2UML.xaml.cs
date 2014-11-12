@@ -87,39 +87,47 @@ namespace Text2UML
 
 
 
-                string s = "";
-                foreach (ABox box in Parser.ExtractAboxes(Formatter.FormatForTokenization(TB_PseudoCode.Text)))
-                {
-                    s += box.GetType().Name + " " + box.Name + "\n" + "Attributes: \n";
-                    foreach (Model.Attribute a in box.Attributes)
-                    {
-                        s += "\t" + a.Name + " : " + a.Type + "\n";
-                    }
-                    s += "\nMethods: \n";
-                    foreach (Method m in box.Methods)
-                    {
-                        s += "\t" + m.ReturnType + " " + m.Name + "(";
-                        int i = 1;
-                        foreach (string str in m.ParamTypes)
-                        {
-                            s += str;
-                            if (i < m.ParamTypes.Count)
-                                s += ", ";
-                            i++;
-                        }
-                        s += ")\n";
-                    }
-                    s += "\n\n";
-                }
-                MessageBox.Show(s);
+                //string s = "";
+                //foreach (ABox box in Parser.ExtractAboxes(Formatter.FormatForTokenization(TB_PseudoCode.Text)))
+                //{
+                //    s += box.GetType().Name + " " + box.Name + "\n" + "Attributes: \n";
+                //    foreach (Model.Attribute a in box.Attributes)
+                //    {
+                //        s += "\t" + a.Name + " : " + a.Type + "\n";
+                //    }
+                //    s += "\nMethods: \n";
+                //    foreach (Method m in box.Methods)
+                //    {
+                //        s += "\t" + m.ReturnType + " " + m.Name + "(";
+                //        int i = 1;
+                //        foreach (string str in m.ParamTypes)
+                //        {
+                //            s += str;
+                //            if (i < m.ParamTypes.Count)
+                //                s += ", ";
+                //            i++;
+                //        }
+                //        s += ")\n";
+                //    }
+                //    s += "\n\n";
+                //}
+                //MessageBox.Show(s);
+
+
+
+                //View.Drawer.DrawBorder(Parser.ExtractAboxes(Formatter.FormatForTokenization(TB_PseudoCode.Text))[0], canvas1, 10, 10);
+                View.Drawer.DrawBoxes(Parser.ExtractAboxes(Formatter.FormatForTokenization(TB_PseudoCode.Text)), canvas1);
+                canvas1.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                canvas1.Height = 1000;
             }
-            catch (InvalidSyntaxException ise)
+            catch (Exception ex)
             {
-                MessageBox.Show(ise.Message);
+                MessageBox.Show(ex.Message);
             }
 
 
-            View.Drawer.DrawBorder(Parser.ExtractAboxes(Formatter.FormatForTokenization(TB_PseudoCode.Text))[0], canvas1, 10, 10);
+
+
         }
 
         private void BT_Open_PC_Click(object sender, System.Windows.RoutedEventArgs e)

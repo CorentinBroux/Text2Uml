@@ -12,6 +12,64 @@ namespace Text2UML.View
 {
     class Drawer
     {
+
+        public static double GlobalMaxWidth = 1000;
+
+        public static void DrawBoxes(List<ABox> boxes, Canvas c)
+        {
+            try
+            {
+                int x = 10;
+                int y = 10;
+                double maxHeight = 0;
+                double maxWidth = 0;
+                // Remove existings objects from canvas
+                c.Children.Clear();
+
+                // Draw the first box
+                Border b = DrawBorder(boxes[0], c, x, y);
+
+                // Get the dimensions of the first box
+                b.Measure(new System.Windows.Size(double.PositiveInfinity, double.PositiveInfinity));
+                double w = b.DesiredSize.Width;
+                double h = b.DesiredSize.Height;
+                //System.Windows.MessageBox.Show("h " + h.ToString() + "\nw " + w.ToString());
+                boxes.RemoveAt(0);
+
+                // Draw  boxes
+                foreach (ABox box in boxes)
+                {
+                    b = DrawBorder(box, c, (int)w + 50, y);
+                    b.Measure(new System.Windows.Size(double.PositiveInfinity, double.PositiveInfinity));
+                    w = b.DesiredSize.Width;
+                    h = b.DesiredSize.Height;
+                    
+                    
+
+                    if (w > GlobalMaxWidth) // new line
+                    {
+                        c.Children.RemoveAt(c.Children.Count - 1);
+                        y = (int)maxHeight + 50;
+                        maxHeight = 0;
+                        b = DrawBorder(box, c, x, y);
+                        b.Measure(new System.Windows.Size(double.PositiveInfinity, double.PositiveInfinity));
+                        w = b.DesiredSize.Width;
+                        h = b.DesiredSize.Height;
+                    }
+
+                    maxHeight = maxHeight < h ? h : maxHeight;
+                    maxWidth = maxWidth < w ? w : maxWidth;
+                }
+
+                c.Height = (int)maxHeight ;
+                c.Width = (int)maxWidth;
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show(e.Message);
+            }
+            
+        }
         public static Border DrawBorder(ABox box, Canvas c, int x, int y)
         {
             // 1. Create the border

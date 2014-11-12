@@ -26,4 +26,3 @@ C:\Users\Nicolas\Documents\In'Tech Info\PI\Git\___Text2Uml\Text2UML\obj\Debug\Te
 C:\Users\Nicolas\Documents\In'Tech Info\PI\Git\___Text2Uml\Text2UML\obj\Debug\Text2UML.pdb
 C:\Users\Nicolas\Documents\In'Tech Info\PI\Git\Text2Uml\Text2UML\obj\Debug\View\Text2UML.baml
 C:\Users\Nicolas\Documents\In'Tech Info\PI\Git\Text2Uml\Text2UML\obj\Debug\View\Text2UML.g.cs
-C:\Users\Nicolas\Documents\In'Tech Info\PI\Git\Text2Uml\Text2UML\obj\Debug\GeneratedInternalTypeHelper.g.cs
