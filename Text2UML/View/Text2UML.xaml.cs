@@ -132,12 +132,17 @@ namespace Text2UML
 
         }
 
+        public MainWindow getThis()
+        {
+            return this;
+        }
+
         private void BT_Open_PC_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             LoadPseudoCodeFromFile();
         }
 
-        private void LoadPseudoCodeFromFile()
+        public void LoadPseudoCodeFromFile()
         {
             // Configure open file dialog box
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
@@ -186,10 +191,11 @@ namespace Text2UML
 
         private void OpenCommand(object sender, ExecutedRoutedEventArgs e)
         {
-            View.Dialog_Open diao = new View.Dialog_Open();
+            View.Dialog_Open diao = new View.Dialog_Open(getThis());
             diao.Owner = this;
             diao.ShowDialog();
         }
+
 
         private void SaveCommand(object sender, ExecutedRoutedEventArgs e)
         {

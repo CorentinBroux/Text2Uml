@@ -77,7 +77,7 @@
 							</StackPanel>
 						</Grid>
 					</TabItem>
-					<TabItem Header="Pseudo-code" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+					<TabItem Name="pseudocodeTabItem" Header="Pseudo-code" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
 						<Grid>
 							<Grid.RowDefinitions>
 								<RowDefinition/>
