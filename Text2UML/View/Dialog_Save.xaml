@@ -13,7 +13,7 @@
             <AccessText TextAlignment="Center" Text="Save a native&#xA;language text"/>
         </Button>
         <Button HorizontalAlignment="Left" Margin="222,111,0,0" VerticalAlignment="Top" Width="101" Height="40">
-            <AccessText TextAlignment="Center" Text="Save a native&#xA;pseudo-code text"/>
+            <AccessText TextAlignment="Center" Text="Save a&#xA;pseudo-code text"/>
         </Button>
 
     </Grid>

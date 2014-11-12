@@ -60,6 +60,8 @@ namespace Text2UML.View
             }
 
             MW.pseudocodeTabItem.IsSelected = true;
+            MW.TB_PseudoCode.CaretIndex = MW.TB_PseudoCode.Text.Length;
+            MW.TB_PseudoCode.ScrollToEnd();
             this.Close();
             
         }
