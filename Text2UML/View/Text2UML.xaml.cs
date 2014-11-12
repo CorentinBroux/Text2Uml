@@ -183,16 +183,19 @@ namespace Text2UML
             }
         }
 
-        private void submenu_open_Click(object sender, RoutedEventArgs e)
-        {
-            OpenCommand(sender,null);
-        }
 
         private void OpenCommand(object sender, ExecutedRoutedEventArgs e)
         {
             View.Dialog_Open diao = new View.Dialog_Open();
             diao.Owner = this;
             diao.ShowDialog();
+        }
+
+        private void SaveCommand(object sender, ExecutedRoutedEventArgs e)
+        {
+            View.Dialog_Save dias = new View.Dialog_Save();
+            dias.Owner = this;
+            dias.ShowDialog();
         }
         
     }

@@ -54,6 +54,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="View\Dialog_Save.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Dialog_Open.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -78,6 +82,9 @@
     <Compile Include="Model\Method.cs" />
     <Compile Include="Model\Parser.cs" />
     <Compile Include="Model\Tokenizer.cs" />
+    <Compile Include="View\Dialog_Save.xaml.cs">
+      <DependentUpon>Dialog_Save.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Dialog_Open.xaml.cs">
       <DependentUpon>Dialog_Open.xaml</DependentUpon>
     </Compile>

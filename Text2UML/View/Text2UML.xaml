@@ -5,6 +5,7 @@
 
     <Window.CommandBindings>
         <CommandBinding Command="Open" Executed="OpenCommand" />
+        <CommandBinding Command="Save" Executed="SaveCommand" />
     </Window.CommandBindings>
     
     <Grid Background="#FFF0F0F0">
@@ -13,8 +14,8 @@
 		<Menu Name="menu" HorizontalAlignment="Stretch" Height="25" VerticalAlignment="Top" Grid.ColumnSpan="2" BorderBrush="#FFB0B0B0" BorderThickness="0,0,0,1">
     		<MenuItem Name="menu_file" Header="File" Height="22">
     			<MenuItem Name="submenu_new" Header="New" InputGestureText="Ctrl+N" Margin="0,0,1,0"/>
-				<MenuItem Name="submenu_open" Header="Open..." InputGestureText="Ctrl+O" Margin="0,0,1,0" Click="submenu_open_Click" Command="Open"/>
-				<MenuItem Name="submenu_save" Header="Save" InputGestureText="Ctrl+S" Margin="0,0,1,0"/>
+				<MenuItem Name="submenu_open" Header="Open..." InputGestureText="Ctrl+O" Margin="0,0,1,0" Command="Open"/>
+                <MenuItem Name="submenu_save" Header="Save" InputGestureText="Ctrl+S" Margin="0,0,1,0" Command="Save"/>
 				<MenuItem Name="submenu_export" Header="Export..." InputGestureText="Ctrl+E" Margin="0,0,1,0"/>
     		</MenuItem>
 			<MenuItem Name="menu_edit" Header="Edit" Height="22">
