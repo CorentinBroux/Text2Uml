@@ -19,54 +19,12 @@ using System.IO;
 
 namespace Text2UML
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
-
-            //Form1 myform = new Form1();
-            //// Initialize WinForms PropertyGrid
-            //propertyGridHost.Child = myform;
-
-
-            // DEBUG - PARSER TEST
-
-            //try
-            //{
-            //    string s = "";
-            //    foreach (ABox box in Parser.ExtractAboxes("$Class Toto { $Attributes int age string name } $Abstract Titi { $Methods bool IsAlive(int, int) void Eat(food) } $Interface Tata { other stuff } $Links { a -> b \n y -> z }"))
-            //    {
-            //        s += box.GetType().ToString() + " " + box.Name + "\n" + "Attributes: \n";
-            //        foreach (Model.Attribute a in box.Attributes)
-            //        {
-            //            s += "\t" + a.Name + " : " + a.Type + "\n";
-            //        }
-            //        s += "\nMethods: \n";
-            //        foreach (Method m in box.Methods)
-            //        {
-            //            s += "\t" + m.ReturnType + " " + m.Name + "(";
-            //            int i = 1;
-            //            foreach (string str in m.ParamTypes)
-            //            {
-            //                s += str;
-            //                if (i < m.ParamTypes.Count)
-            //                    s += ", ";
-            //                i++;
-            //            }
-            //            s += ")\n";
-            //        }
-            //        s += "\n\n";
-            //    }
-            //    MessageBox.Show(s);
-            //}
-            //catch (InvalidSyntaxException ise)
-            //{
-            //    MessageBox.Show(ise.Message);
-            //}
 
         }
 
@@ -74,52 +32,6 @@ namespace Text2UML
         {
             try
             {
-
-                //string source = TB_PseudoCode.Text;
-                //source = source.Replace(Environment.NewLine, " ");
-                //string[] strings = source.Split(new char[] {'\r','\n'}, StringSplitOptions.RemoveEmptyEntries);
-                //StringBuilder sb = new StringBuilder();
-                //for (int i = 0; i < strings.Length; i++)
-                //{
-                //    sb.Append(strings[i]);
-                //    if (i < strings.Length - 1)
-                //        sb.Append(" ");
-                //}
-                
-                
-                //MessageBox.Show(source); // DEBUG
-
-
-
-                string s = "";
-                foreach (ABox box in Parser.ExtractAboxes(Formatter.FormatForTokenization(TB_PseudoCode.Text)))
-                {
-                    s += box.GetType().Name + " " + box.Name + "\n" + "Attributes: \n";
-                    foreach (Model.Attribute a in box.Attributes)
-                    {
-                        s += "\t" + a.Name + " : " + a.Type + "\n";
-                    }
-                    s += "\nMethods: \n";
-                    foreach (Method m in box.Methods)
-                    {
-                        s += "\t" + m.ReturnType + " " + m.Name + "(";
-                        int i = 1;
-                        foreach (string str in m.ParamTypes)
-                        {
-                            s += str;
-                            if (i < m.ParamTypes.Count)
-                                s += ", ";
-                            i++;
-                        }
-                        s += ")\n";
-                    }
-                    s += "\n\n";
-                }
-                MessageBox.Show(s);
-
-
-
-                //View.Drawer.DrawBorder(Parser.ExtractAboxes(Formatter.FormatForTokenization(TB_PseudoCode.Text))[0], canvas1, 10, 10);
                 double h = View.Drawer.DrawBoxes(Parser.ExtractAboxes(Formatter.FormatForTokenization(TB_PseudoCode.Text)), canvas1);
                 canvas1.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                 canvas1.Height = h;

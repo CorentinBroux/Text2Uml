@@ -25,6 +25,7 @@ namespace Text2UML.View
                 int y = 10;
                 double maxHeight = 0;
                 double maxWidth = 0;
+
                 // Remove existings objects from canvas
                 c.Children.Clear();
 
@@ -173,14 +174,5 @@ namespace Text2UML.View
             return b;
         }
 
-
-
-        public static void GetOccupiedPixels(Canvas c)
-        {
-            foreach (Border b in c.Children)
-            {
-                //
-            }
-        }
     }
 }

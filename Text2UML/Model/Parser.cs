@@ -167,18 +167,11 @@ namespace Text2UML.Model
             } while (token.Type != TokenType.EoF);
 
 
-            // DEBUG
-            foreach (Link l in links)
-            {
-                debug += "Link\n" + l.From + " " + l.Type + " " + l.To + "\n\n";
-            }
-            System.Windows.MessageBox.Show(debug);
         }
 
 
         private static List<string> ExtractMethodData(string dataString)
         {
-            //Format : name(type1, type2, type3)
 
             List<string> list = new List<string>();
             string[] strings = dataString.Split(new char[] {'(',')'}, StringSplitOptions.RemoveEmptyEntries); // name      type1, type2, type3

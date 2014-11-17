@@ -77,7 +77,6 @@ namespace Text2UML.Model
 
         internal Token GoToNextToken()
         {
-            //if (!EatWhiteSpace()) return new Token(TokenType.EOF);
 
             int tokenColumn = CurrentColumn;
             Buffer.Clear();
@@ -103,32 +102,15 @@ namespace Text2UML.Model
             if (StringBuffer == "")
                 Buffer.Append(NextChar());
 
-            //if (endOfLineDelimiters.Contains(StringBuffer[0]))
-            //    return new Token(TokenType.EoL, "EoL", tokenColumn, CurrentLine);
-
+            
             if (otherDelimiters.Contains(StringBuffer[0]))
                 return new Token(TokenType.Delimiter, StringBuffer[0].ToString(), tokenColumn, CurrentLine);
             
 
             return new Token(keyWords.Contains(StringBuffer) ? TokenType.Keyword : linkSymbols.Contains(StringBuffer) ? TokenType.LinkSymbol : TokenType.Other, StringBuffer, tokenColumn, CurrentLine);
 
-            //if (false)//BeginRead())
-            //{
-            //    while (false)//!EndRead())
-            //    {
-            //        //if (IsEscapedStringChar()) NextChar();
-            //        Buffer.Append(CurrentChar);
-            //        NextChar();
-            //    }
-            //    NextChar();
-            //    return new Token(TokenType.Other, StringBuffer, tokenColumn, CurrentLine);
-            //}
-            //else
-            //{
-            //    Buffer.Append(CurrentChar);
-            //    while (!Char.IsWhiteSpace(NextChar())) Buffer.Append(CurrentChar);
-            //    return new Token(TokenType.Keyword, StringBuffer, tokenColumn, CurrentLine);
-            //}
+
+            
         }
 
         private char NextChar()
@@ -139,21 +121,7 @@ namespace Text2UML.Model
         }
 
 
-        //private bool BeginRead()
-        //{
-        //    if (othersDelimiters.Contains(CurrentChar))
-        //    {
-        //        //_beginCharString = CurrentChar;
-        //        NextChar();
-        //        return true;
-        //    }
-        //    return false;
-        //}
-        //private bool EndRead()
-        //{
-        //    return othersDelimiters.Contains(CurrentChar) || endOfLineDelimiters.Contains(CurrentChar);
-        //}
-
+ 
         private bool EndOfFile()
         {
             try
