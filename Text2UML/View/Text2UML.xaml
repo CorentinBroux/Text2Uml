@@ -1,11 +1,12 @@
 ﻿<Window x:Class="Text2UML.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="586" Width="851" Icon="logo 1.png">
+        Title="Text2UML" Height="586" Width="851" Icon="logo 1.png">
 
     <Window.CommandBindings>
         <CommandBinding Command="Open" Executed="OpenCommand" />
         <CommandBinding Command="Save" Executed="SaveCommand" />
+        <CommandBinding Command="SaveAs" Executed="ExportCommand" />
     </Window.CommandBindings>
     
     <Grid Background="#FFF0F0F0">
@@ -16,7 +17,7 @@
     			<MenuItem Name="submenu_new" Header="New" InputGestureText="Ctrl+N" Margin="0,0,1,0"/>
 				<MenuItem Name="submenu_open" Header="Open..." InputGestureText="Ctrl+O" Margin="0,0,1,0" Command="Open"/>
                 <MenuItem Name="submenu_save" Header="Save" InputGestureText="Ctrl+S" Margin="0,0,1,0" Command="Save"/>
-				<MenuItem Name="submenu_export" Header="Export..." InputGestureText="Ctrl+E" Margin="0,0,1,0"/>
+                <MenuItem Name="submenu_export" Header="Export..." InputGestureText="Ctrl+E" Margin="0,0,1,0" Command="SaveAs"/>
     		</MenuItem>
 			<MenuItem Name="menu_edit" Header="Edit" Height="22">
 				<MenuItem x:Name="submenu_undo" Header="Undo" InputGestureText="Ctrl+Z" Margin="0,0,1,0"/>

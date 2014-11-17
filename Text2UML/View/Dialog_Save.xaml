@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Text2UML.View.Dialog_Save"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Save file" Height="196" Width="346">
+        Title="Save file" Height="196" Width="346" Icon="logo 1.png">
     <Grid>
         <Label HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.158,-1.077">
             <AccessText Height="74" Width="325" Text="Please choose the type of file you want to save :&#xD;&#xA;&#x9;1. A Text2UML save file (.t2u)&#xD;&#xA;&#x9;2. A native language text&#xD;&#xA;&#x9;3. A pseudo-code text"/>

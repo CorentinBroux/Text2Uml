@@ -28,7 +28,9 @@ namespace Text2UML
         {
             InitializeComponent();
 
-            
+            //Form1 myform = new Form1();
+            //// Initialize WinForms PropertyGrid
+            //propertyGridHost.Child = myform;
 
 
             // DEBUG - PARSER TEST
@@ -89,38 +91,38 @@ namespace Text2UML
 
 
 
-                //string s = "";
-                //foreach (ABox box in Parser.ExtractAboxes(Formatter.FormatForTokenization(TB_PseudoCode.Text)))
-                //{
-                //    s += box.GetType().Name + " " + box.Name + "\n" + "Attributes: \n";
-                //    foreach (Model.Attribute a in box.Attributes)
-                //    {
-                //        s += "\t" + a.Name + " : " + a.Type + "\n";
-                //    }
-                //    s += "\nMethods: \n";
-                //    foreach (Method m in box.Methods)
-                //    {
-                //        s += "\t" + m.ReturnType + " " + m.Name + "(";
-                //        int i = 1;
-                //        foreach (string str in m.ParamTypes)
-                //        {
-                //            s += str;
-                //            if (i < m.ParamTypes.Count)
-                //                s += ", ";
-                //            i++;
-                //        }
-                //        s += ")\n";
-                //    }
-                //    s += "\n\n";
-                //}
-                //MessageBox.Show(s);
+                string s = "";
+                foreach (ABox box in Parser.ExtractAboxes(Formatter.FormatForTokenization(TB_PseudoCode.Text)))
+                {
+                    s += box.GetType().Name + " " + box.Name + "\n" + "Attributes: \n";
+                    foreach (Model.Attribute a in box.Attributes)
+                    {
+                        s += "\t" + a.Name + " : " + a.Type + "\n";
+                    }
+                    s += "\nMethods: \n";
+                    foreach (Method m in box.Methods)
+                    {
+                        s += "\t" + m.ReturnType + " " + m.Name + "(";
+                        int i = 1;
+                        foreach (string str in m.ParamTypes)
+                        {
+                            s += str;
+                            if (i < m.ParamTypes.Count)
+                                s += ", ";
+                            i++;
+                        }
+                        s += ")\n";
+                    }
+                    s += "\n\n";
+                }
+                MessageBox.Show(s);
 
 
 
                 //View.Drawer.DrawBorder(Parser.ExtractAboxes(Formatter.FormatForTokenization(TB_PseudoCode.Text))[0], canvas1, 10, 10);
-                View.Drawer.DrawBoxes(Parser.ExtractAboxes(Formatter.FormatForTokenization(TB_PseudoCode.Text)), canvas1);
+                double h = View.Drawer.DrawBoxes(Parser.ExtractAboxes(Formatter.FormatForTokenization(TB_PseudoCode.Text)), canvas1);
                 canvas1.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                canvas1.Height = 1000;
+                canvas1.Height = h;
             }
             catch (Exception ex)
             {
@@ -193,6 +195,7 @@ namespace Text2UML
         {
             View.Dialog_Open diao = new View.Dialog_Open(getThis());
             diao.Owner = this;
+            diao.ShowInTaskbar = false;
             diao.ShowDialog();
         }
 
@@ -201,9 +204,49 @@ namespace Text2UML
         {
             View.Dialog_Save dias = new View.Dialog_Save();
             dias.Owner = this;
+            dias.ShowInTaskbar = false;
             dias.ShowDialog();
         }
-        
+
+
+        private void ExportCommand(object sender, ExecutedRoutedEventArgs e)
+        {
+            SaveCanvasAsImage();
+        }
+
+        private void SaveCanvasAsImage()
+        {
+            // Configure open file dialog box
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = "Images"; // Default file name
+            dlg.DefaultExt = ".png"; // Default file extension
+            dlg.Filter = "Text documents (.png)|*.png"; // Filter files by extension 
+
+            // Show open file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process open file dialog box results 
+            if (result == true)
+            {
+                // Save document 
+                string filename = dlg.FileName;
+                Rect bounds = VisualTreeHelper.GetDescendantBounds(canvas1);
+                double dpi = 96d;
+
+
+                RenderTargetBitmap rtb = new RenderTargetBitmap((int)bounds.Width, (int)bounds.Height, dpi, dpi, System.Windows.Media.PixelFormats.Default);
+
+
+                var enc = new System.Windows.Media.Imaging.PngBitmapEncoder(); 
+                enc.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(rtb));
+
+                using (var stm = System.IO.File.Create(filename)) 
+                { 
+                    enc.Save(stm); 
+                } 
+
+            }
+        }
     }
 
     

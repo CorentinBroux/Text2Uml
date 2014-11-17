@@ -167,12 +167,12 @@ namespace Text2UML.Model
             } while (token.Type != TokenType.EoF);
 
 
-            //// DEBUG
-            //foreach (Link l in links)
-            //{
-            //    debug += "Link\n" + l.From + " " + l.Type + " " + l.To + "\n\n";
-            //}
-            //System.Windows.MessageBox.Show(debug);
+            // DEBUG
+            foreach (Link l in links)
+            {
+                debug += "Link\n" + l.From + " " + l.Type + " " + l.To + "\n\n";
+            }
+            System.Windows.MessageBox.Show(debug);
         }
 
 

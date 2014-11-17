@@ -15,7 +15,9 @@ namespace Text2UML.View
 
         public static double GlobalMaxWidth = 1000;
 
-        public static void DrawBoxes(List<ABox> boxes, Canvas c)
+ 
+        // return canvas height
+        public static double DrawBoxes(List<ABox> boxes, Canvas c)
         {
             try
             {
@@ -35,6 +37,9 @@ namespace Text2UML.View
                 double h = b.DesiredSize.Height;
                 //System.Windows.MessageBox.Show("h " + h.ToString() + "\nw " + w.ToString());
                 boxes.RemoveAt(0);
+
+                maxHeight = maxHeight < h ? h : maxHeight;
+                maxWidth = maxWidth < w ? w : maxWidth;
 
                 // Draw  boxes
                 foreach (ABox box in boxes)
@@ -63,10 +68,12 @@ namespace Text2UML.View
 
                 c.Height = (int)maxHeight ;
                 c.Width = (int)maxWidth;
+                return maxHeight;
             }
             catch (Exception e)
             {
                 System.Windows.MessageBox.Show(e.Message);
+                return 0;
             }
             
         }
@@ -164,6 +171,16 @@ namespace Text2UML.View
             // 5. Return the border (representing a box)
 
             return b;
+        }
+
+
+
+        public static void GetOccupiedPixels(Canvas c)
+        {
+            foreach (Border b in c.Children)
+            {
+                //
+            }
         }
     }
 }
