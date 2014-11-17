@@ -13,7 +13,7 @@ using System.IO;
 
 namespace Text2UML
 {
-    public partial class Form1 : Form
+    public partial class Form1 : System.Windows.Forms.UserControl
     {
         public Form1()
         {
