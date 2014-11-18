@@ -21,6 +21,10 @@ using System.IO;
 
 namespace Text2UML
 {
+<<<<<<< HEAD
+
+=======
+>>>>>>> origin/Corentin
     public partial class MainWindow : Window
     {
 
@@ -28,10 +32,7 @@ namespace Text2UML
         {
             InitializeComponent();
 
-            Form1 myform = new Form1();
-            // Initialize WinForms PropertyGrid
-            propertyGridHost.Child = myform;
-
+<<<<<<< HEAD
         }
 
         private void BT_Process_PC_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -164,7 +165,15 @@ namespace Text2UML
                 } 
 
             }
+=======
+            Form1 myform = new Form1();
+            // Initialize WinForms PropertyGrid
+            propertyGridHost.Child = myform;
+
+>>>>>>> origin/Corentin
         }
+
+
     }
 
     

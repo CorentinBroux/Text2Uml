@@ -36,16 +36,23 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dataweb.NShape">
-      <HintPath>C:\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.dll</HintPath>
+<<<<<<< HEAD
+      <HintPath>..\..\..\RES\NShape\Dataweb.NShape.dll</HintPath>
     </Reference>
-    <Reference Include="Dataweb.NShape.WinFormsUI">
-      <HintPath>C:\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.WinFormsUI.dll</HintPath>
+    <Reference Include="Dataweb.NShape.GeneralModelObjects">
+      <HintPath>..\..\..\RES\NShape\Dataweb.NShape.GeneralModelObjects.dll</HintPath>
     </Reference>
     <Reference Include="Dataweb.NShape.GeneralShapes">
       <HintPath>..\..\..\RES\NShape\Dataweb.NShape.GeneralShapes.dll</HintPath>
     </Reference>
     <Reference Include="Dataweb.NShape.WinFormsUI">
       <HintPath>..\..\..\RES\NShape\Dataweb.NShape.WinFormsUI.dll</HintPath>
+=======
+      <HintPath>C:\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.dll</HintPath>
+    </Reference>
+    <Reference Include="Dataweb.NShape.WinFormsUI">
+      <HintPath>C:\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.WinFormsUI.dll</HintPath>
+>>>>>>> origin/Corentin
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -87,11 +94,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
+<<<<<<< HEAD
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Form1.Designer.cs" />
     <Compile Include="Model\AbstractClass.cs" />
     <Compile Include="Model\Attribute.cs" />
     <Compile Include="Model\Class.cs" />
@@ -111,6 +117,13 @@
       <DependentUpon>Dialog_Open.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Drawer.cs" />
+=======
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+>>>>>>> origin/Corentin
     <Compile Include="View\Text2UML.xaml.cs">
       <DependentUpon>Text2UML.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -130,9 +143,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+<<<<<<< HEAD
+    <EmbeddedResource Include="Form1.resx" />
+=======
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+>>>>>>> origin/Corentin
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
