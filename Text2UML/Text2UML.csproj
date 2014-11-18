@@ -38,6 +38,18 @@
     <Reference Include="Dataweb.NShape">
       <HintPath>C:\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.dll</HintPath>
     </Reference>
+    <Reference Include="Dataweb.NShape.ElectricalModelObjects">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.ElectricalModelObjects.dll</HintPath>
+    </Reference>
+    <Reference Include="Dataweb.NShape.ElectricalShapes">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.ElectricalShapes.dll</HintPath>
+    </Reference>
+    <Reference Include="Dataweb.NShape.FlowChartShapes">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.FlowChartShapes.dll</HintPath>
+    </Reference>
+    <Reference Include="Dataweb.NShape.GeneralModelObjects">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.GeneralModelObjects.dll</HintPath>
+    </Reference>
     <Reference Include="Dataweb.NShape.WinFormsUI">
       <HintPath>C:\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.WinFormsUI.dll</HintPath>
     </Reference>
@@ -87,7 +99,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>

@@ -44,7 +44,7 @@ namespace Text2UML
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                System.Windows.MessageBox.Show(ex.Message);
             }
 
 
