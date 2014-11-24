@@ -14,6 +14,7 @@ namespace Text2UML.Model
             Name = name;
             Attributes = new List<Attribute>();
             Methods = new List<Method>();
+            Linked = new List<ABox>();
         }
 
         public Interface(string name, List<Attribute> attributes, List<Method> methods)
@@ -21,6 +22,7 @@ namespace Text2UML.Model
             Name = name;
             Attributes = attributes;
             Methods = methods;
+            Linked = new List<ABox>();
         }
         #endregion
 

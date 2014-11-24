@@ -13,7 +13,7 @@ namespace Text2UML.Model
         public List<Attribute> Attributes { get; set; }
         public List<Method> Methods { get; set; }
         public bool IsLinked { get; set; }
-        public ABox Linked { get; set; }
+        public List<ABox> Linked { get; set; }
         #endregion
 
 

@@ -17,6 +17,7 @@ namespace Text2UML
     public partial class Form1 : System.Windows.Forms.UserControl
     {
         Diagram diagram;
+        List<Tuple<Shape,string>> drawedShapes = new List<Tuple<Shape,string>>();
         public Form1()
         {
             InitializeComponent();
@@ -74,6 +75,7 @@ namespace Text2UML
         {
             // Clear existing drawing
             diagram.Clear();
+            drawedShapes = new List<Tuple<Shape, string>>();
 
             // Draw boxes
             int x = 100, y = 100;
@@ -83,18 +85,40 @@ namespace Text2UML
                 ABox box = boxes[0];
                 boxes.Remove(box);
                 Shape sh1 = DrawSingleBox(box, x, y);
+                drawedShapes.Add(Tuple.Create(sh1, box.Name));
                 x += 220;
                 if (box.IsLinked == true)
                 {
-                    boxes.Remove(box.Linked);
-                    Shape sh2 = DrawSingleBox(box.Linked, x, y);
-                    PolylineBase arrow = (PolylineBase)project1.ShapeTypes["Polyline"].CreateInstance();
-                    // Add shape to the diagram
-                    diagram.Shapes.Add(arrow);
-                    // Connect one of the line shape's endings (first vertex) to the referring shape's reference point
-                    arrow.Connect(ControlPointId.FirstVertex, sh1, ControlPointId.Reference);
-                    // Connect the other of the line shape's endings (last vertex) to the referred shape
-                    arrow.Connect(ControlPointId.LastVertex, sh2, ControlPointId.Reference);
+                    foreach (ABox b in box.Linked)
+                    {
+                        boxes.Remove(b);
+                        bool drawed = false;
+                        Shape sh2=null;
+                        foreach (Tuple<Shape,string> t in drawedShapes)
+                        {
+                            if (t.Item2 == b.Name)
+                            {
+                                drawed = true;
+                                sh2 = t.Item1;
+                            }
+                                
+                        }
+                        if (drawed == false)
+                        {
+                            sh2 = DrawSingleBox(b, x, y);
+                            drawedShapes.Add(Tuple.Create(sh2, b.Name));
+                        }
+                            
+
+                        PolylineBase arrow = (PolylineBase)project1.ShapeTypes["Polyline"].CreateInstance();
+                        // Add shape to the diagram
+                        diagram.Shapes.Add(arrow);
+                        // Connect one of the line shape's endings (first vertex) to the referring shape's reference point
+                        arrow.Connect(ControlPointId.FirstVertex, sh1, ControlPointId.Reference);
+                        // Connect the other of the line shape's endings (last vertex) to the referred shape
+                        arrow.Connect(ControlPointId.LastVertex, sh2, ControlPointId.Reference);
+                    }
+                    
                 }
                 x += 220;
             }

@@ -244,7 +244,7 @@ namespace Text2UML.Model
                         foreach (ABox box2 in boxes)
                         {
                             if (link.To == box2.Name)
-                                box.Linked = box2;
+                                box.Linked.Add(box2);
                         }
                         break;
                     }
