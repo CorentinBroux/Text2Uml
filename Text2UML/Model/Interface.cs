@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Text2UML.Model
 {
-    class Interface : ABox
+    public class Interface : ABox
     {
         #region Constructors
         public Interface(string name)

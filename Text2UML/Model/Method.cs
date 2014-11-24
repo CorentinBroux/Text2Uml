@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Text2UML.Model
 {
-    class Method
+    public class Method
     {
         # region Fields and properties
         public string Name { get; set; }

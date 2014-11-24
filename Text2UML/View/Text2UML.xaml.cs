@@ -23,12 +23,12 @@ namespace Text2UML
 {
     public partial class MainWindow : Window
     {
-
+        Form1 myform;
         public MainWindow()
         {
             InitializeComponent();
 
-            Form1 myform = new Form1();
+            myform = new Form1();
             // Initialize WinForms PropertyGrid
             propertyGridHost.Child = myform;
 
@@ -36,9 +36,16 @@ namespace Text2UML
 
         private void BT_Process_PC_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            
             try
             {
-                double h = View.Drawer.DrawBoxes(Parser.ExtractAboxes(Formatter.FormatForTokenization(TB_PseudoCode.Text)), canvas1);
+                Tuple<List<ABox>, List<Link>> tuple = Parser.ExtractAboxes(Formatter.FormatForTokenization(TB_PseudoCode.Text));
+                List<ABox> boxes = tuple.Item1;
+                List<Link> links = tuple.Item2;
+                Parser.ReportDeadLinks(links, boxes);
+                Parser.AddLinksToBoxes(links, boxes);
+                myform.DrawBoxes(boxes);
+                double h = View.Drawer.DrawBoxes(boxes, canvas1);
                 canvas1.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                 canvas1.Height = h;
             }

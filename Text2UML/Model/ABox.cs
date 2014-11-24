@@ -6,13 +6,16 @@ using System.Threading.Tasks;
 
 namespace Text2UML.Model
 {
-    abstract class ABox
+    public abstract class ABox
     {
         #region Fields and properties
         public string Name { get; set; }
         public List<Attribute> Attributes { get; set; }
         public List<Method> Methods { get; set; }
+        public bool IsLinked { get; set; }
+        public ABox Linked { get; set; }
         #endregion
+
 
         
     }

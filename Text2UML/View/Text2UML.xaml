@@ -55,7 +55,7 @@
                 
                 <TabControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <TabItem Name="tab1" Header="Diagram 1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                        <ScrollViewer Name ="scroll1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                        <ScrollViewer Name ="scroll1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Visible">
 
                             <Grid Name="toolBoxAndPropertyEditorGrid" Grid.Column="2" Margin="0,0,0,0" Background="{x:Null}" Opacity="1">
                                 <WindowsFormsHost Grid.Row="0" Name="toolBoxHost" />

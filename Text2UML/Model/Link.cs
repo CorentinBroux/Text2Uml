@@ -8,7 +8,7 @@ namespace Text2UML.Model
 {
     public enum LinkTypes
     {
-        Include,
+        Includes,
         Extends
     };
 
@@ -35,8 +35,34 @@ namespace Text2UML.Model
 
         public static LinkTypes GetLinkTypeFromSymbol(string symbol)
         {
-            // TODO : implements the method
-            return LinkTypes.Extends;
+            switch (symbol)
+            {
+                case "<>-":
+                    return LinkTypes.Extends;
+                case "<->-":
+                    return LinkTypes.Extends;
+                case "->>":
+                    return LinkTypes.Includes;
+                case ".>":
+                    return LinkTypes.Extends;
+                case "-":
+                    return LinkTypes.Extends;
+                case "-()":
+                    return LinkTypes.Extends;
+                case ".>>":
+                    return LinkTypes.Extends;
+                case "-(":
+                    return LinkTypes.Extends;
+                case "<.":
+                    return LinkTypes.Extends;
+                case "->":
+                    return LinkTypes.Extends;
+                case "><-":
+                    return LinkTypes.Extends;
+                default:
+                    throw new InvalidSyntaxException("Error : unknown link sybol");
+            }
+            
         }
 
         #endregion

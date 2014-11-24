@@ -13,11 +13,12 @@ namespace Text2UML.Model
         /// </summary>
         /// <param name="text">input text to parse</param>
         /// <returns></returns>
-        public static List<ABox> ExtractAboxes(string text)
+        public static Tuple<List<ABox>,List<Link>> ExtractAboxes(string text)
         {
             Tokenizer tokenizer = new Tokenizer(text);
             Token token;
             List<ABox> ABoxes = new List<ABox>();
+            List<Link> links = new List<Link>();
 
             do
             {
@@ -56,14 +57,14 @@ namespace Text2UML.Model
                     if (IsAbox)
                         ABoxes.Add(FillAboxFromDataString(box, stringData));
                     else
-                        Links(stringData);
+                        links = Links(stringData);
                 }
                 //else
                 //    throw new InvalidSyntaxException("Error : " + token.Value + " is not a keyword.");
 
             } while (token.Type != TokenType.EoF);
 
-            return ABoxes;
+            return Tuple.Create(ABoxes,links);
         }
 
         private static ABox FillAboxFromDataString(ABox aBox, string dataString)
@@ -120,7 +121,7 @@ namespace Text2UML.Model
             return aBox;
         }
 
-        private static void Links(string dataString)
+        private static List<Link> Links(string dataString)
         {
             Tokenizer tokenizer = new Tokenizer(dataString);
             Token token;
@@ -167,6 +168,16 @@ namespace Text2UML.Model
             } while (token.Type != TokenType.EoF);
 
 
+            // DEBUG
+            string s = "";
+            foreach (Link l in links)
+            {
+                s+=l.From + " " + l.Type + " " + l.To + "\n";
+            }
+            System.Windows.Forms.MessageBox.Show(s);
+            // END DEBUG
+
+            return links;
         }
 
 
@@ -182,6 +193,63 @@ namespace Text2UML.Model
             foreach (string s in strings)
                 list.Add(s); // Add parameter types
             return list;
+        }
+
+
+        /// <summary>
+        /// Report dead links and remove them  from the 'links' list
+        /// </summary>
+        /// <param name="links"></param>
+        /// <param name="boxes"></param>
+        public static void ReportDeadLinks(List<Link> links, List<ABox> boxes)
+        {
+            List<string> boxNames = new List<string>();
+            foreach (ABox box in boxes)
+            {
+                boxNames.Add(box.Name);
+            }
+            List<Link> deadLinks = new List<Link>();
+            foreach (Link link in links)
+            {
+                if (!(boxNames.Contains(link.From) && boxNames.Contains(link.To)))
+                {
+                    deadLinks.Add(link);
+                }
+                    
+            }
+            links = links.Except(deadLinks).ToList();
+            if(deadLinks.Count==0)
+                return;
+            string msg = "WARNING !\n\nDead links reported :\n";
+            foreach(Link link in deadLinks)
+                msg+="\t"+link.From+" --> "+link.To+"\n";
+            System.Windows.Forms.MessageBox.Show(msg);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>Better use after cleaning the 'links' list with the 'ReportDeadLinks' method</remarks>
+        /// <param name="links"></param>
+        /// <param name="boxes"></param>
+        public static void AddLinksToBoxes(List<Link> links, List<ABox> boxes)
+        {
+            foreach (Link link in links)
+            {
+                foreach (ABox box in boxes)
+                {
+                    if (link.From == box.Name)
+                    {
+                        box.IsLinked = true;
+                        foreach (ABox box2 in boxes)
+                        {
+                            if (link.To == box2.Name)
+                                box.Linked = box2;
+                        }
+                        break;
+                    }
+                }
+            }
         }
     }
 }

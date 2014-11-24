@@ -52,7 +52,7 @@ namespace Text2UML.Model
         private static List<char> endOfLineDelimiters = new List<char>() { '\n', '\r' };
         private static List<char> otherDelimiters = new List<char>() { '{', '}','(',')' };
         private static List<string> keyWords = new List<string>() { "$Class", "$Interface", "$Abstract","$Attributes","$Methods", "$Links" };
-        private static List<string> linkSymbols = new List<string>() { "<>-","<->-","->>",".>","-","-()",".>>","-(",".>","<.","->","><-"};
+        private static List<string> linkSymbols = new List<string>() { "<>-","<->-","->>",".>","-","-()",".>>","-(","<.","->","><-"};
         public string Text {get;set;}
         private int currentCharIndex;
         public char CurrentChar { get { return currentCharIndex >= Text.Length ? '0': Text[currentCharIndex];}}
