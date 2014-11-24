@@ -79,19 +79,36 @@ namespace Text2UML
 
             // Draw boxes
             int x = 100, y = 100;
-            //foreach (ABox box in boxes)
-            while(boxes.Count>0) // Throw exception ????
+            foreach (ABox box in boxes)
+            //while(boxes.Count>0) // Throw exception ????
             {
-                ABox box = boxes[0];
-                boxes.Remove(box);
-                Shape sh1 = DrawSingleBox(box, x, y);
-                drawedShapes.Add(Tuple.Create(sh1, box.Name));
+                //ABox box = boxes[0];
+                //boxes.Remove(box);
+                bool drawed1 = false;
+                Shape sh1 = null;
+                foreach (Tuple<Shape, string> t in drawedShapes)
+                {
+                    if (t.Item2 == box.Name)
+                    {
+                        drawed1 = true;
+                        sh1 = t.Item1;
+                    }
+
+                }
+                if (drawed1 == false)
+                {
+                    sh1 = DrawSingleBox(box, x, y);
+                    drawedShapes.Add(Tuple.Create(sh1, box.Name));
+                }
+
+                //Shape sh1 = DrawSingleBox(box, x, y);
+                //drawedShapes.Add(Tuple.Create(sh1, box.Name));
                 x += 220;
                 if (box.IsLinked == true)
                 {
                     foreach (ABox b in box.Linked)
                     {
-                        boxes.Remove(b);
+                        //boxes.Remove(b);
                         bool drawed = false;
                         Shape sh2=null;
                         foreach (Tuple<Shape,string> t in drawedShapes)
