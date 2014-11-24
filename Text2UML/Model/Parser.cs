@@ -59,8 +59,6 @@ namespace Text2UML.Model
                     else
                         links = Links(stringData);
                 }
-                //else
-                //    throw new InvalidSyntaxException("Error : " + token.Value + " is not a keyword.");
 
             } while (token.Type != TokenType.EoF);
 
@@ -128,10 +126,7 @@ namespace Text2UML.Model
             
             bool newLine = true;
             List<Link> links = new List<Link>();
-
-            string debug = ""; // DEBUG
-            
-            
+        
             Link link = new Link(null, null, LinkTypes.Extends);
 
 
@@ -166,16 +161,6 @@ namespace Text2UML.Model
                 
 
             } while (token.Type != TokenType.EoF);
-
-
-            // DEBUG
-            string s = "";
-            foreach (Link l in links)
-            {
-                s+=l.From + " " + l.Type + " " + l.To + "\n";
-            }
-            System.Windows.Forms.MessageBox.Show(s);
-            // END DEBUG
 
             return links;
         }

@@ -36,7 +36,6 @@ namespace Text2UML.View
                 b.Measure(new System.Windows.Size(double.PositiveInfinity, double.PositiveInfinity));
                 double w = b.DesiredSize.Width;
                 double h = b.DesiredSize.Height;
-                //System.Windows.MessageBox.Show("h " + h.ToString() + "\nw " + w.ToString());
                 boxes.RemoveAt(0);
 
                 maxHeight = maxHeight < h ? h : maxHeight;
@@ -50,8 +49,6 @@ namespace Text2UML.View
                     w = b.DesiredSize.Width;
                     h = b.DesiredSize.Height;
                     
-                    
-
                     if (w > GlobalMaxWidth) // new line
                     {
                         c.Children.RemoveAt(c.Children.Count - 1);
@@ -73,7 +70,7 @@ namespace Text2UML.View
             }
             catch (Exception e)
             {
-                System.Windows.MessageBox.Show(e.Message);
+                System.Windows.MessageBox.Show(e.Message, "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                 return 0;
             }
             
@@ -82,8 +79,6 @@ namespace Text2UML.View
         {
             // 1. Create the border
             Border b = new Border();
-            //b.Width = 150;
-            //b.Height = 200;
             b.BorderThickness = new System.Windows.Thickness(2);
             b.BorderBrush = Brushes.Black;
             b.Margin = new System.Windows.Thickness(x, y, 0, 0);

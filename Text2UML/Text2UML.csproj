@@ -108,7 +108,6 @@
     <Compile Include="Model\Attribute.cs" />
     <Compile Include="Model\Class.cs" />
     <Compile Include="Model\ABox.cs" />
-    <Compile Include="Model\DEBUG_Drawers.cs" />
     <Compile Include="Model\Formatter.cs" />
     <Compile Include="Model\Interface.cs" />
     <Compile Include="Model\InvalidSyntaxException.cs" />

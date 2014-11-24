@@ -29,6 +29,7 @@ namespace Text2UML
             InitializeComponent();
 
             myform = new Form1();
+            
             // Initialize WinForms PropertyGrid
             propertyGridHost.Child = myform;
 
@@ -51,7 +52,7 @@ namespace Text2UML
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show(ex.Message);
+                System.Windows.MessageBox.Show(ex.Message,"Error",MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
 
@@ -71,19 +72,15 @@ namespace Text2UML
 
         public void LoadPseudoCodeFromFile()
         {
-            // Configure open file dialog box
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-            dlg.FileName = "Document"; // Default file name
-            dlg.DefaultExt = ".txt"; // Default file extension
-            dlg.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension 
+            dlg.FileName = "Document";
+            dlg.DefaultExt = ".txt";
+            dlg.Filter = "Text documents (.txt)|*.txt";
 
-            // Show open file dialog box
             Nullable<bool> result = dlg.ShowDialog();
 
-            // Process open file dialog box results 
             if (result == true)
             {
-                // Open document 
                 string filename = dlg.FileName;
                 using (StreamReader sr = new StreamReader(filename))
                 {
