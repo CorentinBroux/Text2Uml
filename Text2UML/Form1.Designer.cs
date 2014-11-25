@@ -32,21 +32,18 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             Dataweb.NShape.RoleBasedSecurityManager roleBasedSecurityManager1 = new Dataweb.NShape.RoleBasedSecurityManager();
             this.display1 = new Dataweb.NShape.WinFormsUI.Display();
-            this.listView1 = new System.Windows.Forms.ListView();
             this.diagramSetController1 = new Dataweb.NShape.Controllers.DiagramSetController();
             this.project1 = new Dataweb.NShape.Project(this.components);
             this.cachedRepository1 = new Dataweb.NShape.Advanced.CachedRepository();
             this.xmlStore1 = new Dataweb.NShape.XmlStore();
             this.toolSetController1 = new Dataweb.NShape.Controllers.ToolSetController();
             this.toolSetListViewPresenter1 = new Dataweb.NShape.WinFormsUI.ToolSetListViewPresenter(this.components);
-            this.display1.SuspendLayout();
             this.SuspendLayout();
             // 
             // display1
             // 
             this.display1.AllowDrop = true;
             this.display1.BackColorGradient = System.Drawing.SystemColors.Control;
-            this.display1.Controls.Add(this.listView1);
             this.display1.DiagramSetController = this.diagramSetController1;
             this.display1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.display1.GridColor = System.Drawing.Color.Gainsboro;
@@ -63,20 +60,6 @@
             this.display1.TabIndex = 0;
             this.display1.ToolPreviewBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(119)))), ((int)(((byte)(136)))), ((int)(((byte)(153)))));
             this.display1.ToolPreviewColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(70)))), ((int)(((byte)(130)))), ((int)(((byte)(180)))));
-            // 
-            // listView1
-            // 
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.listView1.FullRowSelect = true;
-            this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(0, 0);
-            this.listView1.MultiSelect = false;
-            this.listView1.Name = "listView1";
-            this.listView1.ShowItemToolTips = true;
-            this.listView1.Size = new System.Drawing.Size(158, 389);
-            this.listView1.TabIndex = 8;
-            this.listView1.UseCompatibleStateImageBehavior = false;
             // 
             // diagramSetController1
             // 
@@ -115,7 +98,6 @@
             // toolSetListViewPresenter1
             // 
             this.toolSetListViewPresenter1.HideDeniedMenuItems = false;
-            this.toolSetListViewPresenter1.ListView = this.listView1;
             this.toolSetListViewPresenter1.ShowDefaultContextMenu = true;
             this.toolSetListViewPresenter1.ToolSetController = this.toolSetController1;
             // 
@@ -127,7 +109,6 @@
             this.Name = "Form1";
             this.Size = new System.Drawing.Size(732, 389);
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.display1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -138,7 +119,6 @@
         private Dataweb.NShape.Controllers.DiagramSetController diagramSetController1;
         private Dataweb.NShape.Project project1;
         private Dataweb.NShape.Advanced.CachedRepository cachedRepository1;
-        private System.Windows.Forms.ListView listView1;
         private Dataweb.NShape.Controllers.ToolSetController toolSetController1;
         private Dataweb.NShape.WinFormsUI.ToolSetListViewPresenter toolSetListViewPresenter1;
         private Dataweb.NShape.XmlStore xmlStore1;

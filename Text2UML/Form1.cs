@@ -22,6 +22,7 @@ namespace Text2UML
         public Form1()
         {
             InitializeComponent();
+            MeasureString("test\n\nazertyuiop");
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -81,9 +82,10 @@ namespace Text2UML
 
                 if (drawed1 == false)
                 {
-                    sh1 = DrawSingleBox(box, x, y);
+                    Size size1 = new Size();
+                    sh1 = DrawSingleBox(box, x, y, ref size1);
                     drawedShapes.Add(Tuple.Create(sh1, box.Name));
-                    x += 220;
+                    x += size1.Width + 40;
                 }
 
                 
@@ -102,9 +104,10 @@ namespace Text2UML
                         
                         if (drawed == false)
                         {
-                            sh2 = DrawSingleBox(b, x, y);
+                            Size size2 = new Size();
+                            sh2 = DrawSingleBox(b, x, y, ref size2);
                             drawedShapes.Add(Tuple.Create(sh2, b.Name));
-                            x += 220;
+                            x += size2.Width + 100;
                         }
                             
                         Polyline arrow = (Polyline)project1.ShapeTypes["Polyline"].CreateInstance();
@@ -119,7 +122,7 @@ namespace Text2UML
             }
         }
 
-        private Shape DrawSingleBox(ABox box, int x, int y)
+        private Shape DrawSingleBox(ABox box, int x, int y, ref Size size)
         {
             
             
@@ -147,8 +150,9 @@ namespace Text2UML
             // Draw the box
             RectangleBase myShape2 = (RectangleBase)this.project1.ShapeTypes["RoundedBox"].CreateInstance();
             myShape2.DisplayService = this.display1;
-            myShape2.Height = 250;
-            myShape2.Width = 200;
+            size = MeasureString(s);
+            myShape2.Height = size.Height + 20;
+            myShape2.Width = size.Width + 20;
             myShape2.SetCaptionText(0, s);
             myShape2.MoveTo(x, y);
             diagram.Shapes.Add(myShape2);
@@ -160,6 +164,13 @@ namespace Text2UML
             return myShape2;
         }
 
+
+        private Size MeasureString(string str)
+        {
+            Font font = new Font("Arial", 12.0F);
+            Size textSize = TextRenderer.MeasureText(str, font);
+            return textSize;
+        }
 
     }
 }
