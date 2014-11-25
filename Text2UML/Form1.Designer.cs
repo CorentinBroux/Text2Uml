@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            Dataweb.NShape.RoleBasedSecurityManager roleBasedSecurityManager4 = new Dataweb.NShape.RoleBasedSecurityManager();
+            Dataweb.NShape.RoleBasedSecurityManager roleBasedSecurityManager1 = new Dataweb.NShape.RoleBasedSecurityManager();
             this.display1 = new Dataweb.NShape.WinFormsUI.Display();
             this.listView1 = new System.Windows.Forms.ListView();
             this.diagramSetController1 = new Dataweb.NShape.Controllers.DiagramSetController();
@@ -89,9 +89,9 @@
             this.project1.LibrarySearchPaths = ((System.Collections.Generic.IList<string>)(resources.GetObject("project1.LibrarySearchPaths")));
             this.project1.Name = null;
             this.project1.Repository = this.cachedRepository1;
-            roleBasedSecurityManager4.CurrentRole = Dataweb.NShape.StandardRole.Administrator;
-            roleBasedSecurityManager4.CurrentRoleName = "Administrator";
-            this.project1.SecurityManager = roleBasedSecurityManager4;
+            roleBasedSecurityManager1.CurrentRole = Dataweb.NShape.StandardRole.Administrator;
+            roleBasedSecurityManager1.CurrentRoleName = "Administrator";
+            this.project1.SecurityManager = roleBasedSecurityManager1;
             // 
             // cachedRepository1
             // 
@@ -123,10 +123,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(732, 389);
             this.Controls.Add(this.display1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Size = new System.Drawing.Size(732, 389);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.display1.ResumeLayout(false);
             this.ResumeLayout(false);

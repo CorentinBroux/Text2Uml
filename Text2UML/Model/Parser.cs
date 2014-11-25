@@ -174,7 +174,7 @@ namespace Text2UML.Model
             list.Add(strings[0]); // Add method name
             if (strings.Length == 1)
                 return list;
-            strings = strings[1].Split(new string[]{", "},StringSplitOptions.RemoveEmptyEntries); // type1      type2       type3
+            strings = strings[1].Split(new string[]{", "},StringSplitOptions.RemoveEmptyEntries); // type1      type2      type3
             foreach (string s in strings)
                 list.Add(s); // Add parameter types
             return list;

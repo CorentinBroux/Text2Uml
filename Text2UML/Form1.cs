@@ -55,6 +55,8 @@ namespace Text2UML
 
         public void DrawBoxes(List<ABox> boxes)
         {
+            const int X = 800; // DEBUG
+
             // Clear existing drawing
             diagram.Clear();
             drawedShapes = new List<Tuple<Shape, string>>();
@@ -63,24 +65,28 @@ namespace Text2UML
             int x = 100, y = 100;
             foreach (ABox box in boxes)
             {
+                if (x > X)
+                {
+                    x = 100;
+                    y += 270;
+                }
                 bool drawed1 = false;
                 Shape sh1 = null;
                 foreach (Tuple<Shape, string> t in drawedShapes)
-                {
                     if (t.Item2 == box.Name)
                     {
                         drawed1 = true;
                         sh1 = t.Item1;
                     }
 
-                }
                 if (drawed1 == false)
                 {
                     sh1 = DrawSingleBox(box, x, y);
                     drawedShapes.Add(Tuple.Create(sh1, box.Name));
+                    x += 220;
                 }
 
-                x += 220;
+                
                 if (box.IsLinked == true)
                 {
                     foreach (ABox b in box.Linked)
@@ -88,21 +94,19 @@ namespace Text2UML
                         bool drawed = false;
                         Shape sh2=null;
                         foreach (Tuple<Shape,string> t in drawedShapes)
-                        {
                             if (t.Item2 == b.Name)
                             {
                                 drawed = true;
                                 sh2 = t.Item1;
                             }
-                                
-                        }
+                        
                         if (drawed == false)
                         {
                             sh2 = DrawSingleBox(b, x, y);
                             drawedShapes.Add(Tuple.Create(sh2, b.Name));
+                            x += 220;
                         }
                             
-
                         Polyline arrow = (Polyline)project1.ShapeTypes["Polyline"].CreateInstance();
                         diagram.Shapes.Add(arrow);
                         arrow.EndCapStyle = project1.Design.CapStyles.ClosedArrow;
@@ -111,7 +115,7 @@ namespace Text2UML
                     }
                     
                 }
-                x += 220;
+                
             }
         }
 
