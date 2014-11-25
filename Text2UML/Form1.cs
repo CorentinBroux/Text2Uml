@@ -51,25 +51,29 @@ namespace Text2UML
             myclass.Methods.Add(new Method("void","eat",ls));
 
             display1.OpenDiagram("Test NShape diagram");
+            
         }
 
 
         public void DrawBoxes(List<ABox> boxes)
         {
-            const int X = 800; // DEBUG
+            const int X = 800; // DEBUG value
+
+            int ymax = 0;
 
             // Clear existing drawing
             diagram.Clear();
             drawedShapes = new List<Tuple<Shape, string>>();
 
             // Draw boxes
-            int x = 100, y = 100;
+            int x = 120, y = 100;
             foreach (ABox box in boxes)
             {
                 if (x > X)
                 {
-                    x = 100;
-                    y += 270;
+                    x = 120;
+                    y += ymax;
+
                 }
                 bool drawed1 = false;
                 Shape sh1 = null;
@@ -86,6 +90,7 @@ namespace Text2UML
                     sh1 = DrawSingleBox(box, x, y, ref size1);
                     drawedShapes.Add(Tuple.Create(sh1, box.Name));
                     x += size1.Width + 40;
+                    ymax = size1.Height + 50 > ymax ? size1.Height + 50 : ymax;
                 }
 
                 
@@ -108,6 +113,7 @@ namespace Text2UML
                             sh2 = DrawSingleBox(b, x, y, ref size2);
                             drawedShapes.Add(Tuple.Create(sh2, b.Name));
                             x += size2.Width + 100;
+                            ymax = size2.Height + 50 > ymax ? size2.Height + 50 : ymax;
                         }
                             
                         Polyline arrow = (Polyline)project1.ShapeTypes["Polyline"].CreateInstance();
@@ -170,6 +176,27 @@ namespace Text2UML
             Font font = new Font("Arial", 12.0F);
             Size textSize = TextRenderer.MeasureText(str, font);
             return textSize;
+        }
+
+        public void SaveDiagramAsImage()
+        {
+            // Configure save file dialog box
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = "Diagram";
+            dlg.DefaultExt = ".png";
+            dlg.Filter = "PNG Images (.png)|*.png";
+
+            // Show open file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process open file dialog box results 
+            if (result == true)
+            {
+                // Save document 
+                diagram.CreateImage(ImageFileFormat.Png, null, 1, false, Color.White).Save(dlg.FileName);
+
+            }
+            
         }
 
     }

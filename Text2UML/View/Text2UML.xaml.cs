@@ -136,13 +136,13 @@ namespace Text2UML
             SaveCanvasAsImage();
         }
 
-        private void SaveCanvasAsImage()
+        public void SavePseudoCode()
         {
-            // Configure open file dialog box
+            // Configure save file dialog box
             Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
-            dlg.FileName = "Images"; // Default file name
-            dlg.DefaultExt = ".png"; // Default file extension
-            dlg.Filter = "Text documents (.png)|*.png"; // Filter files by extension 
+            dlg.FileName = "Pseudocode";
+            dlg.DefaultExt = ".txt";
+            dlg.Filter = "Text documents (.txt)|*.txt";
 
             // Show open file dialog box
             Nullable<bool> result = dlg.ShowDialog();
@@ -151,23 +151,14 @@ namespace Text2UML
             if (result == true)
             {
                 // Save document 
-                string filename = dlg.FileName;
-                Rect bounds = VisualTreeHelper.GetDescendantBounds(canvas1);
-                double dpi = 96d;
-
-
-                RenderTargetBitmap rtb = new RenderTargetBitmap((int)bounds.Width, (int)bounds.Height, dpi, dpi, System.Windows.Media.PixelFormats.Default);
-
-
-                var enc = new System.Windows.Media.Imaging.PngBitmapEncoder(); 
-                enc.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(rtb));
-
-                using (var stm = System.IO.File.Create(filename)) 
-                { 
-                    enc.Save(stm); 
-                } 
+                File.WriteAllText(dlg.FileName, TB_PseudoCode.Text);
 
             }
+        }
+
+        private void SaveCanvasAsImage()
+        {
+            myform.SaveDiagramAsImage();
         }
     }
 

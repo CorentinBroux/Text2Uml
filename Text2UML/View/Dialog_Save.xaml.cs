@@ -23,5 +23,12 @@ namespace Text2UML.View
         {
             InitializeComponent();
         }
+
+        private void bt_save_pc_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mw = (MainWindow)this.Owner;
+            mw.SavePseudoCode();
+            this.Close();
+        }
     }
 }
