@@ -9,11 +9,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Text2UML</RootNamespace>
     <AssemblyName>Text2UML</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <ExpressionBlendVersion>12.0.50716.0</ExpressionBlendVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,33 +35,50 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>logo 1.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dataweb.NShape">
-      <HintPath>C:\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.dll</HintPath>
+    <Reference Include="Dataweb.NShape, Version=2.2.0.0, Culture=neutral, PublicKeyToken=1512080cd664963c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ThirdParty\Dataweb.NShape.dll</HintPath>
     </Reference>
-    <Reference Include="Dataweb.NShape.ElectricalModelObjects">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.ElectricalModelObjects.dll</HintPath>
+    <Reference Include="Dataweb.NShape.ElectricalModelObjects, Version=2.2.0.0, Culture=neutral, PublicKeyToken=1512080cd664963c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ThirdParty\Dataweb.NShape.ElectricalModelObjects.dll</HintPath>
     </Reference>
-    <Reference Include="Dataweb.NShape.ElectricalShapes">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.ElectricalShapes.dll</HintPath>
+    <Reference Include="Dataweb.NShape.ElectricalShapes, Version=2.2.0.0, Culture=neutral, PublicKeyToken=1512080cd664963c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ThirdParty\Dataweb.NShape.ElectricalShapes.dll</HintPath>
     </Reference>
-    <Reference Include="Dataweb.NShape.FlowChartShapes">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.FlowChartShapes.dll</HintPath>
+    <Reference Include="Dataweb.NShape.FlowChartShapes, Version=2.2.0.0, Culture=neutral, PublicKeyToken=1512080cd664963c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ThirdParty\Dataweb.NShape.FlowChartShapes.dll</HintPath>
     </Reference>
-    <Reference Include="Dataweb.NShape.GeneralModelObjects">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.GeneralModelObjects.dll</HintPath>
+    <Reference Include="Dataweb.NShape.GeneralModelObjects, Version=2.2.0.0, Culture=neutral, PublicKeyToken=1512080cd664963c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ThirdParty\Dataweb.NShape.GeneralModelObjects.dll</HintPath>
     </Reference>
-    <Reference Include="Dataweb.NShape.SoftwareArchitectureShapes">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.SoftwareArchitectureShapes.dll</HintPath>
+    <Reference Include="Dataweb.NShape.GeneralShapes, Version=2.2.0.0, Culture=neutral, PublicKeyToken=1512080cd664963c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ThirdParty\Dataweb.NShape.GeneralShapes.dll</HintPath>
     </Reference>
-    <Reference Include="Dataweb.NShape.WinFormsUI">
-      <HintPath>C:\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.WinFormsUI.dll</HintPath>
-    </Reference>
-    <Reference Include="Dataweb.NShape.GeneralShapes">
-      <HintPath>..\..\..\RES\NShape\Dataweb.NShape.GeneralShapes.dll</HintPath>
+    <Reference Include="Dataweb.NShape.SoftwareArchitectureShapes, Version=2.2.0.0, Culture=neutral, PublicKeyToken=1512080cd664963c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ThirdParty\Dataweb.NShape.SoftwareArchitectureShapes.dll</HintPath>
     </Reference>
     <Reference Include="Dataweb.NShape.WinFormsUI">
       <HintPath>..\..\..\RES\NShape\Dataweb.NShape.WinFormsUI.dll</HintPath>
+    </Reference>
+    <Reference Include="Dataweb.NShape.WinFormsUI, Version=2.2.0.0, Culture=neutral, PublicKeyToken=1512080cd664963c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ThirdParty\Dataweb.NShape.WinFormsUI.dll</HintPath>
+    </Reference>
+    <Reference Include="Dataweb.NShape_Accessor">
+      <HintPath>..\ThirdParty\Dataweb.NShape_Accessor.dll</HintPath>
+    </Reference>
+    <Reference Include="NShapeTest">
+      <HintPath>..\ThirdParty\NShapeTest.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -166,6 +184,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="View\logo 1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ITI.Text2UML\ITI.Text2UML.csproj">
+      <Project>{d2bc7f4d-0e40-4b98-ab62-e1a818f4f9f1}</Project>
+      <Name>ITI.Text2UML</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="logo 1.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
