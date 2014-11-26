@@ -28,13 +28,15 @@ namespace Text2UML.Model
                     ABox box =null;
                     bool IsAbox=true;
 
-                    if (token.Value == "$Class")
+                    if(Enum.IsDefined(typeof(FirstLevelKeyword),token.Value))
                         box = new Class(tokenizer.GoToNextToken().Value, new List<Attribute>(), new List<Method>());
-                    else if (token.Value == "$Interface")
-                        box = new Interface(tokenizer.GoToNextToken().Value, new List<Attribute>(), new List<Method>());
-                    else if (token.Value == "$Abstract")
-                        box = new AbstractClass(tokenizer.GoToNextToken().Value, new List<Attribute>(), new List<Method>());
-                    else if (token.Value == "$Links")
+                    //if (token.Value == "Class")
+                    //    box = new Class(tokenizer.GoToNextToken().Value, new List<Attribute>(), new List<Method>());
+                    //else if (token.Value == "Interface")
+                    //    box = new Interface(tokenizer.GoToNextToken().Value, new List<Attribute>(), new List<Method>());
+                    //else if (token.Value == "Abstract")
+                    //    box = new AbstractClass(tokenizer.GoToNextToken().Value, new List<Attribute>(), new List<Method>());
+                    else if (token.Value == "Links")
                         IsAbox=false;
                     else
                         throw new InvalidSyntaxException("Error : " + token.Value + " is not a valid first level keyword.");
@@ -82,9 +84,9 @@ namespace Text2UML.Model
                 }
                 else if (token.IsKeyword)
                 {
-                    if (token.Value == "$Attributes")
+                    if (token.Value == "Attributes")
                         isAttributesCurrentSection = true;
-                    else if (token.Value == "$Methods")
+                    else if (token.Value == "Methods")
                         isAttributesCurrentSection = false;
                     else
                         throw new InvalidSyntaxException("Error : " + token.Value + " is not a valid second level keyword.");

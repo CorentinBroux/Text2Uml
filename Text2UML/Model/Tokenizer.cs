@@ -15,7 +15,24 @@ namespace Text2UML.Model
         LinkSymbol,     //Link symbol
 		Other		    //Parameter
     };
-    
+
+    public enum FirstLevelKeyword
+    {
+        Class,
+        Interface,
+        Abstract
+    };
+
+    public enum SecondLevelKeyword
+    {
+        Attributes,
+        Methods
+    };
+
+    public enum LinkKeyword
+    {
+        Link
+    };
 
     class Token
     {
@@ -45,13 +62,12 @@ namespace Text2UML.Model
         #endregion
 
     }
-
     class Tokenizer
     {
         #region Fields and properties        
         private static List<char> endOfLineDelimiters = new List<char>() { '\n', '\r' };
         private static List<char> otherDelimiters = new List<char>() { '{', '}','(',')' };
-        private static List<string> keyWords = new List<string>() { "$Class", "$Interface", "$Abstract","$Attributes","$Methods", "$Links" };
+        private static List<string> keyWords = new List<string>() { "Class", "Interface", "Abstract","Attributes","Methods", "Links" };
         private static List<string> linkSymbols = new List<string>() { "<>-","<->-","->>",".>","-","-()",".>>","-(","<.","->","><-"};
         public string Text {get;set;}
         private int currentCharIndex;

@@ -12,6 +12,7 @@ using Dataweb.NShape.Advanced;
 using Dataweb.NShape.GeneralShapes;
 using System.IO;
 using Text2UML.Model;
+using Dataweb.NShape.SoftwareArchitectureShapes;
 
 namespace Text2UML
 {
@@ -22,7 +23,6 @@ namespace Text2UML
         public Form1()
         {
             InitializeComponent();
-            MeasureString("test\n\nazertyuiop");
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -34,6 +34,7 @@ namespace Text2UML
             // Set the name of the project that should be loaded from the store
             project1.Name = "Circles";
             project1.LibrarySearchPaths.Add(@"C:\Users\Public\Documents\NShape\bin\Debug");
+            project1.AddLibraryByFilePath("Dataweb.NShape.SoftwareArchitectureShapes.dll", false); // DEBUG : for ClassSymbols
             project1.AutoLoadLibraries = true;
             // Open the NShape project
             this.project1.Open();
@@ -51,7 +52,7 @@ namespace Text2UML
             myclass.Methods.Add(new Method("void","eat",ls));
 
             display1.OpenDiagram("Test NShape diagram");
-            
+          
         }
 
 
@@ -128,12 +129,54 @@ namespace Text2UML
             }
         }
 
-        private Shape DrawSingleBox(ABox box, int x, int y, ref Size size)
+        private Shape DrawSingleEntity(ABox box, int x, int y, ref Size size)
         {
             
-            
+
+
+            // Draw the box
+            ClassSymbol myShape2 = (ClassSymbol)this.project1.ShapeTypes["ClassSymbol"].CreateInstance();
+            //Template template = project1.Repository.GetTemplate("Class");
+            //ClassSymbol myShape2 = (ClassSymbol)template.CreateShape();
+            myShape2.DisplayService = this.display1;
+            //size = MeasureString(s);
+            myShape2.Height = size.Height + 20;
+            myShape2.Width = size.Width + 20;
+            myShape2.MoveTo(x, y);
+            myShape2.Text = box.Name;
+            diagram.Shapes.Add(myShape2);
+            this.project1.Repository.Insert((Shape)myShape2, diagram);
+            this.project1.Repository.Update();
+
+
+            // Set string
+            string s = "";
+            foreach (Model.Attribute att in box.Attributes)
+            {
+                myShape2.AddColumn("\n\t" + att.Type + " " + att.Name);
+            }
+            s += "\n_______________";
+            foreach (Model.Method met in box.Methods)
+            {
+                s += "\n\t" + met.ReturnType + " " + met.Name + "(";
+                foreach (string str in met.ParamTypes)
+                {
+                    s += str + ", ";
+                }
+                if (met.ParamTypes.Count > 0)
+                    s = s.Remove(s.Length - 2);
+                s += ")";
+            }
+
+            // return the shape
+            return myShape2;
+        }
+
+        private Shape DrawSingleBox(ABox box, int x, int y, ref Size size)
+        {
+
             // Generate string
-            string s = box.Name+"\n_______________";
+            string s = box.Name + "\n_______________";
 
             foreach (Model.Attribute att in box.Attributes)
             {
@@ -147,7 +190,7 @@ namespace Text2UML
                 {
                     s += str + ", ";
                 }
-                if(met.ParamTypes.Count>0)
+                if (met.ParamTypes.Count > 0)
                     s = s.Remove(s.Length - 2);
                 s += ")";
             }

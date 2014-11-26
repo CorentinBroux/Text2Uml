@@ -50,6 +50,9 @@
     <Reference Include="Dataweb.NShape.GeneralModelObjects">
       <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.GeneralModelObjects.dll</HintPath>
     </Reference>
+    <Reference Include="Dataweb.NShape.SoftwareArchitectureShapes">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.SoftwareArchitectureShapes.dll</HintPath>
+    </Reference>
     <Reference Include="Dataweb.NShape.WinFormsUI">
       <HintPath>C:\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.WinFormsUI.dll</HintPath>
     </Reference>
