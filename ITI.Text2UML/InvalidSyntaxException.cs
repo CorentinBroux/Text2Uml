@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Text2UML.Model
+namespace ITI.Text2UML
 {
-    class InvalidSyntaxException :  Exception
+    public class InvalidSyntaxException :  Exception
     {
         public InvalidSyntaxException(string message):base(message)
         {

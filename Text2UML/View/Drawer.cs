@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Shapes;
 using System.Windows.Media;
-using Text2UML.Model;
+using ITI.Text2UML;
 
 namespace Text2UML.View
 {
@@ -105,7 +105,7 @@ namespace Text2UML.View
 
             StackPanel attributesSP = new StackPanel();
 
-            foreach (Model.Attribute a in box.Attributes)
+            foreach (ITI.Text2UML.Attribute a in box.Attributes)
             {
                 Label at1 = new Label()
                 {

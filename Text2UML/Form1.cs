@@ -11,7 +11,7 @@ using Dataweb.NShape;
 using Dataweb.NShape.Advanced;
 using Dataweb.NShape.GeneralShapes;
 using System.IO;
-using Text2UML.Model;
+using ITI.Text2UML;
 using Dataweb.NShape.SoftwareArchitectureShapes;
 
 namespace Text2UML
@@ -46,8 +46,8 @@ namespace Text2UML
             this.cachedRepository1.Insert(diagram);
 
             Class myclass = new Class("Toto");
-            myclass.Attributes.Add(new Model.Attribute("int","age"));
-            myclass.Attributes.Add(new Model.Attribute("string","name"));
+            myclass.Attributes.Add(new ITI.Text2UML.Attribute("int", "age"));
+            myclass.Attributes.Add(new ITI.Text2UML.Attribute("string", "name"));
             List<string> ls = new List<string>(){"food","drink"};
             myclass.Methods.Add(new Method("void","eat",ls));
 
@@ -151,12 +151,12 @@ namespace Text2UML
 
             // Set string
             string s = "";
-            foreach (Model.Attribute att in box.Attributes)
+            foreach (ITI.Text2UML.Attribute att in box.Attributes)
             {
                 myShape2.AddColumn("\n\t" + att.Type + " " + att.Name);
             }
             s += "\n_______________";
-            foreach (Model.Method met in box.Methods)
+            foreach (ITI.Text2UML.Method met in box.Methods)
             {
                 s += "\n\t" + met.ReturnType + " " + met.Name + "(";
                 foreach (string str in met.ParamTypes)
@@ -178,12 +178,12 @@ namespace Text2UML
             // Generate string
             string s = box.Name + "\n_______________";
 
-            foreach (Model.Attribute att in box.Attributes)
+            foreach (ITI.Text2UML.Attribute att in box.Attributes)
             {
                 s += "\n\t" + att.Type + " " + att.Name;
             }
             s += "\n_______________";
-            foreach (Model.Method met in box.Methods)
+            foreach (ITI.Text2UML.Method met in box.Methods)
             {
                 s += "\n\t" + met.ReturnType + " " + met.Name + "(";
                 foreach (string str in met.ParamTypes)

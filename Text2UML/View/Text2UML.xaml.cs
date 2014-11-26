@@ -14,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Text2UML.Model;
+using ITI.Text2UML;
 using System.IO;
 
 namespace Text2UML
@@ -25,6 +25,7 @@ namespace Text2UML
         public MainWindow()
         {
             InitializeComponent();
+            //Dataweb.NShape.GeneralShapes.NShapeLibraryInitializer.Initialize(null);
 
             myform = new Form1();
             

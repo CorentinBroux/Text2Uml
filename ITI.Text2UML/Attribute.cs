@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Text2UML.Model
+namespace ITI.Text2UML
 {
     public class Attribute
     {

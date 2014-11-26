@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Text2UML.Model
+namespace ITI.Text2UML
 {
-    class Parser
+    public class Parser
     {
         /// <summary>
         /// Return text part concerning Aboxes (class, interface, abstract)

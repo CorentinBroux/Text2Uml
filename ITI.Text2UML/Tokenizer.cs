@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Text2UML.Model
+namespace ITI.Text2UML
 {
     public enum TokenType
     {
@@ -34,7 +34,7 @@ namespace Text2UML.Model
         Link
     };
 
-    class Token
+    public class Token
     {
         #region Fields and properties
         public TokenType Type {get;set;}
@@ -62,7 +62,7 @@ namespace Text2UML.Model
         #endregion
 
     }
-    class Tokenizer
+    public class Tokenizer
     {
         #region Fields and properties        
         private static List<char> endOfLineDelimiters = new List<char>() { '\n', '\r' };
