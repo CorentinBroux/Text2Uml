@@ -32,7 +32,7 @@ namespace Text2UML
             // Initialize WinForms PropertyGrid
             propertyGridHost.Child = myform;
 
-            System.Windows.Forms.MessageBox.Show(Tokenizer.DumpTokens("this sentence {is } (useless)"));
+            System.Windows.Forms.MessageBox.Show(Tokenizer.DumpTokens("this sentence {is } -> (useless)"));
 
         }
 

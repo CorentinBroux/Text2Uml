@@ -11,6 +11,7 @@ namespace ITI.Text2UML
     {
         None,
         Word,
+        Link,
         OpenCurly,
         CloseCurly,
         OpenPar,
@@ -130,8 +131,18 @@ namespace ITI.Text2UML
                             {
                                 currentToken = TokenType.Word;
                                 StringBuilder builder = new StringBuilder();
-                                double val = (int)(c - '0');
                                 while (!IsEnd && Char.IsLetter(c = GetCurrentChar()))
+                                {
+                                    builder.Append(c);
+                                    MoveNext();
+                                }
+                                wordValue = builder.ToString();
+                            }
+                            else if (c == '-')
+                            {
+                                currentToken = TokenType.Link;
+                                StringBuilder builder = new StringBuilder();
+                                while (!IsEnd && !Char.IsWhiteSpace(c = GetCurrentChar()))
                                 {
                                     builder.Append(c);
                                     MoveNext();
