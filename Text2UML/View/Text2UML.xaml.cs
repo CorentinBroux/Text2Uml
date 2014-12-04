@@ -32,6 +32,8 @@ namespace Text2UML
             // Initialize WinForms PropertyGrid
             propertyGridHost.Child = myform;
 
+            System.Windows.Forms.MessageBox.Show(Tokenizer.DumpTokens("this sentence {is } (useless)"));
+
         }
 
         private void BT_Process_PC_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -39,15 +41,15 @@ namespace Text2UML
             
             try
             {
-                Tuple<List<ABox>, List<Link>> tuple = Parser.ExtractAboxes(Formatter.FormatForTokenization(TB_PseudoCode.Text));
-                List<ABox> boxes = tuple.Item1;
-                List<Link> links = tuple.Item2;
-                Parser.ReportDeadLinks(links, boxes);
-                Parser.AddLinksToBoxes(links, boxes);
-                myform.DrawBoxes(boxes);
-                double h = View.Drawer.DrawBoxes(boxes, canvas1);
-                canvas1.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                canvas1.Height = h;
+                //Tuple<List<ABox>, List<Link>> tuple = Parser.ExtractAboxes(Formatter.FormatForTokenization(TB_PseudoCode.Text));
+                //List<ABox> boxes = tuple.Item1;
+                //List<Link> links = tuple.Item2;
+                //Parser.ReportDeadLinks(links, boxes);
+                //Parser.AddLinksToBoxes(links, boxes);
+                //myform.DrawBoxes(boxes);
+                //double h = View.Drawer.DrawBoxes(boxes, canvas1);
+                //canvas1.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                //canvas1.Height = h;
             }
             catch (Exception ex)
             {
