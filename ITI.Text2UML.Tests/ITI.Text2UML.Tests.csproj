@@ -4,14 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D2BC7F4D-0E40-4B98-AB62-E1A818F4F9F1}</ProjectGuid>
+    <ProjectGuid>{D74EBA87-E5C8-4F4C-B383-180A7EDF0708}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ITI.Text2UML</RootNamespace>
-    <AssemblyName>ITI.Text2UML</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>ITI.Text2UML.Tests</RootNamespace>
+    <AssemblyName>ITI.Text2UML.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <StartAction>Program</StartAction>
+    <StartProgram>$(SolutionDir)\packages\NUnit.Runners.2.6.3\tools\nunit.exe</StartProgram>
+    <StartArguments>ITI.Text2UML.Tests.dll</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,9 +32,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>logo 1.ico</ApplicationIcon>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
@@ -46,21 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ABox.cs" />
-    <Compile Include="AbstractClass.cs" />
-    <Compile Include="Attribute.cs" />
-    <Compile Include="Class.cs" />
-    <Compile Include="Formatter.cs" />
-    <Compile Include="Interface.cs" />
-    <Compile Include="InvalidSyntaxException.cs" />
-    <Compile Include="Link.cs" />
-    <Compile Include="Method.cs" />
-    <Compile Include="Parser.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tokenizer.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="logo 1.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

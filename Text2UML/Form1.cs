@@ -45,12 +45,6 @@ namespace Text2UML
             this.display1.Diagram = diagram;
             this.cachedRepository1.Insert(diagram);
 
-            Class myclass = new Class("Toto");
-            myclass.Attributes.Add(new ITI.Text2UML.Attribute("int", "age"));
-            myclass.Attributes.Add(new ITI.Text2UML.Attribute("string", "name"));
-            List<string> ls = new List<string>(){"food","drink"};
-            myclass.Methods.Add(new Method("void","eat",ls));
-
             display1.OpenDiagram("Test NShape diagram");
           
         }
@@ -131,9 +125,6 @@ namespace Text2UML
 
         private Shape DrawSingleEntity(ABox box, int x, int y, ref Size size)
         {
-            
-
-
             // Draw the box
             ClassSymbol myShape2 = (ClassSymbol)this.project1.ShapeTypes["ClassSymbol"].CreateInstance();
             //Template template = project1.Repository.GetTemplate("Class");
