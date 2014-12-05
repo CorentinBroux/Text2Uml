@@ -6,6 +6,118 @@ using System.Threading.Tasks;
 
 namespace ITI.Text2UML
 {
+    public static class Parser
+    {
+        public static Tuple<List<ABox>, List<Link>> Parse(string input)
+        {
+            // Initialize tokenizer and lists
+            Tokenizer tokenizer = new Tokenizer(input);
+            List<ABox> boxes = new List<ABox>();
+            List<Link> links = new List<Link>();
+
+            TokenType token = tokenizer.GetNextToken();
+            // Tokenize and parse
+            while (tokenizer.CurrentToken != TokenType.EndOfInput)
+            {
+                token = tokenizer.CurrentToken;
+                if (token == TokenType.Keyword)
+                {
+                    boxes.Add(new ABox());
+                    boxes.Last().Attributes = new List<Attribute>();
+                    boxes.Last().Methods = new List<Method>();
+                    token = tokenizer.GetNextToken();
+                    if (token == TokenType.Word)
+                        boxes.Last().Name = tokenizer.WordValue;
+                    else
+                        boxes.Last().Name = "Unnamed box";
+                        //throw new InvalidSyntaxException("Missing name");
+                    
+                    token = tokenizer.GetNextToken();
+                    continue;
+                }
+                
+                if (token == TokenType.EndOfInput)
+                    break;
+
+                if (token == TokenType.Word)
+                {
+                    TokenType t1 = token;
+                    string v1 = tokenizer.WordValue;
+                    TokenType t2 = tokenizer.GetNextToken();
+                    string v2 = tokenizer.WordValue;
+                    TokenType t3 = tokenizer.GetNextToken();
+                    string v3 = tokenizer.WordValue;
+
+                    if(t2 == TokenType.Word && t3 == TokenType.OpenPar) // If method (meaning v2 == v3)
+                    {
+                        Method m = new Method();
+                        m.ParamTypes = new List<string>();
+                        m.ReturnType = v1;
+                        m.Name = v2;
+                        token = tokenizer.GetNextToken();
+                        while(token != TokenType.ClosePar)
+                        {
+                            if (token == TokenType.EndOfInput)
+                                throw new InvalidSyntaxException("Missing method closure");
+                            else if (token == TokenType.Word)
+                                m.ParamTypes.Add(tokenizer.WordValue);
+                            else if (token != TokenType.ClosePar)
+                                throw new InvalidSyntaxException("Invalid syntax");
+
+                            token = tokenizer.GetNextToken();
+                        }
+                        boxes.Last().Methods.Add(m);
+                        token = tokenizer.GetNextToken();
+                    }
+                    else if(t2 == TokenType.Word) // If field or property
+                    {
+                        Text2UML.Attribute att = new Text2UML.Attribute(v1, v2);
+                        boxes.Last().Attributes.Add(att);
+                        continue; // t3 not used then dont call tokenizer.GetNextToken()
+                    }
+                    else if(t2 == TokenType.Link && t3 == TokenType.Word) // If link
+                    {
+                        Link link = new Link(v1, v3, Link.GetLinkTypeFromSymbol(v2));
+                        links.Add(link);
+                        token = tokenizer.GetNextToken();
+                    }
+
+
+                   
+                }
+                    
+            }
+            
+            
+            
+            // Return
+            return new Tuple<List<ABox>,List<Link>>(boxes, links);
+        }
+        public static void AddLinksToBoxes(List<Link> links, List<ABox> boxes)
+        {
+            foreach (Link link in links)
+            {
+                foreach (ABox box in boxes)
+                {
+                    if (link.From == box.Name)
+                    {
+                        box.IsLinked = true;
+                        foreach (ABox box2 in boxes)
+                        {
+                            if (link.To == box2.Name)
+                            {
+                                if (box.Linked == null)
+                                    box.Linked = new List<ABox>();
+                                box.Linked.Add(box2);
+                            }
+                                
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+    }
 
     #region old
     //public class Parser
@@ -221,25 +333,7 @@ namespace ITI.Text2UML
     //    /// <remarks>Better use after cleaning the 'links' list with the 'ReportDeadLinks' method</remarks>
     //    /// <param name="links"></param>
     //    /// <param name="boxes"></param>
-    //    public static void AddLinksToBoxes(List<Link> links, List<ABox> boxes)
-    //    {
-    //        foreach (Link link in links)
-    //        {
-    //            foreach (ABox box in boxes)
-    //            {
-    //                if (link.From == box.Name)
-    //                {
-    //                    box.IsLinked = true;
-    //                    foreach (ABox box2 in boxes)
-    //                    {
-    //                        if (link.To == box2.Name)
-    //                            box.Linked.Add(box2);
-    //                    }
-    //                    break;
-    //                }
-    //            }
-    //        }
-    //    }
+    //    
     //}
     #endregion
 }

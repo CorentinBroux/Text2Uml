@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ITI.Text2UML
 {
-    public abstract class ABox
+    public class ABox
     {
         #region Fields and properties
         public string Name { get; set; }
@@ -16,7 +16,13 @@ namespace ITI.Text2UML
         public List<ABox> Linked { get; set; }
         #endregion
 
+        #region Constructors
+        public ABox(string name="")
+        {
+            Name = name;
+        }
+        #endregion
 
-        
+
     }
 }

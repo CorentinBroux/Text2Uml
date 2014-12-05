@@ -11,6 +11,7 @@ namespace ITI.Text2UML
     {
         None,
         Word,
+        Keyword,
         Link,
         OpenCurly,
         CloseCurly,
@@ -38,7 +39,7 @@ namespace ITI.Text2UML
         int currentPos;
         int maxPos;
         TokenType currentToken;
-        string wordValue;
+        public string WordValue { get; private set; }
         bool IsEnd { get { return currentPos >= maxPos; } }
 
         // 2. Constructors
@@ -131,23 +132,29 @@ namespace ITI.Text2UML
                             {
                                 currentToken = TokenType.Word;
                                 StringBuilder builder = new StringBuilder();
+                                builder.Append(c);
                                 while (!IsEnd && Char.IsLetter(c = GetCurrentChar()))
                                 {
                                     builder.Append(c);
                                     MoveNext();
                                 }
-                                wordValue = builder.ToString();
+                                WordValue = builder.ToString();
+                                if (Grammar.Keywords.Contains(WordValue))
+                                    currentToken = TokenType.Keyword;
                             }
                             else if (c == '-')
                             {
                                 currentToken = TokenType.Link;
                                 StringBuilder builder = new StringBuilder();
+                                builder.Append(c);
                                 while (!IsEnd && !Char.IsWhiteSpace(c = GetCurrentChar()))
                                 {
                                     builder.Append(c);
                                     MoveNext();
                                 }
-                                wordValue = builder.ToString();
+                                WordValue = builder.ToString();
+                                if (!Grammar.Links.Contains(WordValue))
+                                    currentToken = TokenType.Error;
                             }
                             else currentToken = TokenType.Error;
                             break;

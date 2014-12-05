@@ -51,6 +51,7 @@
     <Compile Include="Attribute.cs" />
     <Compile Include="Class.cs" />
     <Compile Include="Formatter.cs" />
+    <Compile Include="Grammar.cs" />
     <Compile Include="Interface.cs" />
     <Compile Include="InvalidSyntaxException.cs" />
     <Compile Include="Link.cs" />

@@ -84,7 +84,7 @@ namespace Text2UML
                     Size size1 = new Size();
                     sh1 = DrawSingleBox(box, x, y, ref size1);
                     drawedShapes.Add(Tuple.Create(sh1, box.Name));
-                    x += size1.Width + 40;
+                    x += size1.Width;
                     ymax = size1.Height + 50 > ymax ? size1.Height + 50 : ymax;
                 }
 
@@ -191,8 +191,8 @@ namespace Text2UML
             RectangleBase myShape2 = (RectangleBase)this.project1.ShapeTypes["RoundedBox"].CreateInstance();
             myShape2.DisplayService = this.display1;
             size = MeasureString(s);
-            myShape2.Height = size.Height + 20;
-            myShape2.Width = size.Width + 20;
+            myShape2.Height = size.Height + 30;
+            myShape2.Width = size.Width + 30;
             myShape2.SetCaptionText(0, s);
             myShape2.MoveTo(x, y);
             diagram.Shapes.Add(myShape2);

@@ -37,30 +37,31 @@ namespace ITI.Text2UML
         {
             switch (symbol)
             {
-                case "<>-":
+                case "-<>":
                     return LinkTypes.Extends;
-                case "<->-":
+                case "-<->":
                     return LinkTypes.Extends;
                 case "->>":
                     return LinkTypes.Includes;
-                case ".>":
+                case "-.>":
                     return LinkTypes.Extends;
                 case "-":
                     return LinkTypes.Extends;
                 case "-()":
                     return LinkTypes.Extends;
-                case ".>>":
+                case "-.>>":
                     return LinkTypes.Extends;
                 case "-(":
                     return LinkTypes.Extends;
-                case "<.":
+                case "-<.":
                     return LinkTypes.Extends;
-                case "->":
+                case "-->":
                     return LinkTypes.Extends;
-                case "><-":
+                case "-><-":
                     return LinkTypes.Extends;
                 default:
-                    throw new InvalidSyntaxException("Error : unknown link sybol");
+                    return LinkTypes.Extends;
+                    //throw new InvalidSyntaxException("Error : unknown link sybol");
             }
             
         }
