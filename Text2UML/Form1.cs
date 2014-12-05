@@ -84,7 +84,7 @@ namespace Text2UML
                     Size size1 = new Size();
                     sh1 = DrawSingleBox(box, x, y, ref size1);
                     drawedShapes.Add(Tuple.Create(sh1, box.Name));
-                    x += size1.Width;
+                    x += size1.Width + 50;
                     ymax = size1.Height + 50 > ymax ? size1.Height + 50 : ymax;
                 }
 
