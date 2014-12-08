@@ -27,13 +27,14 @@ namespace Text2UML
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            string path = Directory.GetCurrentDirectory();
+
             // Set path to the sample diagram and the diagram file extension
-            xmlStore1.DirectoryName = @"C:\Users\Public\Documents\NShape\Text2Uml";
+            xmlStore1.DirectoryName = path;
             xmlStore1.FileExtension = "nspj";
             // Set the name of the project that should be loaded from the store
             project1.Name = "Circles";
-            project1.LibrarySearchPaths.Add(@"C:\Users\Public\Documents\NShape\bin\Debug");
+            project1.LibrarySearchPaths.Add(path);
             project1.AutoLoadLibraries = true;
             // Open the NShape project
             this.project1.Open();

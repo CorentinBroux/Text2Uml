@@ -36,28 +36,37 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dataweb.NShape">
-      <HintPath>C:\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.dll</HintPath>
+      <HintPath>..\ThirdParty\NShape\Dataweb.NShape.dll</HintPath>
     </Reference>
     <Reference Include="Dataweb.NShape.ElectricalModelObjects">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.ElectricalModelObjects.dll</HintPath>
+      <HintPath>..\ThirdParty\NShape\Dataweb.NShape.ElectricalModelObjects.dll</HintPath>
     </Reference>
     <Reference Include="Dataweb.NShape.ElectricalShapes">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.ElectricalShapes.dll</HintPath>
+      <HintPath>..\ThirdParty\NShape\Dataweb.NShape.ElectricalShapes.dll</HintPath>
     </Reference>
     <Reference Include="Dataweb.NShape.FlowChartShapes">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.FlowChartShapes.dll</HintPath>
+      <HintPath>..\ThirdParty\NShape\Dataweb.NShape.FlowChartShapes.dll</HintPath>
     </Reference>
     <Reference Include="Dataweb.NShape.GeneralModelObjects">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.GeneralModelObjects.dll</HintPath>
-    </Reference>
-    <Reference Include="Dataweb.NShape.WinFormsUI">
-      <HintPath>C:\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.WinFormsUI.dll</HintPath>
+      <HintPath>..\ThirdParty\NShape\Dataweb.NShape.GeneralModelObjects.dll</HintPath>
     </Reference>
     <Reference Include="Dataweb.NShape.GeneralShapes">
-      <HintPath>..\..\..\RES\NShape\Dataweb.NShape.GeneralShapes.dll</HintPath>
+      <HintPath>..\ThirdParty\NShape\Dataweb.NShape.GeneralShapes.dll</HintPath>
+    </Reference>
+    <Reference Include="Dataweb.NShape.SoftwareArchitectureShapes">
+      <HintPath>..\ThirdParty\NShape\Dataweb.NShape.SoftwareArchitectureShapes.dll</HintPath>
     </Reference>
     <Reference Include="Dataweb.NShape.WinFormsUI">
-      <HintPath>..\..\..\RES\NShape\Dataweb.NShape.WinFormsUI.dll</HintPath>
+      <HintPath>..\ThirdParty\NShape\Dataweb.NShape.WinFormsUI.dll</HintPath>
+    </Reference>
+    <Reference Include="Dataweb.NShape_Accessor">
+      <HintPath>..\ThirdParty\NShape\Dataweb.NShape_Accessor.dll</HintPath>
+    </Reference>
+    <Reference Include="NShapeTest">
+      <HintPath>..\ThirdParty\NShape\NShapeTest.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -149,6 +158,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="ClassDiagram1.cd" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -163,6 +173,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="View\logo 1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
