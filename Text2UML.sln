@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Text2UML", "Text2UML\Text2UML.csproj", "{B48640AD-44D6-462A-B8C8-417B10D54743}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITI.Text2UML", "Text2UML\ITI.Text2UML.csproj", "{B48640AD-44D6-462A-B8C8-417B10D54743}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9272B028-E645-42E3-9525-171B614EB14D}"
 	ProjectSection(SolutionItems) = preProject

@@ -47,9 +47,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Text2UML\Text2UML.csproj">
+    <ProjectReference Include="..\Text2UML\ITI.Text2UML.csproj">
       <Project>{b48640ad-44d6-462a-b8c8-417b10d54743}</Project>
-      <Name>Text2UML</Name>
+      <Name>ITI.Text2UML</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
