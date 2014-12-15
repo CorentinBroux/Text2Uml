@@ -12,6 +12,7 @@ using Dataweb.NShape.Advanced;
 using Dataweb.NShape.GeneralShapes;
 using System.IO;
 using Text2UML.Model;
+using UMLShapes;
 
 namespace Text2UML
 {
@@ -35,15 +36,26 @@ namespace Text2UML
             // Set the name of the project that should be loaded from the store
             project1.Name = "Circles";
             project1.LibrarySearchPaths.Add(path);
-            project1.AutoLoadLibraries = true;
             // Open the NShape project
-            this.project1.Open();
-          
+            project1.AddLibrary(typeof(UMLShape).Assembly, false);
+            project1.Create();
 
-            
+
+
+          
             diagram = new Diagram("Test NShape diagram");
             this.display1.Diagram = diagram;
             this.cachedRepository1.Insert(diagram);
+
+            
+            // Sample for use UMLShape
+            UMLShape arrow = (UMLShape)project1.ShapeTypes["UMLShape"].CreateInstance();
+            // Add shape to the diagram
+            arrow.X = 50;
+            arrow.Y = 50;
+            diagram.Shapes.Add(arrow);
+            
+            
 
             Class myclass = new Class("Toto");
             myclass.Attributes.Add(new Model.Attribute("int","age"));
