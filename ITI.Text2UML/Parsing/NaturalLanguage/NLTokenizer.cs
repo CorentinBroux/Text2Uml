@@ -97,6 +97,11 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
         public NLTokenType GetNextToken()
         {
+            PrePreviousToken = PreviousToken;
+            PreviousToken = CurrentToken;
+            PrePreviousWordValue = PreviousWordValue;
+            PreviousWordValue = WordValue;
+            
             if (IsEnd)
                 return CurrentToken = NLTokenType.EndOfInput;
 
@@ -130,7 +135,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                                 MoveNext();
                             }
                             WordValue = builder.ToString();
-                            if (PCGrammar.Keywords.Contains(WordValue))
+                            if (NLGrammar.Keywords.Contains(WordValue))
                                 CurrentToken = NLTokenType.Keyword;
                         }
                         else CurrentToken = NLTokenType.Error;
