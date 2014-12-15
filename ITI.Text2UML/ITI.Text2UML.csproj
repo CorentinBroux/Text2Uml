@@ -46,19 +46,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ABox.cs" />
-    <Compile Include="AbstractClass.cs" />
-    <Compile Include="Attribute.cs" />
-    <Compile Include="Class.cs" />
     <Compile Include="Formatter.cs" />
-    <Compile Include="Grammar.cs" />
-    <Compile Include="Interface.cs" />
     <Compile Include="InvalidSyntaxException.cs" />
-    <Compile Include="Link.cs" />
-    <Compile Include="Method.cs" />
-    <Compile Include="Parser.cs" />
+    <Compile Include="Model\ABox.cs" />
+    <Compile Include="Model\Attribute.cs" />
+    <Compile Include="Model\Class.cs" />
+    <Compile Include="Model\Link.cs" />
+    <Compile Include="Model\Method.cs" />
+    <Compile Include="Parsing\NaturalLanguage\NLGrammar.cs" />
+    <Compile Include="Parsing\NaturalLanguage\NLParser.cs" />
+    <Compile Include="Parsing\NaturalLanguage\NLTokenizer.cs" />
+    <Compile Include="Parsing\NaturalLanguage\StanfordParser.cs" />
+    <Compile Include="Parsing\PseudoCode\PCGrammar.cs" />
+    <Compile Include="Parsing\PseudoCode\PCParser.cs" />
+    <Compile Include="Parsing\PseudoCode\PCTokenizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tokenizer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo 1.ico" />

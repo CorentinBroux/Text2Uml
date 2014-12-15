@@ -3,36 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ITI.Text2UML.Model;
 
 namespace ITI.Text2UML
 {
     public static class Parser
     {
-        public static Tuple<List<ABox>, List<Link>> Parse(string input)
+        public static Tuple<List<Class>, List<Link>> Parse(string input)
         {
-            // Initialize tokenizer and lists
-            Tokenizer tokenizer = new Tokenizer(input);
-            List<ABox> boxes = new List<ABox>();
+            // Initialize PCTokenizer and lists
+            PCTokenizer PCTokenizer = new PCTokenizer(input);
+            List<Class> boxes = new List<Class>();
             List<Link> links = new List<Link>();
 
-            TokenType token = tokenizer.GetNextToken();
+            TokenType token = PCTokenizer.GetNextToken();
             // Tokenize and parse
-            while (tokenizer.CurrentToken != TokenType.EndOfInput)
+            while (PCTokenizer.CurrentToken != TokenType.EndOfInput)
             {
-                token = tokenizer.CurrentToken;
+                token = PCTokenizer.CurrentToken;
                 if (token == TokenType.Keyword)
                 {
-                    boxes.Add(new ABox());
-                    boxes.Last().Attributes = new List<Attribute>();
+                    boxes.Add(new Class("Unnamed box"));
+                    boxes.Last().Attributes = new List<ITI.Text2UML.Model.Attribute>();
                     boxes.Last().Methods = new List<Method>();
-                    token = tokenizer.GetNextToken();
+                    token = PCTokenizer.GetNextToken();
                     if (token == TokenType.Word)
-                        boxes.Last().Name = tokenizer.WordValue;
-                    else
-                        boxes.Last().Name = "Unnamed box";
-                        //throw new InvalidSyntaxException("Missing name");
+                        boxes.Last().Name = PCTokenizer.WordValue;
                     
-                    token = tokenizer.GetNextToken();
+                    
+                    token = PCTokenizer.GetNextToken();
                     continue;
                 }
                 
@@ -42,11 +41,11 @@ namespace ITI.Text2UML
                 if (token == TokenType.Word)
                 {
                     TokenType t1 = token;
-                    string v1 = tokenizer.WordValue;
-                    TokenType t2 = tokenizer.GetNextToken();
-                    string v2 = tokenizer.WordValue;
-                    TokenType t3 = tokenizer.GetNextToken();
-                    string v3 = tokenizer.WordValue;
+                    string v1 = PCTokenizer.WordValue;
+                    TokenType t2 = PCTokenizer.GetNextToken();
+                    string v2 = PCTokenizer.WordValue;
+                    TokenType t3 = PCTokenizer.GetNextToken();
+                    string v3 = PCTokenizer.WordValue;
 
                     if(t2 == TokenType.Word && t3 == TokenType.OpenPar) // If method (meaning v2 == v3)
                     {
@@ -54,32 +53,32 @@ namespace ITI.Text2UML
                         m.ParamTypes = new List<string>();
                         m.ReturnType = v1;
                         m.Name = v2;
-                        token = tokenizer.GetNextToken();
+                        token = PCTokenizer.GetNextToken();
                         while(token != TokenType.ClosePar)
                         {
                             if (token == TokenType.EndOfInput)
                                 throw new InvalidSyntaxException("Missing method closure");
                             else if (token == TokenType.Word)
-                                m.ParamTypes.Add(tokenizer.WordValue);
+                                m.ParamTypes.Add(PCTokenizer.WordValue);
                             else if (token != TokenType.ClosePar)
                                 throw new InvalidSyntaxException("Invalid syntax");
 
-                            token = tokenizer.GetNextToken();
+                            token = PCTokenizer.GetNextToken();
                         }
                         boxes.Last().Methods.Add(m);
-                        token = tokenizer.GetNextToken();
+                        token = PCTokenizer.GetNextToken();
                     }
                     else if(t2 == TokenType.Word) // If field or property
                     {
-                        Text2UML.Attribute att = new Text2UML.Attribute(v1, v2);
+                        ITI.Text2UML.Model.Attribute att = new ITI.Text2UML.Model.Attribute(v1, v2);
                         boxes.Last().Attributes.Add(att);
-                        continue; // t3 not used then dont call tokenizer.GetNextToken()
+                        continue; // t3 not used then dont call PCTokenizer.GetNextToken()
                     }
                     else if(t2 == TokenType.Link && t3 == TokenType.Word) // If link
                     {
                         Link link = new Link(v1, v3, Link.GetLinkTypeFromSymbol(v2));
                         links.Add(link);
-                        token = tokenizer.GetNextToken();
+                        token = PCTokenizer.GetNextToken();
                     }
 
 
@@ -91,23 +90,23 @@ namespace ITI.Text2UML
             
             
             // Return
-            return new Tuple<List<ABox>,List<Link>>(boxes, links);
+            return new Tuple<List<Class>,List<Link>>(boxes, links);
         }
-        public static void AddLinksToBoxes(List<Link> links, List<ABox> boxes)
+        public static void AddLinksToBoxes(List<Link> links, List<Class> boxes)
         {
             foreach (Link link in links)
             {
-                foreach (ABox box in boxes)
+                foreach (Class box in boxes)
                 {
                     if (link.From == box.Name)
                     {
                         box.IsLinked = true;
-                        foreach (ABox box2 in boxes)
+                        foreach (Class box2 in boxes)
                         {
                             if (link.To == box2.Name)
                             {
                                 if (box.Linked == null)
-                                    box.Linked = new List<ABox>();
+                                    box.Linked = new List<Class>();
                                 box.Linked.Add(box2);
                             }
                                 
@@ -123,42 +122,42 @@ namespace ITI.Text2UML
     //public class Parser
     //{
     //    /// <summary>
-    //    /// Return text part concerning Aboxes (class, interface, abstract)
+    //    /// Return text part concerning Classes (class, interface, abstract)
     //    /// </summary>
     //    /// <param name="text">input text to parse</param>
     //    /// <returns></returns>
-    //    public static Tuple<List<ABox>,List<Link>> ExtractAboxes(string text)
+    //    public static Tuple<List<Class>,List<Link>> ExtractClasses(string text)
     //    {
-    //        Tokenizer tokenizer = new Tokenizer(text);
+    //        PCTokenizer PCTokenizer = new PCTokenizer(text);
     //        Token token;
-    //        List<ABox> ABoxes = new List<ABox>();
+    //        List<Class> Classes = new List<Class>();
     //        List<Link> links = new List<Link>();
 
     //        do
     //        {
-    //            token = tokenizer.GoToNextToken();
+    //            token = PCTokenizer.GoToNextToken();
     //            if (token.IsKeyword)
     //            {
-    //                ABox box =null;
-    //                bool IsAbox=true;
+    //                Class box =null;
+    //                bool IsClass=true;
 
     //                if(Enum.IsDefined(typeof(FirstLevelKeyword),token.Value))
-    //                    box = new Class(tokenizer.GoToNextToken().Value, new List<Attribute>(), new List<Method>());
+    //                    box = new Class(PCTokenizer.GoToNextToken().Value, new List<Attribute>(), new List<Method>());
     //                //if (token.Value == "Class")
-    //                //    box = new Class(tokenizer.GoToNextToken().Value, new List<Attribute>(), new List<Method>());
+    //                //    box = new Class(PCTokenizer.GoToNextToken().Value, new List<Attribute>(), new List<Method>());
     //                //else if (token.Value == "Interface")
-    //                //    box = new Interface(tokenizer.GoToNextToken().Value, new List<Attribute>(), new List<Method>());
+    //                //    box = new Interface(PCTokenizer.GoToNextToken().Value, new List<Attribute>(), new List<Method>());
     //                //else if (token.Value == "Abstract")
-    //                //    box = new AbstractClass(tokenizer.GoToNextToken().Value, new List<Attribute>(), new List<Method>());
+    //                //    box = new AbstractClass(PCTokenizer.GoToNextToken().Value, new List<Attribute>(), new List<Method>());
     //                else if (token.Value == "Links")
-    //                    IsAbox=false;
+    //                    IsClass=false;
     //                else
     //                    throw new InvalidSyntaxException("Error : " + token.Value + " is not a valid first level keyword.");
 
     //                // Go to first delimiter
     //                do
     //                {
-    //                    token = tokenizer.GoToNextToken();
+    //                    token = PCTokenizer.GoToNextToken();
     //                } while (token.IsDelimiter);
 
     //                string stringData = "";
@@ -167,31 +166,31 @@ namespace ITI.Text2UML
     //                while (token.Type != TokenType.Delimiter)
     //                {
     //                    stringData += token.Value + " ";
-    //                    token = tokenizer.GoToNextToken();
+    //                    token = PCTokenizer.GoToNextToken();
     //                }
 
-    //                if (IsAbox)
-    //                    ABoxes.Add(FillAboxFromDataString(box, stringData));
+    //                if (IsClass)
+    //                    Classes.Add(FillClassFromDataString(box, stringData));
     //                else
     //                    links = Links(stringData);
     //            }
 
     //        } while (token.Type != TokenType.EoF);
 
-    //        return Tuple.Create(ABoxes,links);
+    //        return Tuple.Create(Classes,links);
     //    }
 
-    //    private static ABox FillAboxFromDataString(ABox aBox, string dataString)
+    //    private static Class FillClassFromDataString(Class Class, string dataString)
     //    {
 
 
 
-    //        Tokenizer tokenizer = new Tokenizer(dataString);
+    //        PCTokenizer PCTokenizer = new PCTokenizer(dataString);
     //        Token token;
     //        bool isAttributesCurrentSection = true;
     //        do
     //        {
-    //            token = tokenizer.GoToNextToken();
+    //            token = PCTokenizer.GoToNextToken();
     //            if (token.IsEoL)
     //            {
     //                continue;
@@ -208,7 +207,7 @@ namespace ITI.Text2UML
     //            else if (token.IsOther)
     //            {
     //                if (isAttributesCurrentSection)
-    //                    aBox.Attributes.Add(new Attribute(token.Value, tokenizer.GoToNextToken().Value));
+    //                    Class.Attributes.Add(new Attribute(token.Value, PCTokenizer.GoToNextToken().Value));
     //                else
     //                {
     //                    Method m = new Method();
@@ -216,7 +215,7 @@ namespace ITI.Text2UML
     //                    string str ="";
     //                    while(!token.Value.Contains(")"))
     //                    {
-    //                        token = tokenizer.GoToNextToken();
+    //                        token = PCTokenizer.GoToNextToken();
     //                        str += token.Value;
     //                    }
 
@@ -224,7 +223,7 @@ namespace ITI.Text2UML
     //                    m.Name = data[0];
     //                    data.RemoveAt(0);
     //                    m.ParamTypes = data;
-    //                    aBox.Methods.Add(m);
+    //                    Class.Methods.Add(m);
     //                }
     //            }
 
@@ -232,12 +231,12 @@ namespace ITI.Text2UML
 
 
 
-    //        return aBox;
+    //        return Class;
     //    }
 
     //    private static List<Link> Links(string dataString)
     //    {
-    //        Tokenizer tokenizer = new Tokenizer(dataString);
+    //        PCTokenizer PCTokenizer = new PCTokenizer(dataString);
     //        Token token;
             
     //        bool newLine = true;
@@ -249,7 +248,7 @@ namespace ITI.Text2UML
     //        do
     //        {
  
-    //            token = tokenizer.GoToNextToken();
+    //            token = PCTokenizer.GoToNextToken();
     //            if (token.IsEoL)
     //            {
     //                newLine=true;
@@ -302,10 +301,10 @@ namespace ITI.Text2UML
     //    /// </summary>
     //    /// <param name="links"></param>
     //    /// <param name="boxes"></param>
-    //    public static void ReportDeadLinks(List<Link> links, List<ABox> boxes)
+    //    public static void ReportDeadLinks(List<Link> links, List<Class> boxes)
     //    {
     //        List<string> boxNames = new List<string>();
-    //        foreach (ABox box in boxes)
+    //        foreach (Class box in boxes)
     //        {
     //            boxNames.Add(box.Name);
     //        }

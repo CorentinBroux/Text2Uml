@@ -69,7 +69,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 {
                     return SimpleAction(tuples);
                 }
-                
+
             return "Unknown";
         }
 
@@ -87,9 +87,9 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 tuples.RemoveAt(0);
 
             int i = tuples.Count - 1;
-            while(i !=0 )
+            while (i != 0)
             {
-                if(tuples[i].Item1 == "DT")
+                if (tuples[i].Item1 == "DT")
                 {
                     tuples.RemoveAt(i);
                     i--;
@@ -136,7 +136,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             {
                 if (t.Item1.StartsWith("NN"))
                 {
-                    if(isFirstName == true)
+                    if (isFirstName == true)
                     {
                         name1 = t.Item2;
                         isFirstName = false;
@@ -150,7 +150,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     }
                 }
 
-                if(t.Item1.StartsWith("JJ"))
+                if (t.Item1.StartsWith("JJ"))
                 {
                     if (isFirstName == true)
                         builder.AppendFormat("thing{0} {1} ", j, t.Item2);

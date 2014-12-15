@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ITI.Text2UML;
+using ITI.Text2UML.Model;
 using System.IO;
 
 namespace Text2UML
@@ -32,17 +33,16 @@ namespace Text2UML
             // Initialize WinForms PropertyGrid
             propertyGridHost.Child = myform;
 
-            System.Windows.MessageBox.Show(Tokenizer.DumpTokens("this sentence {is } -> (useless)"));
+            System.Windows.MessageBox.Show(PCTokenizer.DumpTokens("this sentence {is } -> (useless)"));
 
         }
 
         private void BT_Process_PC_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            
             try
             {
-                Tuple<List<ABox>, List<Link>> tuple = Parser.Parse(Formatter.FormatForTokenization(TB_PseudoCode.Text));
-                List<ABox> boxes = tuple.Item1;
+                Tuple<List<Class>, List<Link>> tuple = Parser.Parse(Formatter.FormatForTokenization(TB_PseudoCode.Text));
+                List<Class> boxes = tuple.Item1;
                 List<Link> links = tuple.Item2;
                 //Parser.ReportDeadLinks(links, boxes);
                 Parser.AddLinksToBoxes(links, boxes);
@@ -55,10 +55,6 @@ namespace Text2UML
             {
                 System.Windows.MessageBox.Show(ex.Message,"Error",MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
-
-
-
         }
 
         public MainWindow getThis()

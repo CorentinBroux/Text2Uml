@@ -22,7 +22,7 @@ namespace ITI.Text2UML
     }
 
 
-    public interface ITokenizer
+    public interface IPCTokenizer
     {
         TokenType CurrentToken { get; }
 
@@ -32,7 +32,7 @@ namespace ITI.Text2UML
     }
 
 
-    public class Tokenizer : ITokenizer
+    public class PCTokenizer : IPCTokenizer
     {
         // 1. Fields and properties
         string input;
@@ -43,17 +43,17 @@ namespace ITI.Text2UML
         bool IsEnd { get { return currentPos >= maxPos; } }
 
         // 2. Constructors
-        public Tokenizer( string s )
+        public PCTokenizer( string s )
             : this( s, 0, s.Length )
         {
         }
 
-        public Tokenizer( string s, int startIndex )
+        public PCTokenizer( string s, int startIndex )
             : this( s, startIndex, s.Length )
         {
         }
 
-        public Tokenizer( string s, int startIndex, int count )
+        public PCTokenizer( string s, int startIndex, int count )
         {
             currentToken = TokenType.None;
             input = s;
@@ -128,18 +128,18 @@ namespace ITI.Text2UML
                         break;
                     default:
                         {
-                            if (Char.IsLetter(c))
+                            if (Char.IsLetter(c) || Char.IsDigit(c))
                             {
                                 currentToken = TokenType.Word;
                                 StringBuilder builder = new StringBuilder();
                                 builder.Append(c);
-                                while (!IsEnd && Char.IsLetter(c = GetCurrentChar()))
+                                while (!IsEnd && (Char.IsLetter(c = GetCurrentChar()) || Char.IsDigit(c)))
                                 {
                                     builder.Append(c);
                                     MoveNext();
                                 }
                                 WordValue = builder.ToString();
-                                if (Grammar.Keywords.Contains(WordValue))
+                                if (PCGrammar.Keywords.Contains(WordValue))
                                     currentToken = TokenType.Keyword;
                             }
                             else if (c == '-')
@@ -153,7 +153,7 @@ namespace ITI.Text2UML
                                     MoveNext();
                                 }
                                 WordValue = builder.ToString();
-                                if (!Grammar.Links.Contains(WordValue))
+                                if (!PCGrammar.Links.Contains(WordValue))
                                     currentToken = TokenType.Error;
                             }
                             else currentToken = TokenType.Error;
@@ -168,7 +168,7 @@ namespace ITI.Text2UML
             {
                 StringBuilder builder = new StringBuilder();
                 builder.AppendFormat("Tokens in '{0}': ", s);
-                Tokenizer p = new Tokenizer(s);
+                PCTokenizer p = new PCTokenizer(s);
                 while (p.GetNextToken() != TokenType.EndOfInput)
                 {
                     builder.Append(p.CurrentToken);
@@ -239,7 +239,7 @@ namespace ITI.Text2UML
     //    #endregion
 
     //}
-    //public class Tokenizer
+    //public class PCTokenizer
     //{
     //    #region Fields and properties        
     //    private static List<char> endOfLineDelimiters = new List<char>() { '\n', '\r' };
@@ -259,7 +259,7 @@ namespace ITI.Text2UML
 
 
     //    #region Constructors
-    //    public Tokenizer(string text = "")
+    //    public PCTokenizer(string text = "")
     //    {
     //        Text = text;
     //    }

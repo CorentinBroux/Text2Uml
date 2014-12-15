@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ITI.Text2UML
+namespace ITI.Text2UML.Model
 {
     public class ABox
     {
@@ -13,11 +13,11 @@ namespace ITI.Text2UML
         public List<Attribute> Attributes { get; set; }
         public List<Method> Methods { get; set; }
         public bool IsLinked { get; set; }
-        public List<ABox> Linked { get; set; }
+        public List<Class> Linked { get; set; }
         #endregion
 
         #region Constructors
-        public ABox(string name="")
+        public ABox(string name = "")
         {
             Name = name;
         }

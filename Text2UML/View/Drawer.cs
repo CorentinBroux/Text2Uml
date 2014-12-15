@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Shapes;
 using System.Windows.Media;
 using ITI.Text2UML;
+using ITI.Text2UML.Model;
 
 namespace Text2UML.View
 {
@@ -17,7 +18,7 @@ namespace Text2UML.View
 
  
         // return canvas height
-        public static double DrawBoxes(List<ABox> boxes, Canvas c)
+        public static double DrawBoxes(List<Class> boxes, Canvas c)
         {
             try
             {
@@ -42,7 +43,7 @@ namespace Text2UML.View
                 maxWidth = maxWidth < w ? w : maxWidth;
 
                 // Draw  boxes
-                foreach (ABox box in boxes)
+                foreach (Class box in boxes)
                 {
                     b = DrawBorder(box, c, (int)w + 50, y);
                     b.Measure(new System.Windows.Size(double.PositiveInfinity, double.PositiveInfinity));
@@ -75,7 +76,7 @@ namespace Text2UML.View
             }
             
         }
-        public static Border DrawBorder(ABox box, Canvas c, int x, int y)
+        public static Border DrawBorder(ITI.Text2UML.Model.Class box, Canvas c, int x, int y)
         {
             // 1. Create the border
             Border b = new Border();
@@ -105,7 +106,7 @@ namespace Text2UML.View
 
             StackPanel attributesSP = new StackPanel();
 
-            foreach (ITI.Text2UML.Attribute a in box.Attributes)
+            foreach (ITI.Text2UML.Model.Attribute a in box.Attributes)
             {
                 Label at1 = new Label()
                 {

@@ -12,6 +12,7 @@ using Dataweb.NShape.Advanced;
 using Dataweb.NShape.GeneralShapes;
 using System.IO;
 using ITI.Text2UML;
+using ITI.Text2UML.Model;
 using Dataweb.NShape.SoftwareArchitectureShapes;
 
 namespace Text2UML
@@ -50,7 +51,7 @@ namespace Text2UML
         }
 
 
-        public void DrawBoxes(List<ABox> boxes)
+        public void DrawBoxes(List<ITI.Text2UML.Model.Class> boxes)
         {
             const int X = 800; // DEBUG value
 
@@ -62,7 +63,7 @@ namespace Text2UML
 
             // Draw boxes
             int x = 120, y = 100;
-            foreach (ABox box in boxes)
+            foreach (ITI.Text2UML.Model.Class box in boxes)
             {
                 if (x > X)
                 {
@@ -91,7 +92,7 @@ namespace Text2UML
                 
                 if (box.IsLinked == true)
                 {
-                    foreach (ABox b in box.Linked)
+                    foreach (Class b in box.Linked)
                     {
                         bool drawed = false;
                         Shape sh2=null;
@@ -123,7 +124,7 @@ namespace Text2UML
             }
         }
 
-        private Shape DrawSingleEntity(ABox box, int x, int y, ref Size size)
+        private Shape DrawSingleEntity(ITI.Text2UML.Model.Class box, int x, int y, ref Size size)
         {
             // Draw the box
             ClassSymbol myShape2 = (ClassSymbol)this.project1.ShapeTypes["ClassSymbol"].CreateInstance();
@@ -142,12 +143,12 @@ namespace Text2UML
 
             // Set string
             string s = "";
-            foreach (ITI.Text2UML.Attribute att in box.Attributes)
+            foreach (ITI.Text2UML.Model.Attribute att in box.Attributes)
             {
                 myShape2.AddColumn("\n\t" + att.Type + " " + att.Name);
             }
             s += "\n_______________";
-            foreach (ITI.Text2UML.Method met in box.Methods)
+            foreach (ITI.Text2UML.Model.Method met in box.Methods)
             {
                 s += "\n\t" + met.ReturnType + " " + met.Name + "(";
                 foreach (string str in met.ParamTypes)
@@ -163,18 +164,18 @@ namespace Text2UML
             return myShape2;
         }
 
-        private Shape DrawSingleBox(ABox box, int x, int y, ref Size size)
+        private Shape DrawSingleBox(ITI.Text2UML.Model.Class box, int x, int y, ref Size size)
         {
 
             // Generate string
             string s = box.Name + "\n_______________";
 
-            foreach (ITI.Text2UML.Attribute att in box.Attributes)
+            foreach (ITI.Text2UML.Model.Attribute att in box.Attributes)
             {
                 s += "\n\t" + att.Type + " " + att.Name;
             }
             s += "\n_______________";
-            foreach (ITI.Text2UML.Method met in box.Methods)
+            foreach (ITI.Text2UML.Model.Method met in box.Methods)
             {
                 s += "\n\t" + met.ReturnType + " " + met.Name + "(";
                 foreach (string str in met.ParamTypes)
