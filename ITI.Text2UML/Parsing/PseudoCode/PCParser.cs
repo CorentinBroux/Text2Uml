@@ -11,10 +11,12 @@ namespace ITI.Text2UML
     {
         public static Tuple<List<Class>, List<Link>> Parse(string input)
         {
+            
             // Initialize PCTokenizer and lists
             PCTokenizer PCTokenizer = new PCTokenizer(input);
             List<Class> boxes = new List<Class>();
             List<Link> links = new List<Link>();
+            List<string> boxNames = new List<string>(); // Not include "Unnamed" boxes
 
             TokenType token = PCTokenizer.GetNextToken();
             // Tokenize and parse
@@ -28,7 +30,22 @@ namespace ITI.Text2UML
                     boxes.Last().Methods = new List<Method>();
                     token = PCTokenizer.GetNextToken();
                     if (token == TokenType.Word)
+                    {
                         boxes.Last().Name = PCTokenizer.WordValue;
+                        
+                        if (boxNames.Contains(PCTokenizer.WordValue))
+                        {
+                            boxes.Remove(boxes.Last());
+                            Class item = boxes.FirstOrDefault(o => o.Name == PCTokenizer.WordValue);
+                            boxes.Remove(item);
+                            boxes.Add(item);
+                        }
+                        else
+                        {
+                            boxNames.Add(PCTokenizer.WordValue);
+                        }
+                    }
+                        
                     
                     
                     token = PCTokenizer.GetNextToken();

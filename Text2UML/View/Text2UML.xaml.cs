@@ -41,8 +41,7 @@ namespace Text2UML
             
             // Initialize WinForms PropertyGrid
             propertyGridHost.Child = myform;
-            //TB_PseudoCode.Text = NLParser.Parse(StanfordParser.Parse("A cat is an animal"));
-            TB_PseudoCode.Text = NLParser.Parse(TEST("A cat is an animal"));
+            //TB_PseudoCode.Text = NLParser.Parse(TEST("A cat is an animal"));
 
         }
 
@@ -87,6 +86,11 @@ namespace Text2UML
 
         private void BT_Process_PC_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            GenerateUML();
+        }
+
+        private void GenerateUML()
+        {
             try
             {
                 Tuple<List<Class>, List<Link>> tuple = Parser.Parse(Formatter.FormatForTokenization(TB_PseudoCode.Text));
@@ -101,7 +105,7 @@ namespace Text2UML
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show(ex.Message,"Error",MessageBoxButton.OK, MessageBoxImage.Error);
+                System.Windows.MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -204,6 +208,17 @@ namespace Text2UML
         private void SaveCanvasAsImage()
         {
             myform.SaveDiagramAsImage();
+        }
+
+        private void BT_Process_NL_Click(object sender, RoutedEventArgs e)
+        {
+            char[] sentenceSeparators = { '.' };
+            List<string> input = TB_NativeLanguage.Text.Split(sentenceSeparators,StringSplitOptions.RemoveEmptyEntries).ToList();
+            string output = "";
+            foreach(string s in input)
+                output += NLParser.Parse(TEST(s)) + " ";
+            TB_PseudoCode.Text = output;
+            GenerateUML();
         }
     }
 
