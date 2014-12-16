@@ -137,7 +137,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Formatter.cs" />
     <Compile Include="InvalidSyntaxException.cs" />
     <Compile Include="Model\ABox.cs" />
     <Compile Include="Model\Attribute.cs" />

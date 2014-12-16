@@ -10,7 +10,17 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 {
     public static class NLParser
     {
+        /// <summary>
+        /// Counter for unknown types (named 'thing1', 'thing2'...)
+        /// </summary>
         public static int j = 1;
+
+
+        /// <summary>
+        /// Gets lower tokens in the Stanford parser tree
+        /// </summary>
+        /// <param name="input">Input string from Standford parser tree</param>
+        /// <returns>List of Tuple<string,string> where the Item1 is the Penn Treebank P.O.S. Tag <see cref="NLGrammar.Keywords"/> and the Item2 is the word value.</returns>
         public static List<Tuple<string, string>> GetLowLevelTokens(string input)
         {
             // Initialize
@@ -29,6 +39,11 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             return tuples;
         }
 
+        /// <summary>
+        /// Express the content on a List<Tuple<string, string>> in a single string without ends of line.
+        /// </summary>
+        /// <param name="tuples">Input List<Tuple<string, string>> to express.</param>
+        /// <returns></returns>
         static string ExpressInLine(List<Tuple<string, string>> tuples)
         {
             StringBuilder builder = new StringBuilder();
@@ -37,6 +52,11 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             return builder.ToString();
         }
 
+        /// <summary>
+        /// Parse the sentence.
+        /// </summary>
+        /// <param name="input">Single sentence</param>
+        /// <returns>Returns the pseudo code representing the sentence structure and data.</returns>
         public static string Parse(string input)
         {
             // Initialize
@@ -64,26 +84,23 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 {
                     return ComplexDefinition(tuples);
                 }
-                //// Action without complement
-                //else if (Regex.Match(type, "(DT [a-zA-Z]+)* NN[A-Z]* [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+").Success)
-                //{
-                //    return SimpleAction(tuples);
-                //}
                 // Action without complement
                 else if (Regex.Match(type, "(DT [a-zA-Z]+)*( JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)* NN[A-Z]* [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+").Success)
                 {
                     return SimpleAction(tuples);
                 }
 
+            // If not recognized
             return "Unknown";
         }
 
 
         // Specialization
+        
         /// <summary>
-        /// 
+        /// Returns the pseudo code for a simple definition sentence structure (noun verb noun).
         /// </summary>
-        /// <param name="tuples">Only pass List<Tuple<string, string>> tuples if sentence type is SimpleDefinition</param>
+        /// <param name="tuples">List<Tuple<string, string>> representing the sentence. Only pass List<Tuple<string, string>> tuples if sentence type is SimpleDefinition</param>
         static string SimpleDefinition(List<Tuple<string, string>> tuples)
         {
             StringBuilder builder = new StringBuilder();
@@ -112,9 +129,9 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
         }
 
         /// <summary>
-        /// 
+        /// Returns the pseudo code for a complex definition sentence structure (adjectives noun verb adjectives noun).
         /// </summary>
-        /// <param name="tuples">Only pass List<Tuple<string, string>> tuples if sentence type is SimpleDefinition</param>
+        /// <param name="tuples">List<Tuple<string, string>> representing the sentence. Only pass List<Tuple<string, string>> tuples if sentence type is ComplexDefinition</param>
         static string ComplexDefinition(List<Tuple<string, string>> tuples)
         {
             StringBuilder builder = new StringBuilder();
@@ -136,7 +153,6 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
             bool isFirstName = true;
             string name1 = "", name2 = "", verb = "";
-            //int j = 1;
             foreach (Tuple<string, string> t in tuples)
             {
                 if (t.Item1.StartsWith("NN"))
@@ -174,10 +190,11 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
 
         // Action
+        
         /// <summary>
-        /// 
+        /// Returns the pseudo code for a simple action sentence structure (adjectives noun verb).
         /// </summary>
-        /// <param name="tuples">Only pass List<Tuple<string, string>> tuples if sentence type is SimpleAction</param>
+        /// <param name="tuples">List<Tuple<string, string>> representing the sentence. Only pass List<Tuple<string, string>> tuples if sentence type is SimpleAction</param>
         static string SimpleAction(List<Tuple<string, string>> tuples)
         {
             StringBuilder builder = new StringBuilder();
@@ -195,7 +212,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 }
                 i--;
             }// tuples now contains ((JJ* )*NN* VB*)
-            //int j = 1;
+
             foreach (Tuple<string, string> t in tuples)
             {
                 if (t.Item1.StartsWith("NN"))
@@ -212,9 +229,6 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     builder.AppendFormat("void {0}()", t.Item2);
             }
 
-
-
-            //builder.AppendFormat("Class {0} void {1}()", tuples[0].Item2, tuples[1].Item2);
             return builder.ToString();
         }
     }

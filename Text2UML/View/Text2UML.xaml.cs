@@ -47,6 +47,11 @@ namespace Text2UML
 
         }
 
+        /// <summary>
+        /// Parse the sentence into a syntaxic tree.
+        /// </summary>
+        /// <param name="input">Sentence.</param>
+        /// <returns>String representing the syntaxic tree.</returns>
         static string TEST(string input)
         {
             // Path to models extracted from `stanford-parser-3.5.0-models.jar`
@@ -56,11 +61,6 @@ namespace Text2UML
             // Loading english PCFG parser from file
             var lp = LexicalizedParser.loadModel(modelsDirectory + @"\lexparser\englishPCFG.ser.gz");
 
-            // This sample shows parsing a list of correctly tokenized words
-            var sent = new[] { "This", "is", "an", "easy", "sentence", "." };
-            var rawWords = Sentence.toCoreLabelList(sent);
-            var tree = lp.apply(rawWords);
-            tree.pennPrint();
 
             // This option shows loading and using an explicit tokenizer
             var sent2 = input;
@@ -68,22 +68,16 @@ namespace Text2UML
             var sent2Reader = new java.io.StringReader(sent2);
             var rawWords2 = tokenizerFactory.getTokenizer(sent2Reader).tokenize();
             sent2Reader.close();
-            var tree2 = lp.apply(rawWords2);
+            var tree = lp.apply(rawWords2);
 
             // Extract dependencies from lexical tree
             var tlp = new PennTreebankLanguagePack();
             var gsf = tlp.grammaticalStructureFactory();
-            var gs = gsf.newGrammaticalStructure(tree2);
+            var gs = gsf.newGrammaticalStructure(tree);
             var tdl = gs.typedDependenciesCCprocessed();
-            Console.WriteLine("\n{0}\n", tdl);
 
-            // Extract collapsed dependencies from parsed tree
-            var tp = new TreePrint("penn,typedDependenciesCollapsed");
-            tp.printTree(tree2);
-            Console.Read();
-
-
-            return tree2.toString();
+            // Return tree expression
+            return tree.toString();
         }
 
         private void BT_Process_PC_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -95,11 +89,11 @@ namespace Text2UML
         {
             try
             {
-                Tuple<List<Class>, List<Link>> tuple = Parser.Parse(Formatter.FormatForTokenization(TB_PseudoCode.Text));
+                Tuple<List<Class>, List<Link>> tuple = PCParser.Parse(TB_PseudoCode.Text);
                 List<Class> boxes = tuple.Item1;
                 List<Link> links = tuple.Item2;
-                //Parser.ReportDeadLinks(links, boxes);
-                Parser.AddLinksToBoxes(links, boxes);
+                //PCParser.ReportDeadLinks(links, boxes);
+                PCParser.AddLinksToBoxes(links, boxes);
                 myform.DrawBoxes(boxes);
                 double h = View.Drawer.DrawBoxes(boxes, canvas1);
                 canvas1.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));

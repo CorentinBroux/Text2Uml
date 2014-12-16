@@ -7,6 +7,7 @@ using System.Diagnostics;
 
 namespace ITI.Text2UML.Parsing.NaturalLanguage
 {
+    // Defines token types for natural language
     public enum NLTokenType
     {
         None,
@@ -19,17 +20,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
     }
 
 
-    public interface ITokenizer
-    {
-        NLTokenType CurrentToken { get; set; }
-
-        NLTokenType GetNextToken();
-
-        bool Match(NLTokenType t);
-    }
-
-
-    public class NLTokenizer : ITokenizer
+    public class NLTokenizer
     {
         // 1. Fields and properties
         string input;
@@ -38,7 +29,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
         public NLTokenType CurrentToken { get; set; }
         public NLTokenType PreviousToken { get; set; }
         public NLTokenType PrePreviousToken { get; set; }
-        public string WordValue { get; set; }
+        public string CurrentWordValue { get; set; }
         public string PreviousWordValue { get; set; }
         public string PrePreviousWordValue { get; set; }
         bool IsEnd { get { return currentPos >= maxPos; } }
@@ -64,18 +55,30 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
         // 3. Methods
         // 3.1 Char methods
+        
+        /// <summary>
+        /// Gets the current read craracter in the input stream.
+        /// </summary>
+        /// <returns></returns>
         char GetCurrentChar()
         {
             Debug.Assert(!IsEnd);
             return input[currentPos];
         }
 
+        /// <summary>
+        /// Moves to and gets the next character in the input stream.
+        /// </summary>
+        /// <returns></returns>
         char GetNextChar()
         {
             Debug.Assert(!IsEnd);
             return input[currentPos++];
         }
 
+        /// <summary>
+        /// Moves to the next character in the input stream.
+        /// </summary>
         void MoveNext()
         {
             Debug.Assert(!IsEnd);
@@ -84,9 +87,14 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
         // 3.2 Token methods
 
-        public bool Match(NLTokenType t)
+        /// <summary>
+        /// Checks if the current toen mathes a specific type.
+        /// </summary>
+        /// <param name="type">Token type to compare to.</param>
+        /// <returns></returns>
+        public bool Match(NLTokenType type)
         {
-            if (CurrentToken == t)
+            if (CurrentToken == type)
             {
                 GetNextToken();
                 return true;
@@ -94,13 +102,16 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             return false;
         }
 
-
+        /// <summary>
+        /// Gets the next token in the input stream.
+        /// </summary>
+        /// <returns></returns>
         public NLTokenType GetNextToken()
         {
             PrePreviousToken = PreviousToken;
             PreviousToken = CurrentToken;
             PrePreviousWordValue = PreviousWordValue;
-            PreviousWordValue = WordValue;
+            PreviousWordValue = CurrentWordValue;
             
             if (IsEnd)
                 return CurrentToken = NLTokenType.EndOfInput;
@@ -134,8 +145,8 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                                 builder.Append(c);
                                 MoveNext();
                             }
-                            WordValue = builder.ToString();
-                            if (NLGrammar.Keywords.Contains(WordValue))
+                            CurrentWordValue = builder.ToString();
+                            if (NLGrammar.Keywords.Contains(CurrentWordValue))
                                 CurrentToken = NLTokenType.Keyword;
                         }
                         else CurrentToken = NLTokenType.Error;
@@ -144,22 +155,6 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             }
             return CurrentToken;
         }
-
-        // 3.3 Utils
-        static public string DumpTokens(string s)
-        {
-            StringBuilder builder = new StringBuilder();
-            builder.AppendFormat("Tokens in '{0}': ", s);
-            NLTokenizer p = new NLTokenizer(s);
-            while (p.GetNextToken() != NLTokenType.EndOfInput)
-            {
-                builder.Append(p.CurrentToken);
-                builder.Append(", ");
-            }
-            builder.Append("<EOI>");
-            return builder.ToString();
-        }
-
 
 
     }

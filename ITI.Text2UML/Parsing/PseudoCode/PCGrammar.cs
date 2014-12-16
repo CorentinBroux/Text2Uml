@@ -8,7 +8,22 @@ namespace ITI.Text2UML
 {
     public static class PCGrammar
     {
-        public static List<string> Keywords = new List<string>() { "Class", "Interface", "Abstract" };
-        public static List<string> Links = new List<string>() { "->", "-->", "-.>" };
+        /// <summary>
+        /// Lists all pseudo code keywords
+        /// </summary>
+        public static List<string> Keywords = new List<string>() { 
+            "Class",
+            "Interface",
+            "Abstract",
+        };
+
+        /// <summary>
+        /// Lists all pseudo code link symbols
+        /// </summary>
+        public static List<string> Links = new List<string>() { 
+            "->",
+            "-->",
+            "-.>",
+        };
     }
 }

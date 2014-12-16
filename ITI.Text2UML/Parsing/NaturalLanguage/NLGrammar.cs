@@ -8,6 +8,9 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 {
     public static class NLGrammar
     {
+        /// <summary>
+        /// Lists all Penn Treebank P.O.S. Tags
+        /// </summary>
         public static List<string> Keywords = new List<string>() { 
             "CC",   //  Coordinating conjunction
             "CD",   //	Cardinal number
@@ -46,10 +49,27 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             "WP$",  //	Possessive wh-pronoun
             "WRB",  //	Wh-adverb
         };
-        public static List<string> Verb_Be = new List<string>() { "be", "am", "are", "is", "was", "were" };
-        public static List<string> Verb_Have = new List<string>() { "have", "has", "had" };
+        
+        /// <summary>
+        /// Lists all forms of the 'be' auxillary
+        /// </summary>
+        public static List<string> Verb_Be = new List<string>() { 
+            "be",
+            "am",
+            "are",
+            "is",
+            "was",
+            "were",
+        };
 
-
+        /// <summary>
+        /// Lists all forms of the 'have' auxillary
+        /// </summary>
+        public static List<string> Verb_Have = new List<string>() {
+            "have",
+            "has",
+            "had",
+        };
 
 
     }

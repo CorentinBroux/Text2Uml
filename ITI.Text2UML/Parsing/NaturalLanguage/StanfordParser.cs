@@ -10,6 +10,11 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 {
     public class StanfordParser
     {
+        /// <summary>
+        /// NOT WORKING !
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public static string Parse(string input)
         {
             // Path to models extracted from `stanford-parser-3.5.0-models.jar`
