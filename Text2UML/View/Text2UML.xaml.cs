@@ -41,7 +41,9 @@ namespace Text2UML
             
             // Initialize WinForms PropertyGrid
             propertyGridHost.Child = myform;
-            //TB_PseudoCode.Text = NLParser.Parse(TEST("A cat is an animal"));
+            
+            // Parse a sentence to first load StanfordParser and avoid wait times
+            NLParser.Parse(TEST("This is a test."));
 
         }
 
@@ -116,10 +118,10 @@ namespace Text2UML
 
         private void BT_Open_PC_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            LoadPseudoCodeFromFile();
+            LoadPseudoCodeFromFile(true);
         }
 
-        public void LoadPseudoCodeFromFile()
+        public void LoadPseudoCodeFromFile(bool IsPseudoCode)
         {
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
             dlg.FileName = "Document";
@@ -133,7 +135,10 @@ namespace Text2UML
                 string filename = dlg.FileName;
                 using (StreamReader sr = new StreamReader(filename))
                 {
-                    TB_PseudoCode.Text = sr.ReadToEnd();
+                    if (IsPseudoCode == true)
+                        TB_PseudoCode.Text = sr.ReadToEnd();
+                    else
+                        TB_NativeLanguage.Text = sr.ReadToEnd();
                 }
             }
         }
@@ -212,13 +217,29 @@ namespace Text2UML
 
         private void BT_Process_NL_Click(object sender, RoutedEventArgs e)
         {
-            char[] sentenceSeparators = { '.' };
+            char[] sentenceSeparators = { '.','!','?' };
             List<string> input = TB_NativeLanguage.Text.Split(sentenceSeparators,StringSplitOptions.RemoveEmptyEntries).ToList();
             string output = "";
-            foreach(string s in input)
-                output += NLParser.Parse(TEST(s)) + " ";
+            string error = "";
+            NLParser.j = 1;
+            foreach (string s in input)
+            {
+                string str = NLParser.Parse(TEST(s));
+                if (str != "Unknown")
+                    output += str + " ";
+                else
+                    error += String.Format("Unknown structure :\n{0}\n\n", s);
+            }
+            if (error.Length > 0)
+                System.Windows.MessageBox.Show(String.Format("Some sentences may not have been parsed !\n\n{0}", error), "Parsing error");
             TB_PseudoCode.Text = output;
-            GenerateUML();
+            if(output.Length > 0)
+                GenerateUML();
+        }
+
+        private void BT_Open_NL_Click(object sender, RoutedEventArgs e)
+        {
+            LoadPseudoCodeFromFile(false);
         }
     }
 

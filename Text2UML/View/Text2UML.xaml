@@ -89,7 +89,7 @@
 							<TextBox x:Name="TB_NativeLanguage" AcceptsReturn="True" AcceptsTab="True" Grid.Row="0" TextWrapping="Wrap" Text="Write native text here" Margin="5" VerticalScrollBarVisibility="Auto"/>
                             <StackPanel Orientation="Horizontal" Grid.Row="1">
 								<Button x:Name="BT_Process_NL" Content="Process" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="5,0,0,0" Click="BT_Process_NL_Click"/>
-								<Button x:Name="BT_Open_NL" Content="Open file..." HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="5,0,0,0"/>
+								<Button x:Name="BT_Open_NL" Content="Open file..." HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="5,0,0,0" Click="BT_Open_NL_Click"/>
                             </StackPanel>
                         </Grid>
                     </TabItem>

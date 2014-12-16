@@ -10,6 +10,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 {
     public static class NLParser
     {
+        public static int j = 1;
         public static List<Tuple<string, string>> GetLowLevelTokens(string input)
         {
             // Initialize
@@ -41,7 +42,6 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             // Initialize
             List<Tuple<string, string>> tuples = GetLowLevelTokens(input);
             string type = ExpressInLine(tuples);
-
             // Parse
                 // Reverse Definition
                 if (Regex.Match(type, "(DT [a-zA-Z]+)*( JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)* NN[A-Z]* [a-zA-Z]+ MD [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+( DT [a-zA-Z]+)*( JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)* NN[A-Z]* [a-zA-Z]+").Success)
@@ -64,8 +64,13 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 {
                     return ComplexDefinition(tuples);
                 }
+                //// Action without complement
+                //else if (Regex.Match(type, "(DT [a-zA-Z]+)* NN[A-Z]* [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+").Success)
+                //{
+                //    return SimpleAction(tuples);
+                //}
                 // Action without complement
-                else if (Regex.Match(type, "(DT [a-zA-Z]+)* NN[A-Z]* [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+").Success)
+                else if (Regex.Match(type, "(DT [a-zA-Z]+)*( JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)* NN[A-Z]* [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+").Success)
                 {
                     return SimpleAction(tuples);
                 }
@@ -131,7 +136,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
             bool isFirstName = true;
             string name1 = "", name2 = "", verb = "";
-            int j = 1;
+            //int j = 1;
             foreach (Tuple<string, string> t in tuples)
             {
                 if (t.Item1.StartsWith("NN"))
@@ -140,7 +145,6 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     {
                         name1 = t.Item2;
                         isFirstName = false;
-                        j = 1;
                         builder.Insert(0, "Class " + t.Item2 + " ");
                     }
                     else
@@ -190,9 +194,27 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     i--;
                 }
                 i--;
-            }// tuples now contains 2 elements (NN* VB*)
+            }// tuples now contains ((JJ* )*NN* VB*)
+            //int j = 1;
+            foreach (Tuple<string, string> t in tuples)
+            {
+                if (t.Item1.StartsWith("NN"))
+                    builder.Insert(0, "Class " + t.Item2 + " ");
 
-            builder.AppendFormat("Class {0} void {1}()", tuples[0].Item2, tuples[1].Item2);
+                if (t.Item1.StartsWith("JJ"))
+                {
+                    builder.AppendFormat("thing{0} {1} ", j, t.Item2);
+                    j++;
+                }
+                    
+
+                if (t.Item1.StartsWith("VB"))
+                    builder.AppendFormat("void {0}()", t.Item2);
+            }
+
+
+
+            //builder.AppendFormat("Class {0} void {1}()", tuples[0].Item2, tuples[1].Item2);
             return builder.ToString();
         }
     }
