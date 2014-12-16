@@ -92,12 +92,8 @@ namespace Text2UML
                 Tuple<List<Class>, List<Link>> tuple = PCParser.Parse(TB_PseudoCode.Text);
                 List<Class> boxes = tuple.Item1;
                 List<Link> links = tuple.Item2;
-                //PCParser.ReportDeadLinks(links, boxes);
                 PCParser.AddLinksToBoxes(links, boxes);
                 myform.DrawBoxes(boxes);
-                double h = View.Drawer.DrawBoxes(boxes, canvas1);
-                canvas1.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                canvas1.Height = h;
             }
             catch (Exception ex)
             {
