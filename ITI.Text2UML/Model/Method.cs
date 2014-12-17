@@ -36,10 +36,10 @@ namespace ITI.Text2UML.Model
             string par = "";
             foreach (string s in ParamTypes)
             {
-                par += s + ", ";
+                par += s + " ";
             }
-            if(par.EndsWith(", "))
-                par = par.Remove(par.Length - 2, 2);
+            if(par.EndsWith(" "))
+                par = par.Remove(par.Length - 1, 1);
             return String.Format("{0} {1}({2})", ReturnType, Name, par);
         }
 

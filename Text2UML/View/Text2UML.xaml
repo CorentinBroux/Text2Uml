@@ -33,7 +33,10 @@
                     <MenuItem x:Name="submenu_lang_fr" Header="French" Margin="0,0,1,0" IsCheckable="True" IsChecked="False" StaysOpenOnClick="True" Click="submenu_lang_fr_Click"/>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Name="menu_help" Header="?" Height="22"/>
+            <MenuItem Name="menu_help" Header="?" Height="22">
+                <MenuItem x:Name="submenu_help" Header="Help" Margin="0,0,1,0"/>
+                <MenuItem x:Name="submenu_about" Header="About" Margin="0,0,1,0"/>
+            </MenuItem>
         </Menu>
 
 
