@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ITI.Text2UML
+namespace ITI.Text2UML.Parsing.PseudoCode
 {
     public static class PCGrammar
     {

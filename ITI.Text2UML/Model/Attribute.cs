@@ -20,5 +20,19 @@ namespace ITI.Text2UML.Model
             Type = type;
         }
         #endregion
+
+        #region Methods
+        public override string ToString()
+        {
+            return String.Format("{0} {1}", Type, Name);
+        }
+
+        public bool Equals(ITI.Text2UML.Model.Attribute a)
+        {
+            if (this.Name == a.Name && this.Type == a.Type)
+                return true;
+            return false;
+        }
+        #endregion
     }
 }

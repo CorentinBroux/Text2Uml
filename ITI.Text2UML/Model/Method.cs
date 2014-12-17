@@ -29,5 +29,34 @@ namespace ITI.Text2UML.Model
 
         }
         #endregion
+
+        #region Methods
+        public override string ToString()
+        {
+            string par = "";
+            foreach (string s in ParamTypes)
+            {
+                par += s + ", ";
+            }
+            if(par.EndsWith(", "))
+                par = par.Remove(par.Length - 2, 2);
+            return String.Format("{0} {1}({2})", ReturnType, Name, par);
+        }
+
+        public bool Equals(Method m)
+        {
+            if (this.Name == m.Name && this.ReturnType == m.ReturnType && this.ParamTypes.Count == m.ParamTypes.Count)
+            {
+                for (int i = 0; i < this.ParamTypes.Count; i++)
+                {
+                    if (this.ParamTypes[i] != m.ParamTypes[i])
+                        return false;
+                }
+                return true;
+            }
+            return false;
+        }
+
+        #endregion
     }
 }

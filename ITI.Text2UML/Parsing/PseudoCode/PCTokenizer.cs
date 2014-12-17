@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 
-namespace ITI.Text2UML
+namespace ITI.Text2UML.Parsing.PseudoCode
 {
     // Defines token types for pseudo code
     public enum PCTokenType

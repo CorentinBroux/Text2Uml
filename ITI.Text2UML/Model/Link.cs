@@ -31,6 +31,14 @@ namespace ITI.Text2UML.Model
         }
         #endregion
 
+        #region Methods
+
+        public override string ToString()
+        {
+            return String.Format("{0} -> {1}", From, To);
+        }
+        #endregion
+
         #region Static methods
 
         public static LinkTypes GetLinkTypeFromSymbol(string symbol)

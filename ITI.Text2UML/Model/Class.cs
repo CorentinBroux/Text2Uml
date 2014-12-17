@@ -6,8 +6,17 @@ using System.Threading.Tasks;
 
 namespace ITI.Text2UML.Model
 {
-    public class Class : ABox
+    public class Class
     {
+
+        #region Fields and properties
+        public string Name { get; set; }
+        public List<Attribute> Attributes { get; set; }
+        public List<Method> Methods { get; set; }
+        public bool IsLinked { get; set; }
+        public List<Class> Linked { get; set; }
+        #endregion
+
         #region Constructors
         public Class(string name)
         {
@@ -27,6 +36,20 @@ namespace ITI.Text2UML.Model
         }
         #endregion
 
+        #region Methods
+
+        public override string ToString()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.AppendFormat("Class {0}\n", Name);
+            foreach (Attribute a in Attributes)
+                builder.AppendFormat("\t{0}\n", a.ToString());
+            foreach (Method m in Methods)
+                builder.AppendFormat("\t{0}\n", m.ToString());
+            builder.Append("\n");
+            return builder.ToString();
+        }
+        #endregion
 
     }
 }

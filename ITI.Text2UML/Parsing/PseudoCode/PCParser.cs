@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ITI.Text2UML.Model;
 
-namespace ITI.Text2UML
+namespace ITI.Text2UML.Parsing.PseudoCode
 {
     public static class PCParser
     {

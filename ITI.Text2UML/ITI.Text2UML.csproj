@@ -138,7 +138,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InvalidSyntaxException.cs" />
-    <Compile Include="Model\ABox.cs" />
     <Compile Include="Model\Attribute.cs" />
     <Compile Include="Model\Class.cs" />
     <Compile Include="Model\Link.cs" />

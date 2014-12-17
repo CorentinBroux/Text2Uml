@@ -143,6 +143,8 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             int i = tuples.Count - 1;
             while (i != 0)
             {
+                if (i < 0)
+                    break;
                 if (tuples[i].Item1 == "DT")
                 {
                     tuples.RemoveAt(i);
@@ -205,6 +207,8 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             int i = tuples.Count - 1;
             while (i != 0)
             {
+                if (i < 0)
+                    break;
                 if (tuples[i].Item1 == "DT")
                 {
                     tuples.RemoveAt(i);

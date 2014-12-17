@@ -17,6 +17,8 @@ using System.Windows.Shapes;
 using ITI.Text2UML;
 using ITI.Text2UML.Model;
 using ITI.Text2UML.Parsing.NaturalLanguage;
+using ITI.Text2UML.Parsing.PseudoCode;
+using Text2UML.View;
 using System.IO;
 #if DEBUG
 using java.io;
@@ -35,11 +37,8 @@ namespace Text2UML
         public MainWindow()
         {
             InitializeComponent();
-            //Dataweb.NShape.GeneralShapes.NShapeLibraryInitializer.Initialize(null);
 
             myform = new Form1();
-            
-            // Initialize WinForms PropertyGrid
             propertyGridHost.Child = myform;
             
             // Parse a sentence to first load StanfordParser and avoid wait times
@@ -89,6 +88,7 @@ namespace Text2UML
         {
             try
             {
+                TB_PseudoCode.Text = PCFormatter.Format(TB_PseudoCode.Text);
                 Tuple<List<Class>, List<Link>> tuple = PCParser.Parse(TB_PseudoCode.Text);
                 List<Class> boxes = tuple.Item1;
                 List<Link> links = tuple.Item2;
