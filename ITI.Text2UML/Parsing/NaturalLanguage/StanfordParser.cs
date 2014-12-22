@@ -4,54 +4,43 @@ using edu.stanford.nlp.ling;
 using edu.stanford.nlp.trees;
 using edu.stanford.nlp.parser.lexparser;
 using Console = System.Console;
-
+using System.IO;
 
 namespace ITI.Text2UML.Parsing.NaturalLanguage
 {
     public class StanfordParser
     {
+        // Path to models extracted from `stanford-parser-3.5.0-models.jar`
+        public static string jarRoot = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName + @"\ThirdParty\stanford-parser-full-2014-10-31";
+        public static string modelsDirectory = jarRoot + @"\edu\stanford\nlp\models";
+
+        // Loading english PCFG parser from file
+        public static LexicalizedParser lp = LexicalizedParser.loadModel(modelsDirectory + @"\lexparser\englishPCFG.ser.gz");
+
         /// <summary>
-        /// NOT WORKING !
+        /// Parse the sentence into a syntaxic tree.
         /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        public static string Parse(string input)
+        /// <param name="input">Sentence.</param>
+        /// <returns>String representing the syntaxic tree.</returns>
+        public static string Stanford_Parse(string input)
         {
-            // Path to models extracted from `stanford-parser-3.5.0-models.jar`
-            var jarRoot = System.IO.Directory.GetCurrentDirectory() + @"ThirdParty\stanford-parser-full-2014-10-31";
-            var modelsDirectory = jarRoot + @"\edu\stanford\nlp\models";
-
-            // Loading english PCFG parser from file
-            var lp = LexicalizedParser.loadModel(modelsDirectory + @"\lexparser\englishPCFG.ser.gz");
-
-            // This sample shows parsing a list of correctly tokenized words
-            var sent = new[] { "This", "is", "an", "easy", "sentence", "." };
-            var rawWords = Sentence.toCoreLabelList(sent);
-            var tree = lp.apply(rawWords);
-            tree.pennPrint();
 
             // This option shows loading and using an explicit tokenizer
-            var sent2 = "This is another sentence.";
+            var sent2 = input;
             var tokenizerFactory = PTBTokenizer.factory(new CoreLabelTokenFactory(), "");
-            var sent2Reader = new StringReader(sent2);
+            var sent2Reader = new java.io.StringReader(sent2);
             var rawWords2 = tokenizerFactory.getTokenizer(sent2Reader).tokenize();
             sent2Reader.close();
-            var tree2 = lp.apply(rawWords2);
+            var tree = lp.apply(rawWords2);
 
             // Extract dependencies from lexical tree
             var tlp = new PennTreebankLanguagePack();
             var gsf = tlp.grammaticalStructureFactory();
-            var gs = gsf.newGrammaticalStructure(tree2);
+            var gs = gsf.newGrammaticalStructure(tree);
             var tdl = gs.typedDependenciesCCprocessed();
-            Console.WriteLine("\n{0}\n", tdl);
 
-            // Extract collapsed dependencies from parsed tree
-            var tp = new TreePrint("penn,typedDependenciesCollapsed");
-            tp.printTree(tree2);
-            Console.Read();
-
-            
-            return tree2.toString();
+            // Return tree expression
+            return tree.toString();
         }
     }
 }

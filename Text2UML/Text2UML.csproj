@@ -39,37 +39,40 @@
     <ApplicationIcon>logo 1.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dataweb.NShape, Version=2.2.0.7, Culture=neutral, PublicKeyToken=1512080cd664963c, processorArchitecture=MSIL">
+    <Reference Include="Dataweb.NShape, Version=2.2.0.0, Culture=neutral, PublicKeyToken=1512080cd664963c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.dll</HintPath>
+      <HintPath>..\ThirdParty\Dataweb.NShape.dll</HintPath>
     </Reference>
-    <Reference Include="Dataweb.NShape.ElectricalModelObjects, Version=2.2.0.7, Culture=neutral, PublicKeyToken=1512080cd664963c, processorArchitecture=MSIL">
+    <Reference Include="Dataweb.NShape.ElectricalModelObjects, Version=2.2.0.0, Culture=neutral, PublicKeyToken=1512080cd664963c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.ElectricalModelObjects.dll</HintPath>
+      <HintPath>..\ThirdParty\Dataweb.NShape.ElectricalModelObjects.dll</HintPath>
     </Reference>
-    <Reference Include="Dataweb.NShape.ElectricalShapes, Version=2.2.0.7, Culture=neutral, PublicKeyToken=1512080cd664963c, processorArchitecture=MSIL">
+    <Reference Include="Dataweb.NShape.ElectricalShapes, Version=2.2.0.0, Culture=neutral, PublicKeyToken=1512080cd664963c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.ElectricalShapes.dll</HintPath>
+      <HintPath>..\ThirdParty\Dataweb.NShape.ElectricalShapes.dll</HintPath>
     </Reference>
-    <Reference Include="Dataweb.NShape.FlowChartShapes, Version=2.2.0.7, Culture=neutral, PublicKeyToken=1512080cd664963c, processorArchitecture=MSIL">
+    <Reference Include="Dataweb.NShape.FlowChartShapes, Version=2.2.0.0, Culture=neutral, PublicKeyToken=1512080cd664963c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.FlowChartShapes.dll</HintPath>
+      <HintPath>..\ThirdParty\Dataweb.NShape.FlowChartShapes.dll</HintPath>
     </Reference>
-    <Reference Include="Dataweb.NShape.GeneralModelObjects, Version=2.2.0.7, Culture=neutral, PublicKeyToken=1512080cd664963c, processorArchitecture=MSIL">
+    <Reference Include="Dataweb.NShape.GeneralModelObjects, Version=2.2.0.0, Culture=neutral, PublicKeyToken=1512080cd664963c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.GeneralModelObjects.dll</HintPath>
+      <HintPath>..\ThirdParty\Dataweb.NShape.GeneralModelObjects.dll</HintPath>
     </Reference>
-    <Reference Include="Dataweb.NShape.GeneralShapes, Version=2.2.0.7, Culture=neutral, PublicKeyToken=1512080cd664963c, processorArchitecture=MSIL">
+    <Reference Include="Dataweb.NShape.GeneralShapes, Version=2.2.0.0, Culture=neutral, PublicKeyToken=1512080cd664963c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.GeneralShapes.dll</HintPath>
+      <HintPath>..\ThirdParty\Dataweb.NShape.GeneralShapes.dll</HintPath>
     </Reference>
-    <Reference Include="Dataweb.NShape.SoftwareArchitectureShapes, Version=2.2.0.7, Culture=neutral, PublicKeyToken=1512080cd664963c, processorArchitecture=MSIL">
+    <Reference Include="Dataweb.NShape.SoftwareArchitectureShapes, Version=2.2.0.0, Culture=neutral, PublicKeyToken=1512080cd664963c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.SoftwareArchitectureShapes.dll</HintPath>
+      <HintPath>..\ThirdParty\Dataweb.NShape.SoftwareArchitectureShapes.dll</HintPath>
     </Reference>
-    <Reference Include="Dataweb.NShape.WinFormsUI, Version=2.2.0.7, Culture=neutral, PublicKeyToken=1512080cd664963c, processorArchitecture=MSIL">
+    <Reference Include="Dataweb.NShape.WinFormsUI, Version=2.2.0.0, Culture=neutral, PublicKeyToken=1512080cd664963c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\dataweb\NShape\bin\Dataweb.NShape.WinFormsUI.dll</HintPath>
+      <HintPath>..\ThirdParty\Dataweb.NShape.WinFormsUI.dll</HintPath>
+    </Reference>
+    <Reference Include="Dataweb.NShape_Accessor">
+      <HintPath>..\ThirdParty\Dataweb.NShape_Accessor.dll</HintPath>
     </Reference>
     <Reference Include="ejml-0.23, Version=0.23.0.0, Culture=neutral, PublicKeyToken=f2aa5350432048ad, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -177,9 +180,6 @@
     </Reference>
     <Reference Include="NShapeTest">
       <HintPath>..\ThirdParty\NShapeTest.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="stanford-parser, Version=3.5.0.0, Culture=neutral, PublicKeyToken=f2aa5350432048ad, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

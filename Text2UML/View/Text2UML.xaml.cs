@@ -20,14 +20,7 @@ using ITI.Text2UML.Parsing.NaturalLanguage;
 using ITI.Text2UML.Parsing.PseudoCode;
 using Text2UML.View;
 using System.IO;
-#if DEBUG
-using java.io;
-using edu.stanford.nlp.process;
-using edu.stanford.nlp.ling;
-using edu.stanford.nlp.trees;
-using edu.stanford.nlp.parser.lexparser;
-using Console = System.Console;
-#endif
+
 
 namespace Text2UML
 {
@@ -42,45 +35,15 @@ namespace Text2UML
             propertyGridHost.Child = myform;
             
             // Parse a sentence to first load StanfordParser and avoid wait times
-            NLParser.Parse(TEST("This is a test."));
+            NLParser.Parse(StanfordParser.Stanford_Parse("This is a test."));
 
         }
 
-        /// <summary>
-        /// Parse the sentence into a syntaxic tree.
-        /// </summary>
-        /// <param name="input">Sentence.</param>
-        /// <returns>String representing the syntaxic tree.</returns>
-        static string TEST(string input)
-        {
-            // Path to models extracted from `stanford-parser-3.5.0-models.jar`
-            var jarRoot = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName + @"\ThirdParty\stanford-parser-full-2014-10-31";
-            var modelsDirectory = jarRoot + @"\edu\stanford\nlp\models";
-
-            // Loading english PCFG parser from file
-            var lp = LexicalizedParser.loadModel(modelsDirectory + @"\lexparser\englishPCFG.ser.gz");
-
-
-            // This option shows loading and using an explicit tokenizer
-            var sent2 = input;
-            var tokenizerFactory = PTBTokenizer.factory(new CoreLabelTokenFactory(), "");
-            var sent2Reader = new java.io.StringReader(sent2);
-            var rawWords2 = tokenizerFactory.getTokenizer(sent2Reader).tokenize();
-            sent2Reader.close();
-            var tree = lp.apply(rawWords2);
-
-            // Extract dependencies from lexical tree
-            var tlp = new PennTreebankLanguagePack();
-            var gsf = tlp.grammaticalStructureFactory();
-            var gs = gsf.newGrammaticalStructure(tree);
-            var tdl = gs.typedDependenciesCCprocessed();
-
-            // Return tree expression
-            return tree.toString();
-        }
+        
 
         private void BT_Process_PC_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            ITI.Text2UML.Parsing.NaturalLanguage.NLGrammar.Types = new List<Tuple<string, string>>();
             GenerateUML();
         }
 
@@ -216,7 +179,7 @@ namespace Text2UML
             NLParser.j = 1;
             foreach (string s in input)
             {
-                string str = NLParser.Parse(TEST(s));
+                string str = NLParser.Parse(StanfordParser.Stanford_Parse(s));
                 if (str != "Unknown")
                     output += str + " ";
                 else

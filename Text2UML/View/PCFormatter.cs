@@ -26,14 +26,16 @@ namespace Text2UML.View
             // Format classes
             foreach (Class c in tuple.Item1)
             {
-                c.Attributes = c.Attributes.Distinct().ToList();
-                c.Methods = c.Methods.Distinct().ToList();
-
                 // Specify specials types (defined by user input)
                 foreach (ITI.Text2UML.Model.Attribute a in c.Attributes)
                     foreach (Tuple<string, string> t in ITI.Text2UML.Parsing.NaturalLanguage.NLGrammar.Types)
                         if (a.Name.Equals(t.Item1,StringComparison.InvariantCultureIgnoreCase))
                             a.Type = t.Item2;
+
+                //c.Attributes = c.Attributes.Distinct().ToList();
+                //c.Methods = c.Methods.Distinct().ToList();
+                //c.Attributes = RemoveDuplicates(c.Attributes);
+                
 
                 output += c.ToString();
             }
@@ -45,6 +47,16 @@ namespace Text2UML.View
             }
 
             return output;
+        }
+
+
+        private static List<T> RemoveDuplicates<T>(List<T> inputList)
+        {
+            List<T> outputList = new List<T>();
+            foreach (T t in inputList)
+                if (!outputList.Contains(t))
+                    outputList.Add(t);
+            return outputList;
         }
     }
 
