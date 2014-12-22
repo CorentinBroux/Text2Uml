@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<packages>
+<<<<<<< HEAD
+  <package id="IKVM" version="8.0.5449.0" targetFramework="net45" />
+  <package id="Stanford.NLP.Parser" version="3.5.0.0" targetFramework="net45" />
+=======
+  <package id="IKVM" version="8.0.5449.0" targetFramework="net452" />
+  <package id="morelinq" version="1.1.0" targetFramework="net45" />
+  <package id="NUnit" version="2.6.3" targetFramework="net452" />
+  <package id="Stanford.NLP.PCParser" version="3.5.0.0" targetFramework="net452" />
+>>>>>>> 79b15fbe0de8a6ce22d9c462c06a4ea6d3a821fc
+</packages>
