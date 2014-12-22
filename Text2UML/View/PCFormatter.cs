@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ITI.Text2UML.Parsing.PseudoCode;
 using ITI.Text2UML.Model;
-
+using MoreLinq;
 
 namespace Text2UML.View
 {
@@ -26,9 +26,12 @@ namespace Text2UML.View
             // Format classes
             foreach (Class c in tuple.Item1)
             {
-                c.Attributes = c.Attributes.Distinct().ToList();
-                c.Methods = c.Methods.Distinct().ToList();
 
+                //c.Attributes = c.Attributes.Distinct().ToList();
+                c.Attributes = c.Attributes.DistinctBy(x => x.Name).ToList();
+                //c.Methods = c.Methods.Distinct().ToList();
+                c.Methods = c.Methods.DistinctBy(x => x.Name).ToList();
+                
                 // Specify specials types (defined by user input)
                 foreach (ITI.Text2UML.Model.Attribute a in c.Attributes)
                     foreach (Tuple<string, string> t in ITI.Text2UML.Parsing.NaturalLanguage.NLGrammar.Types)
