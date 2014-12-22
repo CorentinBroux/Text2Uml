@@ -54,7 +54,7 @@ namespace Text2UML
         static string TEST(string input)
         {
             // Path to models extracted from `stanford-parser-3.5.0-models.jar`
-            var jarRoot = @"c:\models\stanford-parser-full-2014-10-31";
+            var jarRoot = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName + @"\ThirdParty\stanford-parser-full-2014-10-31";
             var modelsDirectory = jarRoot + @"\edu\stanford\nlp\models";
 
             // Loading english PCFG parser from file
