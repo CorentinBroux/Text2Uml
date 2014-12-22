@@ -64,8 +64,8 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             List<Tuple<string, string>> tuples = GetLowLevelTokens(input);
             string type = ExpressInLine(tuples);
             // Parse
-                // Type definition (X is a type of Y)
-                if (Regex.Match(type, "NN[A-Z]* [a-zA-Z]+ VB[A-Z]* is DT a NN[A-Z]* type IN of NN[A-Z]* [a-zA-Z]+").Success)
+                // Type definition (X is a type of Y || X and Y are types of Z)
+                if (Regex.Match(type, "NN[A-Z]* [a-zA-Z]+ VB[A-Z]* is DT a NN[A-Z]* type IN of NN[A-Z]* [a-zA-Z]+").Success || Regex.Match(type, "(NN[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)+ VB[A-Z]* are NN[A-Z]* types IN of NN[A-Z]* [a-zA-Z]+").Success)
                 {
                     TypeDefinition(tuples);
                     return "";
@@ -152,7 +152,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             {
                 if (i < 0)
                     break;
-                if (tuples[i].Item1 == "DT")
+                if (tuples[i].Item1 == "DT" || tuples[i].Item1 == "CC")
                 {
                     tuples.RemoveAt(i);
                     i--;
@@ -198,16 +198,20 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
         }
 
         /// <summary>
-        /// Fill the 'Types' list with specific types defined by the user input ("X is a type of Y" defines a type 'Y' for each attribute named 'X')
+        /// Fill the 'Types' list with specific types defined by the user input ("X is a type of Y" defines a type 'Y' for each attribute named 'X', "X and Y are types of Z" defines a type 'Z' for each attribute named 'X' or 'Y')
         /// </summary>
         /// <param name="tuples">List<Tuple<string, string>> representing the sentence. Only pass List<Tuple<string, string>> tuples if sentence type is TypeDefinition</param>
         static void TypeDefinition(List<Tuple<string, string>> tuples)
         {
-            string name = tuples.First().Item2;
-            string type = tuples.Last().Item2;
-            NLGrammar.Types.Add(new Tuple<string, string>(name, type));
+            List<string> names = new List<string>();
+            foreach (Tuple<string, string> t in tuples)
+                if (t.Item1.StartsWith("NN"))
+                    names.Add(t.Item2);
+            string type = names.Last();
+            names.Remove(names.Last());
+            foreach(string name in names)
+                NLGrammar.Types.Add(new Tuple<string, string>(name, type));
         }
-
         // Action
         
         /// <summary>
