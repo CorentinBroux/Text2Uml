@@ -18,7 +18,8 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
         public static string Parse(string input)
         {
             // Path to models extracted from `stanford-parser-3.5.0-models.jar`
-            var jarRoot = @"c:\models\stanford-parser-full-2014-10-31";
+            var jarRoot = System.IO.Directory.GetCurrentDirectory() + @"ThirdParty\stanford-parser-full-2014-10-31";
+            //var jarRoot = @"c:\models\stanford-parser-full-2014-10-31";
             var modelsDirectory = jarRoot + @"\edu\stanford\nlp\models";
 
             // Loading english PCFG parser from file
