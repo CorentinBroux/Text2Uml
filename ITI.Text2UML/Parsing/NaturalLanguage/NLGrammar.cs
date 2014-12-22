@@ -72,5 +72,10 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
         };
 
 
+        // Filled with user input
+        public static List<Tuple<string, string>> Types;
+
+
+
     }
 }

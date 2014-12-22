@@ -207,6 +207,8 @@ namespace Text2UML
 
         private void BT_Process_NL_Click(object sender, RoutedEventArgs e)
         {
+            // Reinitialize specialized types
+            NLGrammar.Types = new List<Tuple<string,string>>();
             char[] sentenceSeparators = { '.','!','?' };
             List<string> input = TB_NativeLanguage.Text.Split(sentenceSeparators,StringSplitOptions.RemoveEmptyEntries).ToList();
             string output = "";

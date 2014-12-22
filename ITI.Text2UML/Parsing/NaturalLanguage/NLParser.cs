@@ -49,6 +49,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             StringBuilder builder = new StringBuilder();
             foreach (Tuple<string, string> t in tuples)
                 builder.AppendFormat(" {0} {1}", t.Item1, t.Item2);
+            builder.Remove(0, 1); // Remove first char wich is a blank space
             return builder.ToString();
         }
 
@@ -63,8 +64,14 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             List<Tuple<string, string>> tuples = GetLowLevelTokens(input);
             string type = ExpressInLine(tuples);
             // Parse
+                // Type definition (X is a type of Y)
+                if (Regex.Match(type, "NN[A-Z]* [a-zA-Z]+ VB[A-Z]* is DT a NN[A-Z]* type IN of NN[A-Z]* [a-zA-Z]+").Success)
+                {
+                    TypeDefinition(tuples);
+                    return "";
+                }
                 // Reverse Definition
-                if (Regex.Match(type, "(DT [a-zA-Z]+)*( JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)* NN[A-Z]* [a-zA-Z]+ MD [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+( DT [a-zA-Z]+)*( JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)* NN[A-Z]* [a-zA-Z]+").Success)
+                else if (Regex.Match(type, "(DT [a-zA-Z]+)*( JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)* NN[A-Z]* [a-zA-Z]+ MD [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+( DT [a-zA-Z]+)*( JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)* NN[A-Z]* [a-zA-Z]+").Success)
                 {
                     int i = tuples.Count - 1;
                     while (i != 0)
@@ -190,6 +197,16 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             return builder.ToString();
         }
 
+        /// <summary>
+        /// Fill the 'Types' list with specific types defined by the user input ("X is a type of Y" defines a type 'Y' for each attribute named 'X')
+        /// </summary>
+        /// <param name="tuples">List<Tuple<string, string>> representing the sentence. Only pass List<Tuple<string, string>> tuples if sentence type is TypeDefinition</param>
+        static void TypeDefinition(List<Tuple<string, string>> tuples)
+        {
+            string name = tuples.First().Item2;
+            string type = tuples.Last().Item2;
+            NLGrammar.Types.Add(new Tuple<string, string>(name, type));
+        }
 
         // Action
         
