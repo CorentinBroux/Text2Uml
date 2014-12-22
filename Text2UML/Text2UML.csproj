@@ -179,7 +179,7 @@
       <HintPath>..\packages\IKVM.8.0.5449.0\lib\IKVM.Runtime.JNI.dll</HintPath>
     </Reference>
     <Reference Include="MoreLinq">
-      <HintPath>..\packages\morelinq.1.1.0\lib\net35\MoreLinq.dll</HintPath>
+      <HintPath>..\packages\morelinq.2.0.0-alpha01\lib\net35\MoreLinq.dll</HintPath>
     </Reference>
     <Reference Include="NShapeTest">
       <HintPath>..\ThirdParty\NShapeTest.dll</HintPath>
