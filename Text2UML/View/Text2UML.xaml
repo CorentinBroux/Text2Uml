@@ -89,7 +89,7 @@
                                 <RowDefinition/>
                                 <RowDefinition Height="22"/>
                             </Grid.RowDefinitions>
-							<TextBox x:Name="TB_NativeLanguage" AcceptsReturn="True" AcceptsTab="True" Grid.Row="0" TextWrapping="Wrap" Margin="5" VerticalScrollBarVisibility="Auto"/>
+							<TextBox x:Name="TB_NativeLanguage" AcceptsReturn="True" AcceptsTab="True" Grid.Row="0" TextWrapping="Wrap" Margin="5" VerticalScrollBarVisibility="Auto" KeyUp="TB_NativeLanguage_KeyUp"/>
                             <StackPanel Orientation="Horizontal" Grid.Row="1">
 								<Button x:Name="BT_Process_NL" Content="Process" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="5,0,0,0" Click="BT_Process_NL_Click"/>
 								<Button x:Name="BT_Open_NL" Content="Open file..." HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="5,0,0,0" Click="BT_Open_NL_Click"/>

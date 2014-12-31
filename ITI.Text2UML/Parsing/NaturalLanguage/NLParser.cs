@@ -49,7 +49,8 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             StringBuilder builder = new StringBuilder();
             foreach (Tuple<string, string> t in tuples)
                 builder.AppendFormat(" {0} {1}", t.Item1, t.Item2);
-            builder.Remove(0, 1); // Remove first char wich is a blank space
+            if(builder.Length>0)
+                builder.Remove(0, 1); // Remove first char wich is a blank space
             return builder.ToString();
         }
 

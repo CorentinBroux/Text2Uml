@@ -33,13 +33,13 @@ namespace Text2UML
 
             myform = new Form1();
             propertyGridHost.Child = myform;
-            
+
             // Parse a sentence to first load StanfordParser and avoid wait times
             NLParser.Parse(StanfordParser.Stanford_Parse("This is a test."));
 
         }
 
-        
+
 
         private void BT_Process_PC_Click(object sender, System.Windows.RoutedEventArgs e)
         {
@@ -108,11 +108,12 @@ namespace Text2UML
 
         private void ChangeCheckedLanguage(string To)
         {
-            if(To=="en")
+            if (To == "en")
             {
                 submenu_lang_fr.IsChecked = false;
                 submenu_lang_en.IsChecked = true;
-            }else if (To == "fr")
+            }
+            else if (To == "fr")
             {
                 submenu_lang_en.IsChecked = false;
                 submenu_lang_fr.IsChecked = true;
@@ -170,10 +171,17 @@ namespace Text2UML
 
         private void BT_Process_NL_Click(object sender, RoutedEventArgs e)
         {
+            string msg = NL_Process();
+            if (msg.Length > 0)
+                System.Windows.MessageBox.Show(msg, "Parsing error");
+        }
+
+        private string NL_Process()
+        {
             // Reinitialize specialized types
-            NLGrammar.Types = new List<Tuple<string,string>>();
-            char[] sentenceSeparators = { '.','!','?' };
-            List<string> input = TB_NativeLanguage.Text.Split(sentenceSeparators,StringSplitOptions.RemoveEmptyEntries).ToList();
+            NLGrammar.Types = new List<Tuple<string, string>>();
+            char[] sentenceSeparators = { '.', '!', '?' };
+            List<string> input = TB_NativeLanguage.Text.Split(sentenceSeparators, StringSplitOptions.RemoveEmptyEntries).ToList();
             string output = "";
             string error = "";
             NLParser.j = 1;
@@ -186,17 +194,23 @@ namespace Text2UML
                     error += String.Format("Unknown structure :\n{0}\n\n", s);
             }
             if (error.Length > 0)
-                System.Windows.MessageBox.Show(String.Format("Some sentences may not have been parsed !\n\n{0}", error), "Parsing error");
+                return String.Format("Some sentences may not have been parsed !\n\n{0}", error);
             TB_PseudoCode.Text = output;
-            if(output.Length > 0)
+            if (output.Length > 0)
                 GenerateUML();
+            return "";
         }
 
         private void BT_Open_NL_Click(object sender, RoutedEventArgs e)
         {
             LoadPseudoCodeFromFile(false);
         }
-    }
 
-    
+        private void TB_NativeLanguage_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            NL_Process();
+        }
+
+
+    }
 }
