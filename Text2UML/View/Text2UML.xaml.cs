@@ -204,11 +204,13 @@ namespace Text2UML
         private void BT_Open_NL_Click(object sender, RoutedEventArgs e)
         {
             LoadPseudoCodeFromFile(false);
+            NL_Process();
         }
 
         private void TB_NativeLanguage_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            NL_Process();
+            if(e.Key == Key.Space || e.Key == Key.OemPeriod || e.Key ==  Key.OemComma)
+                NL_Process();
         }
 
 
