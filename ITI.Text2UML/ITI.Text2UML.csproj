@@ -179,6 +179,8 @@
     <Compile Include="Parsing\NaturalLanguage\NLParser.cs" />
     <Compile Include="Parsing\NaturalLanguage\NLTokenizer.cs" />
     <Compile Include="Parsing\NaturalLanguage\StanfordParser.cs" />
+    <Compile Include="Parsing\NaturalLanguage\Tools\Node.cs" />
+    <Compile Include="Parsing\NaturalLanguage\Tools\Tree.cs" />
     <Compile Include="Parsing\PseudoCode\PCGrammar.cs" />
     <Compile Include="Parsing\PseudoCode\PCParser.cs" />
     <Compile Include="Parsing\PseudoCode\PCTokenizer.cs" />

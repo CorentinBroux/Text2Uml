@@ -39,6 +39,10 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             var gs = gsf.newGrammaticalStructure(tree);
             var tdl = gs.typedDependenciesCCprocessed();
 
+
+#if DEBUG
+            var subtree = tree.children();
+#endif
             // Return tree expression
             return tree.toString();
         }

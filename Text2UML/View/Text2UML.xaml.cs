@@ -184,11 +184,14 @@ namespace Text2UML
             // Reinitialize specialized types
             NLGrammar.Types = new List<Tuple<string, string>>();
             char[] sentenceSeparators = { '.', '!', '?' };
-            List<string> input = TB_NativeLanguage.Text.Split(sentenceSeparators, StringSplitOptions.RemoveEmptyEntries).Except(previousSentences).ToList();
-            previousSentences = TB_NativeLanguage.Text.Split(sentenceSeparators, StringSplitOptions.RemoveEmptyEntries).ToList();
+            List<string> input = TB_NativeLanguage.Text.Split(sentenceSeparators, StringSplitOptions.RemoveEmptyEntries).ToList();//.Except(previousSentences).ToList();
+            //previousSentences = TB_NativeLanguage.Text.Split(sentenceSeparators, StringSplitOptions.RemoveEmptyEntries).ToList();
+            //if (input.Count == 0)
+            //    input = previousSentences;
             string output = "";
             string error = "";
             NLParser.j = 1;
+            myform.ResetDiagram();
             foreach (string s in input)
             {
                 string str = NLParser.Parse(StanfordParser.Stanford_Parse(s));
@@ -199,7 +202,7 @@ namespace Text2UML
             }
             if (error.Length > 0)
                 return String.Format("Some sentences may not have been parsed !\n\n{0}", error);
-            TB_PseudoCode.Text += output;
+            TB_PseudoCode.Text = output;
             if (output.Length > 0)
                 GenerateUML();
             return "";

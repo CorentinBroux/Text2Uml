@@ -275,5 +275,10 @@ namespace Text2UML
             layouter.Fit(50, 50, display1.Diagram.Width - 100, display1.Diagram.Height - 100);
         }
 
+        public void ResetDiagram()
+        {
+            diagram.Clear();
+        }
+
     }
 }
