@@ -15,6 +15,7 @@ using ITI.Text2UML;
 using ITI.Text2UML.Model;
 using Dataweb.NShape.SoftwareArchitectureShapes;
 using Dataweb.NShape.Layouters;
+using Dataweb.NShape.Commands;
 
 namespace Text2UML
 {
@@ -240,12 +241,28 @@ namespace Text2UML
             
         }
 
+
+
+        private static void ExecuteLayouter(ILayouter layouter, Int32 timeout)
+        {
+            layouter.Prepare();
+            layouter.SaveState();
+            layouter.Execute(timeout); 
+        }
+
+        private void ExecuteCommand(AggregatedCommand aggregatedCommand, ICommand command)
+        {
+            aggregatedCommand.Add(command);
+            command.Execute();
+        }
+
         public void OrganizeShapes()
         {
             if (display1.Diagram.Shapes.Count == 0)
             {
                 return;
             }
+
 
             // First, place all shapes to the same position
             foreach (Shape s in display1.Diagram.Shapes)
@@ -254,12 +271,26 @@ namespace Text2UML
                 s.Y = 100;
             }
 
+            const int stepTimeout = 10;
+
+            // Aggregated command for executing the 4 layouting steps at once
+            AggregatedCommand aggregatedCommand = new AggregatedCommand(project1.Repository);
+
+            ExpansionLayouter expansionLayouter = new ExpansionLayouter(project1);
+            expansionLayouter.HorizontalCompression = 50;
+            expansionLayouter.VerticalCompression = 80;
+            expansionLayouter.AllShapes = this.display1.Diagram.Shapes;
+            expansionLayouter.Shapes = this.display1.Diagram.Shapes;
+            ExecuteLayouter(expansionLayouter, stepTimeout);
+            ExecuteCommand(aggregatedCommand, expansionLayouter.CreateLayoutCommand());
+
+
             // Create the layouter and set up layout parameters
             RepulsionLayouter layouter = new RepulsionLayouter(project1);
             // Set the repulsion force and its range
             layouter.SpringRate = 9;
             layouter.Repulsion = 10;
-            layouter.RepulsionRange = 400;
+            layouter.RepulsionRange = 330;
             // Set the friction and the mass of the shapes
             layouter.Friction = 10;
             layouter.Mass = 100;
@@ -267,12 +298,31 @@ namespace Text2UML
             layouter.AllShapes = this.display1.Diagram.Shapes;
             // Set shapes that should be layouted
             layouter.Shapes = this.display1.Diagram.Shapes;
+
+            layouter.AllShapes = this.display1.Diagram.Shapes;
+            layouter.Shapes = this.display1.Diagram.Shapes;
+            ExecuteLayouter(layouter, stepTimeout);
+            ExecuteCommand(aggregatedCommand, layouter.CreateLayoutCommand());
             //
             // Now prepare and execute the layouter
-            layouter.Prepare();
-            layouter.Execute(10);
+            //layouter.Prepare();
+            //layouter.Execute(10);
             // Fit the result into the diagram bounds
-            layouter.Fit(50, 50, display1.Diagram.Width - 100, display1.Diagram.Height - 100);
+            //layouter.Fit(50, 50, display1.Diagram.Width - 100, display1.Diagram.Height - 100);
+
+            expansionLayouter.HorizontalCompression = 200;
+            expansionLayouter.VerticalCompression = 200;
+            expansionLayouter.AllShapes = this.display1.Diagram.Shapes;
+            expansionLayouter.Shapes = this.display1.Diagram.Shapes;
+            ExecuteLayouter(expansionLayouter, stepTimeout);
+            ExecuteCommand(aggregatedCommand, expansionLayouter.CreateLayoutCommand());
+
+            // Add aggregated command to the history. 
+            // Do not execute it as each step was executed before.
+            project1.History.AddCommand(aggregatedCommand);
+            
+            expansionLayouter.Fit(50, 50, display1.Diagram.Width - 100, display1.Diagram.Height - 100);
+  
         }
 
         public void ResetDiagram()
