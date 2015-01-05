@@ -130,7 +130,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             if (NLGrammar.Verb_Be.Contains(tuples[1].Item2))
                 builder.AppendFormat("Class {0} Class {1} {0} -> {1}", tuples[0].Item2, tuples[2].Item2);
             else if (NLGrammar.Verb_Have.Contains(tuples[1].Item2))
-                builder.AppendFormat("Class {0} {1} {2} ", tuples[0].Item2, "Object", tuples[2].Item2);
+                builder.AppendFormat("Class {0} {1} {2} {0} --> {2}", tuples[0].Item2, "Object", tuples[2].Item2);
             else
                 builder.AppendFormat("Class {0} void {1}({2})", tuples[0].Item2, tuples[1].Item2, tuples[2].Item2);
             return builder.ToString();
