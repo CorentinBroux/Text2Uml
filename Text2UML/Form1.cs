@@ -242,6 +242,11 @@ namespace Text2UML
 
         public void OrganizeShapes()
         {
+            if (display1.Diagram.Shapes.Count == 0)
+            {
+                return;
+            }
+
             // First, place all shapes to the same position
             foreach (Shape s in display1.Diagram.Shapes)
             {
@@ -252,12 +257,12 @@ namespace Text2UML
             // Create the layouter and set up layout parameters
             RepulsionLayouter layouter = new RepulsionLayouter(project1);
             // Set the repulsion force and its range
-            layouter.SpringRate = 2;
-            layouter.Repulsion = 3;
-            layouter.RepulsionRange = 500;
+            layouter.SpringRate = 9;
+            layouter.Repulsion = 10;
+            layouter.RepulsionRange = 400;
             // Set the friction and the mass of the shapes
-            layouter.Friction = 0;
-            layouter.Mass = 50;
+            layouter.Friction = 10;
+            layouter.Mass = 100;
             // Set all shapes 
             layouter.AllShapes = this.display1.Diagram.Shapes;
             // Set shapes that should be layouted

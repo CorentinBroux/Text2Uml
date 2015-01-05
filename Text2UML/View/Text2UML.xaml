@@ -107,6 +107,7 @@
                             <StackPanel Orientation="Horizontal" Grid.Row="1">
 								<Button x:Name="BT_Process_PC" Content="Process" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="5,0,0,0" Click="BT_Process_PC_Click"/>
 								<Button x:Name="BT_Open_PC" Content="Open file..." HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="5,0,0,0" Click="BT_Open_PC_Click"/>
+                                <Button x:Name="BT_Organize_Shapes_Copy" Content="Organize Shapes" HorizontalAlignment="Left" VerticalAlignment="Top" Width="106" Margin="5,0,0,0" Click="BT_Organize_Shapes_Click"/>
                             </StackPanel>
                         </Grid>
                     </TabItem>
