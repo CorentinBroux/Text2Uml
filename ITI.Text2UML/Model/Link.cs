@@ -35,7 +35,16 @@ namespace ITI.Text2UML.Model
 
         public override string ToString()
         {
-            return String.Format("{0} -> {1}", From, To);
+            switch(Type)
+            {
+                case LinkTypes.Extends:
+                    return String.Format("{0} -> {1}", From, To);
+                case LinkTypes.Includes:
+                    return String.Format("{0} --> {1}", From, To);
+                default:
+                    return String.Format("{0} -> {1}", From, To);
+            }
+                
         }
         #endregion
 
@@ -45,31 +54,13 @@ namespace ITI.Text2UML.Model
         {
             switch (symbol)
             {
-                case "-<>":
-                    return LinkTypes.Extends;
-                case "-<->":
-                    return LinkTypes.Extends;
-                case "->>":
-                    return LinkTypes.Includes;
-                case "-.>":
-                    return LinkTypes.Extends;
-                case "-":
-                    return LinkTypes.Extends;
-                case "-()":
-                    return LinkTypes.Extends;
-                case "-.>>":
-                    return LinkTypes.Extends;
-                case "-(":
-                    return LinkTypes.Extends;
-                case "-<.":
+                case "->":
                     return LinkTypes.Extends;
                 case "-->":
-                    return LinkTypes.Extends;
-                case "-><-":
-                    return LinkTypes.Extends;
+                    return LinkTypes.Includes;
                 default:
                     return LinkTypes.Extends;
-                    //throw new InvalidSyntaxException("Error : unknown link sybol");
+                //throw new InvalidSyntaxException("Error : unknown link sybol");
             }
             
         }

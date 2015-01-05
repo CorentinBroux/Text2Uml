@@ -23,7 +23,6 @@ namespace ITI.Text2UML.Parsing.PseudoCode
         public static List<string> Links = new List<string>() { 
             "->",
             "-->",
-            "-.>",
         };
     }
 }

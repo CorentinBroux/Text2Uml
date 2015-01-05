@@ -173,7 +173,7 @@ namespace Text2UML
 
         private void BT_Process_NL_Click(object sender, RoutedEventArgs e)
         {
-            TB_PseudoCode.Text = "";
+            //TB_PseudoCode.Text = "";
             string msg = NL_Process();
             if (msg.Length > 0)
                 System.Windows.MessageBox.Show(msg, "Parsing error");

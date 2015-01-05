@@ -93,8 +93,9 @@ namespace Text2UML
                 
                 if (box.IsLinked == true)
                 {
-                    foreach (Class b in box.Linked)
+                    foreach (Tuple<Class,LinkTypes> tuple in box.Linked)
                     {
+                        Class b = tuple.Item1;
                         bool drawed = false;
                         Shape sh2=null;
                         foreach (Tuple<Shape,string> t in drawedShapes)
@@ -115,7 +116,10 @@ namespace Text2UML
                             
                         Polyline arrow = (Polyline)project1.ShapeTypes["Polyline"].CreateInstance();
                         diagram.Shapes.Add(arrow);
-                        arrow.EndCapStyle = project1.Design.CapStyles.ClosedArrow;
+                        if (tuple.Item2 == LinkTypes.Extends)
+                            arrow.EndCapStyle = project1.Design.CapStyles.ClosedArrow;
+                        else
+                            arrow.EndCapStyle = project1.Design.CapStyles.OpenArrow;
                         arrow.Connect(ControlPointId.FirstVertex, sh1, ControlPointId.Reference);
                         arrow.Connect(ControlPointId.LastVertex, sh2, ControlPointId.Reference);
                     }
