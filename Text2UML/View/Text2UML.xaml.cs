@@ -27,6 +27,7 @@ namespace Text2UML
     public partial class MainWindow : Window
     {
         Form1 myform;
+        List<string> previousSentences = new List<string>();
         public MainWindow()
         {
             InitializeComponent();
@@ -171,6 +172,7 @@ namespace Text2UML
 
         private void BT_Process_NL_Click(object sender, RoutedEventArgs e)
         {
+            TB_PseudoCode.Text = "";
             string msg = NL_Process();
             if (msg.Length > 0)
                 System.Windows.MessageBox.Show(msg, "Parsing error");
@@ -181,7 +183,8 @@ namespace Text2UML
             // Reinitialize specialized types
             NLGrammar.Types = new List<Tuple<string, string>>();
             char[] sentenceSeparators = { '.', '!', '?' };
-            List<string> input = TB_NativeLanguage.Text.Split(sentenceSeparators, StringSplitOptions.RemoveEmptyEntries).ToList();
+            List<string> input = TB_NativeLanguage.Text.Split(sentenceSeparators, StringSplitOptions.RemoveEmptyEntries).Except(previousSentences).ToList();
+            previousSentences = TB_NativeLanguage.Text.Split(sentenceSeparators, StringSplitOptions.RemoveEmptyEntries).ToList();
             string output = "";
             string error = "";
             NLParser.j = 1;
@@ -195,7 +198,7 @@ namespace Text2UML
             }
             if (error.Length > 0)
                 return String.Format("Some sentences may not have been parsed !\n\n{0}", error);
-            TB_PseudoCode.Text = output;
+            TB_PseudoCode.Text += output;
             if (output.Length > 0)
                 GenerateUML();
             return "";
@@ -211,6 +214,12 @@ namespace Text2UML
         {
             if(e.Key == Key.Space || e.Key == Key.OemPeriod || e.Key ==  Key.OemComma)
                 NL_Process();
+        }
+
+        private void TB_PseudoCode_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            //if (e.Key == Key.Space || e.Key == Key.OemPeriod || e.Key == Key.OemComma || e.Key == Key.Enter)
+            //    GenerateUML();
         }
 
 
