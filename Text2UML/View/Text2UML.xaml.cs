@@ -20,6 +20,7 @@ using ITI.Text2UML.Parsing.NaturalLanguage;
 using ITI.Text2UML.Parsing.PseudoCode;
 using Text2UML.View;
 using System.IO;
+using Dataweb.NShape.Layouters;
 
 
 namespace Text2UML
@@ -220,6 +221,11 @@ namespace Text2UML
         {
             //if (e.Key == Key.Space || e.Key == Key.OemPeriod || e.Key == Key.OemComma || e.Key == Key.Enter)
             //    GenerateUML();
+        }
+
+        private void BT_Organize_Shapes_Click(object sender, RoutedEventArgs e)
+        {
+            myform.OrganizeShapes();
         }
 
 

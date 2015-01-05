@@ -86,8 +86,8 @@ namespace Text2UML
                     Size size1 = new Size();
                     sh1 = DrawSingleBox(box, x, y, ref size1);
                     drawedShapes.Add(Tuple.Create(sh1, box.Name));
-                    //x += size1.Width + 50;
-                    //ymax = size1.Height + 50 > ymax ? size1.Height + 50 : ymax;
+                    x += size1.Width + 50;
+                    ymax = size1.Height + 50 > ymax ? size1.Height + 50 : ymax;
                 }
 
                 
@@ -109,8 +109,8 @@ namespace Text2UML
                             Size size2 = new Size();
                             sh2 = DrawSingleBox(b, x, y, ref size2);
                             drawedShapes.Add(Tuple.Create(sh2, b.Name));
-                            //x += size2.Width + 100;
-                            //ymax = size2.Height + 50 > ymax ? size2.Height + 50 : ymax;
+                            x += size2.Width + 100;
+                            ymax = size2.Height + 50 > ymax ? size2.Height + 50 : ymax;
                         }
                             
                         Polyline arrow = (Polyline)project1.ShapeTypes["Polyline"].CreateInstance();
@@ -123,26 +123,6 @@ namespace Text2UML
                 }
                 
             }
-
-            // Create the layouter and set up layout parameters
-            RepulsionLayouter layouter = new RepulsionLayouter(project1);
-            // Set the repulsion force and its range
-            layouter.SpringRate = 2;
-            layouter.Repulsion = 3;
-            layouter.RepulsionRange = 500;
-            // Set the friction and the mass of the shapes
-            layouter.Friction = 0;
-            layouter.Mass = 50;
-            // Set all shapes 
-            layouter.AllShapes = this.display1.Diagram.Shapes;
-            // Set shapes that should be layouted
-            layouter.Shapes = this.display1.Diagram.Shapes;
-            //
-            // Now prepare and execute the layouter
-            layouter.Prepare();
-            layouter.Execute(10);
-            // Fit the result into the diagram bounds
-            layouter.Fit(50, 50, this.display1.Diagram.Width - 100, this.display1.Diagram.Height - 100);
 
         }
 
@@ -254,6 +234,36 @@ namespace Text2UML
 
             }
             
+        }
+
+        public void OrganizeShapes()
+        {
+            // First, place all shapes to the same position
+            foreach (Shape s in display1.Diagram.Shapes)
+            {
+                s.X = 100;
+                s.Y = 100;
+            }
+
+            // Create the layouter and set up layout parameters
+            RepulsionLayouter layouter = new RepulsionLayouter(project1);
+            // Set the repulsion force and its range
+            layouter.SpringRate = 2;
+            layouter.Repulsion = 3;
+            layouter.RepulsionRange = 500;
+            // Set the friction and the mass of the shapes
+            layouter.Friction = 0;
+            layouter.Mass = 50;
+            // Set all shapes 
+            layouter.AllShapes = this.display1.Diagram.Shapes;
+            // Set shapes that should be layouted
+            layouter.Shapes = this.display1.Diagram.Shapes;
+            //
+            // Now prepare and execute the layouter
+            layouter.Prepare();
+            layouter.Execute(10);
+            // Fit the result into the diagram bounds
+            layouter.Fit(50, 50, display1.Diagram.Width - 100, display1.Diagram.Height - 100);
         }
 
     }
