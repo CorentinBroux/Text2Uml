@@ -213,7 +213,7 @@ namespace Text2UML
 
         private void TB_NativeLanguage_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if(e.Key == Key.Space || e.Key == Key.OemPeriod || e.Key ==  Key.OemComma)
+            if(e.Key == Key.OemPeriod)
                 NL_Process();
         }
 
