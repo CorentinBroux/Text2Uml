@@ -83,19 +83,14 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
         public static List<Tree> structures = new List<Tree>()
         {
-            // Example
+            // Simple sentence
             new Tree(@"(S 
-                        (NP
-                            (VP
-                                (VBZ)
-                                (NP
-                                    (DT)
-                                    (NN)
-                                )
-                            )
-                            (. .)
+                        (NP)
+                        (VP)
+                        (.)
                         )"
                 ),
+            
         };
         #endregion
     }

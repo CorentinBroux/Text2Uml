@@ -176,7 +176,17 @@ namespace Text2UML
             //TB_PseudoCode.Text = "";
             string msg = NL_Process();
             if (msg.Length > 0)
-                System.Windows.MessageBox.Show(msg, "Parsing error");
+            {
+                MessageBoxResult result = System.Windows.MessageBox.Show(msg + "\n\n\nWould you like to define these structures now ?", "Parsing error",MessageBoxButton.YesNo);
+                if(result == MessageBoxResult.Yes)
+                {
+                    Dialog_Structure ds = new Dialog_Structure();
+                    ds.Owner = this;
+                    ds.ShowInTaskbar = false;
+                    ds.ShowDialog();
+                }
+            }
+                
         }
 
         private string NL_Process()

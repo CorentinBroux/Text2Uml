@@ -219,6 +219,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Dialog_Structure.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Text2UML.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -238,6 +242,9 @@
     </Compile>
     <Compile Include="View\Dialog_Open.xaml.cs">
       <DependentUpon>Dialog_Open.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Dialog_Structure.xaml.cs">
+      <DependentUpon>Dialog_Structure.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\PCFormatter.cs" />
     <Compile Include="View\Text2UML.xaml.cs">
