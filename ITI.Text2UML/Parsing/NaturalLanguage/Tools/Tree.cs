@@ -22,9 +22,15 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage.Tools
         {
             Root = root;
         }
+
+        public Tree(string data)
+        {
+            this.Root = NLParser.GetTree(data).Root;
+        }
         #endregion
 
         #region Methods
+
 
         public override bool Equals(object obj)
         {

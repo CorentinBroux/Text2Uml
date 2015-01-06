@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ITI.Text2UML.Parsing.NaturalLanguage.Tools;
 
 namespace ITI.Text2UML.Parsing.NaturalLanguage
 {
     public static class NLGrammar
     {
+        #region Words
         /// <summary>
         /// Lists all Penn Treebank P.O.S. Tags
         /// </summary>
@@ -70,12 +72,31 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             "has",
             "had",
         };
+        #endregion
 
-
+        #region User input
         // Filled with user input
         public static List<Tuple<string, string>> Types;
+        #endregion
 
+        #region Structures
 
-
+        public static List<Tree> structures = new List<Tree>()
+        {
+            // Example
+            new Tree(@"(S 
+                        (NP
+                            (VP
+                                (VBZ)
+                                (NP
+                                    (DT)
+                                    (NN)
+                                )
+                            )
+                            (. .)
+                        )"
+                ),
+        };
+        #endregion
     }
 }

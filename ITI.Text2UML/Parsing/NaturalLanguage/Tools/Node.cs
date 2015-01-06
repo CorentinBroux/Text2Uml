@@ -12,7 +12,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage.Tools
         public string Value { get; set; }
         public Node Parent { get; set; }
         public List<Node> Children { get; set; }
-
+        public int Level { get; set; }
         #endregion
 
         #region Constructors
@@ -20,6 +20,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage.Tools
         public Node()
         {
             Children = new List<Node>();
+            Level = 0;
         }
 
         public Node(string value)
@@ -46,20 +47,30 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage.Tools
         public void SetParent(Node parent)
         {
             Parent = parent;
-            if (!Parent.Children.Contains(parent))
+            if (!Parent.Children.Contains(this))
                 Parent.Children.Add(this);
+            Level = Parent.Level + 1;
         }
 
         public void AddChild(Node child)
         {
-            child.Parent = this;
             Children.Add(child);
+            child.SetParent(this);
         }
 
         public void AddChildren(List<Node> children)
         {
             foreach (Node child in children)
                 AddChild(child);
+        }
+
+        public List<Node> GetAllChildren()
+        {
+            List<Node> nodes = new List<Node>();
+            nodes.AddRange(Children);
+            foreach (Node node in Children)
+                nodes.AddRange(node.GetAllChildren());
+            return nodes;
         }
 
         public override bool Equals(object obj)
