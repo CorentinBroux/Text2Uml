@@ -29,12 +29,25 @@ namespace Text2UML.View
         {
             foreach (string s in sentences)
                 this.list.Items.Add(s);
+            UpdateFields();
         }
 
         private void list_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            UpdateFields();
+        }
+
+        private void UpdateFields()
+        {
             string str = list.SelectedItem != null ? list.SelectedItem.ToString() : "";
+            if (str.Length == 0)
+                return;
             TB_Tree.Text = ITI.Text2UML.Parsing.NaturalLanguage.StanfordParser.Stanford_Parse(str);
+            List<Tuple<string, string>> tuples = ITI.Text2UML.Parsing.NaturalLanguage.NLParser.GetLowLevelTokens(TB_Tree.Text);
+            StringBuilder builder = new StringBuilder();
+            foreach (Tuple<string, string> t in tuples)
+                builder.AppendFormat("{0} {1} ", t.Item1, t.Item2);
+            TB_Regex.Text = builder.ToString().Remove(builder.Length - 1);
         }
 
 
