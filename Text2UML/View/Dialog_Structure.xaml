@@ -3,12 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Unknown structures" Height="500" Width="800" WindowStartupLocation="CenterOwner" Icon="logo 1.png">
     <Grid>
-        <ListBox x:Name="list" HorizontalAlignment="Left" Margin="10,41,0,20" Width="392"/>
+        <ListBox x:Name="list" HorizontalAlignment="Left" Margin="10,41,0,20" Width="392" SelectionChanged="list_SelectionChanged"/>
         <Label Content="Some sentences have an unknown structure" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="309"/>
-        <RadioButton x:Name="radio1" Content="Define a regular expression" VerticalAlignment="Top" IsChecked="True" Margin="407,41,10,0"/>
-        <TextBox x:Name="TB_Regex" Height="30" Margin="407,61,18,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="{Binding IsChecked, ElementName=radio1}"/>
-        <RadioButton x:Name="radio2" Content="Define a tree" VerticalAlignment="Top" Margin="407,110,10,0"/>
-        <TextBox x:Name="TB_Tree" Height="30" Margin="407,130,18,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="{Binding IsChecked, ElementName=radio2}"/>
+        <RadioButton x:Name="radio1" Content="Define a tree" VerticalAlignment="Top" IsChecked="True" Margin="407,41,10,0"/>
+        <TextBox x:Name="TB_Tree" Height="30" Margin="407,61,18,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="{Binding IsChecked, ElementName=radio1}"/>
+        <RadioButton x:Name="radio2" Content="Define a regular expression" VerticalAlignment="Top" Margin="407,110,10,0"/>
+        <TextBox x:Name="TB_Regex" Height="30" Margin="407,130,18,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="{Binding IsChecked, ElementName=radio2}"/>
         <Button Content="Save current structure" HorizontalAlignment="Left" Margin="409,429,0,0" VerticalAlignment="Top" Width="140"/>
         <Button Content="Cancel current structure" HorizontalAlignment="Left" Margin="554,429,0,0" VerticalAlignment="Top" Width="140"/>
         <Button Content="Close" HorizontalAlignment="Left" Margin="699,429,0,0" VerticalAlignment="Top" Width="75"/>

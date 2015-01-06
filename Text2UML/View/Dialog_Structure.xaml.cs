@@ -31,6 +31,12 @@ namespace Text2UML.View
                 this.list.Items.Add(s);
         }
 
+        private void list_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string str = list.SelectedItem != null ? list.SelectedItem.ToString() : "";
+            TB_Tree.Text = ITI.Text2UML.Parsing.NaturalLanguage.StanfordParser.Stanford_Parse(str);
+        }
+
 
     }
 }

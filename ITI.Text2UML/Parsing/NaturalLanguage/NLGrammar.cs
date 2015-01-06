@@ -87,7 +87,6 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             new Tree(@"(S 
                         (NP)
                         (VP)
-                        (.)
                         )"
                 ),
             
