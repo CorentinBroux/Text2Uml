@@ -29,6 +29,7 @@ namespace Text2UML
     {
         Form1 myform;
         List<string> previousSentences = new List<string>();
+        List<string> unknownSentences = new List<string>();
         public MainWindow()
         {
             InitializeComponent();
@@ -177,16 +178,16 @@ namespace Text2UML
             string msg = NL_Process();
             if (msg.Length > 0)
             {
-                MessageBoxResult result = System.Windows.MessageBox.Show(msg + "\n\n\nWould you like to define these structures now ?", "Parsing error",MessageBoxButton.YesNo);
-                if(result == MessageBoxResult.Yes)
+                MessageBoxResult result = System.Windows.MessageBox.Show(msg + "\n\n\nWould you like to define these structures now ?", "Parsing error", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+                if (result == MessageBoxResult.Yes)
                 {
-                    Dialog_Structure ds = new Dialog_Structure();
+                    Dialog_Structure ds = new Dialog_Structure(unknownSentences);
                     ds.Owner = this;
                     ds.ShowInTaskbar = false;
                     ds.ShowDialog();
                 }
             }
-                
+
         }
 
         private string NL_Process()
@@ -202,17 +203,25 @@ namespace Text2UML
             string error = "";
             NLParser.j = 1;
             //myform.ResetDiagram();
+            unknownSentences = new List<string>();
             foreach (string s in input)
             {
                 string str = NLParser.Parse(StanfordParser.Stanford_Parse(s));
                 if (str != "Unknown")
                     output += str + " ";
                 else
+                {
                     error += String.Format("Unknown structure :\n{0}\n\n", s);
+                    unknownSentences.Add(s);
+                }
+
             }
+            if (unknownSentences.Count > 0)
+                LB_Status.Content = String.Format("{0} unknown sentences. Click 'process' for more details.", unknownSentences.Count.ToString());
+            else LB_Status.Content = "";
+            TB_PseudoCode.Text = output;
             if (error.Length > 0)
                 return String.Format("Some sentences may not have been parsed !\n\n{0}", error);
-            TB_PseudoCode.Text = output;
             if (output.Length > 0)
                 GenerateUML();
             return "";

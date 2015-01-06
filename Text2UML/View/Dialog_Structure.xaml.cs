@@ -24,6 +24,13 @@ namespace Text2UML.View
             InitializeComponent();
         }
 
+        public Dialog_Structure(List<string> sentences)
+            : this()
+        {
+            foreach (string s in sentences)
+                this.list.Items.Add(s);
+        }
+
 
     }
 }
