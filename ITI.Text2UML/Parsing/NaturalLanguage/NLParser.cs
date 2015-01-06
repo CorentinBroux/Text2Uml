@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using ITI.Text2UML.Model;
+using ITI.Text2UML.Parsing.NaturalLanguage.Tools;
 
 namespace ITI.Text2UML.Parsing.NaturalLanguage
 {
@@ -40,6 +41,42 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
         }
 
         /// <summary>
+        /// Returns the Tree data structure from the Stanford parser
+        /// </summary>
+        /// <param name="input">Sentence</param>
+        /// <returns>Tree</returns>
+        public static Tree GetTree(string input)
+        {
+            // Initialize
+            NLTokenizer tokenizer = new NLTokenizer(input);
+            Node root = new Node("root");
+            Node currentNode = root;
+            
+            tokenizer.GetNextToken();
+            
+            // Parse
+            while (tokenizer.CurrentToken != NLTokenType.EndOfInput)
+            {
+                if (tokenizer.PreviousToken == NLTokenType.OpenPar)
+                {
+                    if(tokenizer.CurrentWordValue != "ROOT")
+                    {
+                        Node node = new Node(tokenizer.CurrentWordValue);
+                        currentNode.AddChild(node);
+                        currentNode = node;
+                    }
+                    
+                }
+                if (tokenizer.CurrentToken == NLTokenType.ClosePar)
+                    currentNode = currentNode.Parent;
+
+                tokenizer.GetNextToken();
+            }
+            // {(ROOT (S (NP (DT This)) (VP (VBZ is) (NP (DT a) (NN test))) (. .)))}
+            return new Tree(root);
+        }
+
+        /// <summary>
         /// Express the content on a List<Tuple<string, string>> in a single string without ends of line.
         /// </summary>
         /// <param name="tuples">Input List<Tuple<string, string>> to express.</param>
@@ -68,8 +105,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 // Type definition (X is a type of Y || X and Y are types of Z)
                 if (Regex.Match(type, "NN[A-Z]* [a-zA-Z]+ VB[A-Z]* is DT a NN[A-Z]* type IN of NN[A-Z]* [a-zA-Z]+").Success || Regex.Match(type, "(NN[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)+ VB[A-Z]* are NN[A-Z]* types IN of NN[A-Z]* [a-zA-Z]+").Success)
                 {
-                    TypeDefinition(tuples);
-                    return "";
+                    return TypeDefinition(tuples);
                 }
                 // Reverse Definition
                 else if (Regex.Match(type, "(DT [a-zA-Z]+)*( JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)* NN[A-Z]* [a-zA-Z]+ MD [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+( DT [a-zA-Z]+)*( JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)* NN[A-Z]* [a-zA-Z]+").Success)
@@ -202,7 +238,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
         /// Fill the 'Types' list with specific types defined by the user input ("X is a type of Y" defines a type 'Y' for each attribute named 'X', "X and Y are types of Z" defines a type 'Z' for each attribute named 'X' or 'Y')
         /// </summary>
         /// <param name="tuples">List<Tuple<string, string>> representing the sentence. Only pass List<Tuple<string, string>> tuples if sentence type is TypeDefinition</param>
-        static void TypeDefinition(List<Tuple<string, string>> tuples)
+        static string TypeDefinition(List<Tuple<string, string>> tuples)
         {
             List<string> names = new List<string>();
             foreach (Tuple<string, string> t in tuples)
@@ -210,8 +246,13 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     names.Add(t.Item2);
             string type = names.Last();
             names.Remove(names.Last());
-            foreach(string name in names)
+            StringBuilder builder = new StringBuilder();
+            foreach (string name in names)
+            {
                 NLGrammar.Types.Add(new Tuple<string, string>(name, type));
+                builder.AppendFormat(" {0} -> {1}", name.ToLower(), type);
+            }
+            return builder.ToString();
         }
         // Action
         

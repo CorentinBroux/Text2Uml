@@ -191,7 +191,7 @@ namespace Text2UML
             string output = "";
             string error = "";
             NLParser.j = 1;
-            myform.ResetDiagram();
+            //myform.ResetDiagram();
             foreach (string s in input)
             {
                 string str = NLParser.Parse(StanfordParser.Stanford_Parse(s));
@@ -216,7 +216,7 @@ namespace Text2UML
 
         private void TB_NativeLanguage_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if(e.Key == Key.OemPeriod)
+            if (e.Key == Key.Space || e.Key == Key.OemPeriod || e.Key == Key.OemComma || e.Key == Key.Enter)
                 NL_Process();
         }
 

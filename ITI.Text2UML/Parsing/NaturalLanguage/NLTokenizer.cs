@@ -135,7 +135,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     break;
                 default:
                     {
-                        if (Char.IsLetter(c) || Char.IsDigit(c))
+                        if (Char.IsLetter(c) || Char.IsDigit(c) || Char.IsPunctuation(c))
                         {
                             CurrentToken = NLTokenType.Word;
                             StringBuilder builder = new StringBuilder();

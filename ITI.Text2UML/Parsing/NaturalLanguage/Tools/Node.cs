@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace ITI.Text2UML.Parsing.NaturalLanguage.Tools
 {
-    class Node
+    public class Node
     {
         #region Fields and properties
         public string Value { get; set; }
         public Node Parent { get; set; }
         public List<Node> Children { get; set; }
+
         #endregion
 
         #region Constructors
@@ -21,7 +22,8 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage.Tools
             Children = new List<Node>();
         }
 
-        public Node(string value) : this()
+        public Node(string value)
+            : this()
         {
             Value = value;
         }
@@ -29,13 +31,13 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage.Tools
         public Node(string value, Node parent)
             : this(value)
         {
-            Parent = parent;
+            SetParent(parent);
         }
 
         public Node(string value, Node parent, List<Node> children)
             : this(value, parent)
         {
-            Children = children;
+            AddChildren(children);
         }
         #endregion
 
@@ -59,6 +61,24 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage.Tools
             foreach (Node child in children)
                 AddChild(child);
         }
+
+        public override bool Equals(object obj)
+        {
+            Node node = (Node)obj;
+            if (this.Value != node.Value || this.Children.Count != node.Children.Count) return false;
+            for (int i = 0; i < this.Children.Count; i++)
+            {
+                if (!this.Children[i].Equals(node.Children[i]))
+                    return false;
+            }
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Value.GetHashCode();
+        }
+
         #endregion
 
     }

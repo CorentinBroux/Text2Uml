@@ -41,7 +41,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
 
 #if DEBUG
-            var subtree = tree.children();
+            NLParser.GetTree(tree.toString());
 #endif
             // Return tree expression
             return tree.toString();
