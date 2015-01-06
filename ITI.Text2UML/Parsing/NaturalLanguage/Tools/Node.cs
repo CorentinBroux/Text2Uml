@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ITI.Text2UML.Parsing.NaturalLanguage.Tools
 {
+    [Serializable]
     public class Node
     {
         #region Fields and properties

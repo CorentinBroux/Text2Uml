@@ -42,6 +42,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
 #if DEBUG
             Tools.Tree t = NLParser.GetTree(tree.toString());
+            Tools.Tree t2 = t.GetSubTree(1);
             System.Collections.Generic.List<Tools.Node> nodes = NLParser.GetTree(tree.toString()).Root.GetAllChildren();
 #endif
             // Return tree expression
