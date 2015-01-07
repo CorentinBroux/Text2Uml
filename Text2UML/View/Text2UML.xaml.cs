@@ -31,10 +31,11 @@ namespace Text2UML
         Form1 myform;
         List<string> previousSentences = new List<string>();
         List<string> unknownSentences = new List<string>();
+        public static UserStructureSet CurrentUserStructureSet;
         public MainWindow()
         {
             InitializeComponent();
-
+            CurrentUserStructureSet = new UserStructureSet();
             myform = new Form1();
             propertyGridHost.Child = myform;
 
@@ -206,7 +207,7 @@ namespace Text2UML
             unknownSentences = new List<string>();
             foreach (string s in input)
             {
-                string str = NLParser.Parse(StanfordParser.Stanford_Parse(s));
+                string str = NLParser.Parse(StanfordParser.Stanford_Parse(s),CurrentUserStructureSet);
                 if (str != "Unknown")
                     output += str + " ";
                 else
@@ -248,6 +249,11 @@ namespace Text2UML
         private void BT_Organize_Shapes_Click(object sender, RoutedEventArgs e)
         {
             myform.OrganizeShapes();
+        }
+
+        private void BT_LoadStructures_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentUserStructureSet = UserStructureSet.LoadFromFile();
         }
 
 

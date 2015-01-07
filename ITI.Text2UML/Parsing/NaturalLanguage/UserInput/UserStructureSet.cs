@@ -52,11 +52,12 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage.UserInput
 
             if (result == true)
                 using (var ms = new MemoryStream())
+                using (var fs = new FileStream(dlg.FileName, FileMode.Create))
                 {
                     var formatter = new BinaryFormatter();
                     formatter.Serialize(ms, this);
                     ms.Position = 0;
-                    ms.CopyTo(new FileStream(dlg.FileName, FileMode.CreateNew));
+                    ms.CopyTo(fs);
                 }
         }
 
@@ -75,7 +76,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage.UserInput
                     var formatter = new BinaryFormatter();
                     fs.CopyTo(ms);
                     ms.Position = 0;
-                    return (UserStructureSet)formatter.Deserialize(ms);
+                    return (UserStructureSet)formatter.Deserialize(ms); // error if empty file
                 }
             else return null;
         }

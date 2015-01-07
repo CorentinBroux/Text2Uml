@@ -24,7 +24,6 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
         /// <returns>String representing the syntaxic tree.</returns>
         public static string Stanford_Parse(string input)
         {
-
             // This option shows loading and using an explicit tokenizer
             var sent2 = input;
             var tokenizerFactory = PTBTokenizer.factory(new CoreLabelTokenFactory(), "");

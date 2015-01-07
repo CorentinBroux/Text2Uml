@@ -46,6 +46,11 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage.UserInput
         {
             return Input.GetHashCode() * Output.GetHashCode(); // ***************************** ???? 
         }
+
+        public override string ToString()
+        {
+            return String.Format("Structure\n\tType : {0}\n\tInput : {1}\n\tOutput : {2}", Type.ToString(), Input, Output);
+        }
         #endregion
     }
 

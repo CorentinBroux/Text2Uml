@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using ITI.Text2UML.Model;
 using ITI.Text2UML.Parsing.NaturalLanguage.Tools;
+using ITI.Text2UML.Parsing.NaturalLanguage.UserInput;
 
 namespace ITI.Text2UML.Parsing.NaturalLanguage
 {
@@ -96,43 +97,62 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
         /// </summary>
         /// <param name="input">Single sentence</param>
         /// <returns>Returns the pseudo code representing the sentence structure and data.</returns>
-        public static string Parse(string input)
+        public static string Parse(string input, UserStructureSet uss = null)
         {
             // Initialize
             List<Tuple<string, string>> tuples = GetLowLevelTokens(input);
             string type = ExpressInLine(tuples);
             // Parse
-                // Type definition (X is a type of Y || X and Y are types of Z)
-                if (Regex.Match(type, "NN[A-Z]* [a-zA-Z]+ VB[A-Z]* is DT a NN[A-Z]* type IN of NN[A-Z]* [a-zA-Z]+").Success || Regex.Match(type, "(NN[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)+ VB[A-Z]* are NN[A-Z]* types IN of NN[A-Z]* [a-zA-Z]+").Success)
-                {
-                    return TypeDefinition(tuples);
-                }
-                // Reverse Definition
-                else if (Regex.Match(type, "(DT [a-zA-Z]+)*( JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)* NN[A-Z]* [a-zA-Z]+ MD [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+( DT [a-zA-Z]+)*( JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)* NN[A-Z]* [a-zA-Z]+").Success)
-                {
-                    int i = tuples.Count - 1;
-                    while (i != 0)
+
+            //*********************PARSE WITH USER STRUCTURES*********************
+
+            if (uss != null)
+            {
+                foreach (UserStructure s in uss.Structures)
+                    switch(s.Type)
                     {
-                        if (tuples[i].Item1 == "DT" || tuples[i].Item1 == "MD")
-                        {
-                            tuples.RemoveAt(i);
-                            i--;
-                        }
+                        case UserStructureType.ByRegex:
+                            if (Regex.Match(type, s.Input).Success)
+                            return s.Output;
+                            break;
+                        case UserStructureType.ByTree:
+                            break;
+                        default :
+                            break;
+                    }   
+            }
+
+            //********************************************************************
+
+            // Type definition (X is a type of Y || X and Y are types of Z)
+            if (Regex.Match(type, "NN[A-Z]* [a-zA-Z]+ VB[A-Z]* is DT a NN[A-Z]* type IN of NN[A-Z]* [a-zA-Z]+").Success || Regex.Match(type, "(NN[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)+ VB[A-Z]* are NN[A-Z]* types IN of NN[A-Z]* [a-zA-Z]+").Success)
+                return TypeDefinition(tuples);
+            // Reverse Definition
+            else if (Regex.Match(type, "(DT [a-zA-Z]+)*( JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)* NN[A-Z]* [a-zA-Z]+ MD [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+( DT [a-zA-Z]+)*( JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)* NN[A-Z]* [a-zA-Z]+").Success)
+            {
+                int i = tuples.Count - 1;
+                while (i != 0)
+                {
+                    if (tuples[i].Item1 == "DT" || tuples[i].Item1 == "MD")
+                    {
+                        tuples.RemoveAt(i);
                         i--;
-                    }// tuples now contains 3 elements (NN* VB* NN*), but due to the modal, we have to reverse them
-                    tuples.Reverse();
-                    return SimpleDefinition(tuples);
-                }
-                // Definition
-                else if (Regex.Match(type, "(DT [a-zA-Z]+)*( JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)* NN[A-Z]* [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+( DT [a-zA-Z]+)*( JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)* NN[A-Z]* [a-zA-Z]+").Success)
-                {
-                    return ComplexDefinition(tuples);
-                }
-                // Action without complement
-                else if (Regex.Match(type, "(DT [a-zA-Z]+)*( JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)* NN[A-Z]* [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+").Success)
-                {
-                    return SimpleAction(tuples);
-                }
+                    }
+                    i--;
+                }// tuples now contains 3 elements (NN* VB* NN*), but due to the modal, we have to reverse them
+                tuples.Reverse();
+                return SimpleDefinition(tuples);
+            }
+            // Definition
+            else if (Regex.Match(type, "(DT [a-zA-Z]+)*( JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)* NN[A-Z]* [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+( DT [a-zA-Z]+)*( JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)* NN[A-Z]* [a-zA-Z]+").Success)
+            {
+                return ComplexDefinition(tuples);
+            }
+            // Action without complement
+            else if (Regex.Match(type, "(DT [a-zA-Z]+)*( JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)* NN[A-Z]* [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+").Success)
+            {
+                return SimpleAction(tuples);
+            }
 
             // If not recognized
             return "Unknown";
