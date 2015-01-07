@@ -16,6 +16,9 @@ using ITI.Text2UML.Model;
 using Dataweb.NShape.SoftwareArchitectureShapes;
 using Dataweb.NShape.Layouters;
 using Dataweb.NShape.Commands;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml.Linq;
 
 namespace Text2UML
 {
@@ -23,6 +26,9 @@ namespace Text2UML
     {
         Diagram diagram;
         List<Tuple<Shape,string>> drawedShapes = new List<Tuple<Shape,string>>();
+        public List<Class> _boxes;
+        public List<Link> _links;
+
         public Form1()
         {
             InitializeComponent();
@@ -35,6 +41,7 @@ namespace Text2UML
             // Set path to the sample diagram and the diagram file extension
             xmlStore1.DirectoryName = path;
             xmlStore1.FileExtension = "nspj";
+            
             // Set the name of the project that should be loaded from the store
             project1.Name = "Text2UML";
             project1.LibrarySearchPaths.Add(path);
@@ -52,7 +59,7 @@ namespace Text2UML
           
         }
 
-
+        #region Draw Boxes/Entity
         public void DrawBoxes(List<ITI.Text2UML.Model.Class> boxes)
         {
             const int X = 800; // DEBUG value
@@ -67,6 +74,7 @@ namespace Text2UML
             int x = 120, y = 100;
             foreach (ITI.Text2UML.Model.Class box in boxes)
             {
+                
                 if (x > X)
                 {
                     x = 120;
@@ -207,11 +215,11 @@ namespace Text2UML
             this.project1.Repository.Insert((Shape)myShape2, diagram);
             this.project1.Repository.Update();
 
-
+            
             // return the shape
             return myShape2;
         }
-
+        #endregion
 
         private Size MeasureString(string str)
         {
@@ -241,8 +249,97 @@ namespace Text2UML
             
         }
 
+        public void SaveText2UMLProject(string filename, string nativelanguage )
+        {
+            #region _boxes x and y initialize (placement on diagram)
+            foreach (Shape s in diagram.Shapes)
+            {
+                Console.WriteLine(s.GetType().ToString());
+                if (s.GetType().ToString() != "Dataweb.NShape.GeneralShapes.Polyline")
+                {
+                    RectangleBase s2 = (RectangleBase)s;
+                    string name = s2.GetCaptionText(0);
+
+                    // int idx = name.IndexOf
+                    int i = name.IndexOf("\n");
+                    name.Substring(0, i);
+
+                    foreach (ITI.Text2UML.Model.Class box in _boxes)
+                    {
+                        if (name == box.Name)
+                        {
+                            box.x = s.X;
+                            box.y = s.Y;
+                        }
+                    }
+                }
+
+            }
+            #endregion
 
 
+            try
+            {
+                var xEle =  new XElement("Root",
+                    
+                            new XElement("Shapes",
+                            from box in _boxes
+                            select new XElement("Shape",
+                                           new XElement("Name", box.Name),
+
+                                           new XElement("Attributes",
+                                               from att in box.Attributes
+                                                 select new XElement("Attribute",
+                                                     new XElement("Name", att.Name),
+                                                      new XElement("Type", att.Type))),
+
+                                           new XElement("Methods", 
+                                               from met in box.Methods
+                                                 select new XElement("Method",
+                                                     new XElement("Name", met.Name),
+                                                      new XElement("ReturnType", met.ReturnType),
+
+                                                      new XElement("ParamTypes",
+                                                          from param in met.ParamTypes
+                                                            select new XElement("ParamType", param.ToString())))),
+
+                                           new XElement("IsLinked", box.IsLinked),
+
+                                            new XElement("Linked",
+                                               from tup in box.Linked
+                                               select new XElement("Linked",
+                                                   new XElement("ClassName", tup.Item1.Name),
+                                                    new XElement("LinkType", tup.Item2))),
+
+                                            new XElement("x", box.x),
+                                            new XElement("y", box.y)
+                                       )),
+
+                                new XElement("Links",
+                                from link in _links
+                                 select new XElement("Link",
+                                             new XElement("From", link.From),
+                                             new XElement("To", link.To),
+                                             new XElement("Type", link.Type.ToString())
+                                           )),
+                                       
+                                new XElement("NativeLanguage", nativelanguage)
+
+                                       );
+
+                xEle.Save(filename);
+               
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+
+        }
+
+
+        #region Layouter - Shape organizer
         private static void ExecuteLayouter(ILayouter layouter, Int32 timeout)
         {
             layouter.Prepare();
@@ -324,6 +421,7 @@ namespace Text2UML
             expansionLayouter.Fit(50, 50, display1.Diagram.Width - 100, display1.Diagram.Height - 100);
   
         }
+        #endregion
 
         public void ResetDiagram()
         {

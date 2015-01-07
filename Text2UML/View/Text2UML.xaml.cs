@@ -29,6 +29,10 @@ namespace Text2UML
     {
         Form1 myform;
         List<string> previousSentences = new List<string>();
+
+
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -57,6 +61,8 @@ namespace Text2UML
                 Tuple<List<Class>, List<Link>> tuple = PCParser.Parse(TB_PseudoCode.Text);
                 List<Class> boxes = tuple.Item1;
                 List<Link> links = tuple.Item2;
+                myform._boxes = boxes;
+                myform._links = links;
                 PCParser.AddLinksToBoxes(links, boxes);
                 myform.DrawBoxes(boxes);
             }
@@ -150,7 +156,7 @@ namespace Text2UML
         {
             // Configure save file dialog box
             Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
-            dlg.FileName = "Pseudocode";
+            dlg.FileName = "PseudoCode";
             dlg.DefaultExt = ".txt";
             dlg.Filter = "Text documents (.txt)|*.txt";
 
@@ -164,6 +170,44 @@ namespace Text2UML
                 System.IO.File.WriteAllText(dlg.FileName, TB_PseudoCode.Text);
 
             }
+        }
+
+        public void SaveNativeCode()
+        {
+            // Configure save file dialog box
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = "NativeCode";
+            dlg.DefaultExt = ".txt";
+            dlg.Filter = "Text documents (.txt)|*.txt";
+
+            // Show open file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process open file dialog box results 
+            if (result == true)
+            {
+                // Save document 
+                System.IO.File.WriteAllText(dlg.FileName, TB_NativeLanguage.Text);
+                
+            }
+        }
+
+        public void SaveText2UML()
+        {
+            // Configure save file dialog box
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = "Text2UML";
+            dlg.DefaultExt = ".t2u";
+            dlg.Filter = "Text2UML (.t2u)|*.t2u";
+
+            // Show open file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            if (result == true)
+            {
+                myform.SaveText2UMLProject(dlg.FileName, TB_NativeLanguage.Text);
+            }
+
         }
 
         private void SaveCanvasAsImage()

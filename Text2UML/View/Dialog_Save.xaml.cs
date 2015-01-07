@@ -30,5 +30,20 @@ namespace Text2UML.View
             mw.SavePseudoCode();
             this.Close();
         }
+
+        private void Button_save_nativ_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mw = (MainWindow)this.Owner;
+            mw.SaveNativeCode();
+            this.Close();
+        }
+
+        private void bt_save_text2uml_click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mw = (MainWindow)this.Owner;
+            mw.SaveText2UML();
+            this.Close();
+            
+        }
     }
 }

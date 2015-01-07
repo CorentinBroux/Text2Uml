@@ -9,7 +9,7 @@
         <Button HorizontalAlignment="Left" Margin="10,111,0,0" VerticalAlignment="Top" Width="101" Height="40">
             <AccessText TextAlignment="Center" Text="Open Text2UML&#xD;&#xA;save file"/>
         </Button>
-        <Button HorizontalAlignment="Left" Margin="116,111,0,0" VerticalAlignment="Top" Width="101" Height="40">
+        <Button HorizontalAlignment="Left" Margin="116,111,0,0" VerticalAlignment="Top" Width="101" Height="40" Click="bt_open_nativcode_Click">
             <AccessText TextAlignment="Center" Text="Open a native&#xA;language text"/>
         </Button>
         <Button Name="bt_open_pseudocode" HorizontalAlignment="Left" Margin="222,111,0,0" VerticalAlignment="Top" Width="101" Height="40" Click="bt_open_pseudocode_Click">

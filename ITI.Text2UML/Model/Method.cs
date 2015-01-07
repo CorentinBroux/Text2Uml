@@ -12,8 +12,6 @@ namespace ITI.Text2UML.Model
         public string Name { get; set; }
         public string ReturnType { get; set; }
         public List<string> ParamTypes { get; set; }
-        
-
         #endregion
 
         #region Constructors

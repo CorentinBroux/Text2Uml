@@ -33,11 +33,6 @@ namespace Text2UML.View
         {
             //Return = LoadPseudoCode();
             //Type = "ps";
-            LoadPseudoCode();
-        }
-
-        public void LoadPseudoCode()
-        {
 
             // Configure open file dialog box
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
@@ -63,7 +58,34 @@ namespace Text2UML.View
             MW.TB_PseudoCode.CaretIndex = MW.TB_PseudoCode.Text.Length;
             MW.TB_PseudoCode.ScrollToEnd();
             this.Close();
-            
+        }
+
+        private void bt_open_nativcode_Click(object sender, RoutedEventArgs e)
+        {
+            // Configure open file dialog box
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.FileName = "Document"; // Default file name
+            dlg.DefaultExt = ".txt"; // Default file extension
+            dlg.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension 
+
+            // Show open file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process open file dialog box results 
+            if (result == true)
+            {
+                // Open document 
+                string filename = dlg.FileName;
+                using (StreamReader sr = new StreamReader(filename))
+                {
+                    MW.TB_NativeLanguage.Text = sr.ReadToEnd();
+                }
+            }
+
+            MW.pseudocodeTabItem.IsSelected = true;
+            MW.TB_NativeLanguage.CaretIndex = MW.TB_NativeLanguage.Text.Length;
+            MW.TB_NativeLanguage.ScrollToEnd();
+            this.Close();
         }
     }
 }

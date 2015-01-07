@@ -34,6 +34,9 @@
     <ApplicationIcon>logo 1.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dataweb.NShape">
+      <HintPath>..\ThirdParty\Dataweb.NShape.dll</HintPath>
+    </Reference>
     <Reference Include="ejml-0.23, Version=0.23.0.0, Culture=neutral, PublicKeyToken=f2aa5350432048ad, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Stanford.NLP.Parser.3.5.0.0\lib\ejml-0.23.dll</HintPath>
