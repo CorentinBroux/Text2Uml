@@ -27,6 +27,8 @@ namespace ITI.Text2UML.Parsing.PseudoCode
             // Tokenize and parse
             while (PCTokenizer.CurrentToken != PCTokenType.EndOfInput)
             {
+                if (PCTokenizer.CurrentToken == PCTokenType.Error)
+                    PCTokenizer.GetNextToken();
                 token = PCTokenizer.CurrentToken;
                 if (token == PCTokenType.Keyword)
                 {
