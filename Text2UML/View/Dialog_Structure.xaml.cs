@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ITI.Text2UML.Parsing.NaturalLanguage.UserInput;
+using ITI.Text2UML.Model;
+using ITI.Text2UML.Parsing.PseudoCode;
 
 namespace Text2UML.View
 {
@@ -21,9 +23,12 @@ namespace Text2UML.View
     public partial class Dialog_Structure : Window
     {
         UserStructureSet uss;
+        Form1 hostedForm;
         public Dialog_Structure()
         {
             InitializeComponent();
+            hostedForm = new Form1();
+            propertyGridHost.Child = hostedForm;
             uss = new UserStructureSet();
         }
 
@@ -33,6 +38,22 @@ namespace Text2UML.View
             foreach (string s in sentences)
                 this.list.Items.Add(s);
             UpdateFields();
+        }
+
+        private void GenerateUML()
+        {
+            try
+            {
+                Tuple<List<Class>, List<Link>> tuple = PCParser.Parse(TB_PseudoCode.Text);
+                List<Class> boxes = tuple.Item1;
+                List<Link> links = tuple.Item2;
+                PCParser.AddLinksToBoxes(links, boxes);
+                hostedForm.DrawBoxes(boxes);
+            }
+            catch
+            {
+                
+            }
         }
 
         private void list_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -65,6 +86,11 @@ namespace Text2UML.View
             if (uss.Structures.Count > 0)
                 uss.SaveToFile();
             this.Close();
+        }
+
+        private void TB_PseudoCode_KeyUp(object sender, KeyEventArgs e)
+        {
+            GenerateUML();
         }
 
 

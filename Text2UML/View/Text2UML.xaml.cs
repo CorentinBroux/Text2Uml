@@ -52,11 +52,12 @@ namespace Text2UML
             GenerateUML();
         }
 
-        private void GenerateUML()
+        private void GenerateUML(bool warnings = true)
         {
             try
             {
-                TB_PseudoCode.Text = PCFormatter.Format(TB_PseudoCode.Text);
+                if(warnings == true)
+                    TB_PseudoCode.Text = PCFormatter.Format(TB_PseudoCode.Text);
                 Tuple<List<Class>, List<Link>> tuple = PCParser.Parse(TB_PseudoCode.Text);
                 List<Class> boxes = tuple.Item1;
                 List<Link> links = tuple.Item2;
@@ -65,7 +66,8 @@ namespace Text2UML
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                if (warnings == true)
+                    System.Windows.MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -207,7 +209,7 @@ namespace Text2UML
             unknownSentences = new List<string>();
             foreach (string s in input)
             {
-                string str = NLParser.Parse(StanfordParser.Stanford_Parse(s),CurrentUserStructureSet);
+                string str = NLParser.Parse(StanfordParser.Stanford_Parse(s), CurrentUserStructureSet);
                 if (str != "Unknown")
                     output += str + " ";
                 else
@@ -242,8 +244,7 @@ namespace Text2UML
 
         private void TB_PseudoCode_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            //if (e.Key == Key.Space || e.Key == Key.OemPeriod || e.Key == Key.OemComma || e.Key == Key.Enter)
-            //    GenerateUML();
+            GenerateUML(false);
         }
 
         private void BT_Organize_Shapes_Click(object sender, RoutedEventArgs e)
