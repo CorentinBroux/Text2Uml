@@ -9,11 +9,11 @@
         <TextBox x:Name="TB_Tree" Height="30" Margin="407,61,18,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="{Binding IsChecked, ElementName=radio1}"/>
         <RadioButton x:Name="radio2" Content="Define a regular expression" VerticalAlignment="Top" Margin="407,110,10,0"/>
         <TextBox x:Name="TB_Regex" Height="30" Margin="407,130,18,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="{Binding IsChecked, ElementName=radio2}"/>
-        <Button Content="Save current structure" HorizontalAlignment="Left" Margin="409,429,0,0" VerticalAlignment="Top" Width="140"/>
+        <Button Content="Save current structure" HorizontalAlignment="Left" Margin="409,429,0,0" VerticalAlignment="Top" Width="140" Click="Button_Click"/>
         <Button Content="Cancel current structure" HorizontalAlignment="Left" Margin="554,429,0,0" VerticalAlignment="Top" Width="140"/>
-        <Button Content="Close" HorizontalAlignment="Left" Margin="699,429,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="BT_Close" Content="Close" HorizontalAlignment="Left" Margin="699,429,0,0" VerticalAlignment="Top" Width="75" Click="BT_Close_Click"/>
         <Label Content="Wanted pseudo-code" Margin="409,183,18,0" VerticalAlignment="Top"/>
-        <TextBox Margin="407,214,18,45" TextWrapping="Wrap" AcceptsReturn="True"/>
+        <TextBox x:Name="TB_PseudoCode" Margin="407,214,18,45" TextWrapping="Wrap" AcceptsReturn="True"/>
 
     </Grid>
 </Window>

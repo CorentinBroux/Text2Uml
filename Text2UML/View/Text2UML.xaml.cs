@@ -18,6 +18,7 @@ using ITI.Text2UML;
 using ITI.Text2UML.Model;
 using ITI.Text2UML.Parsing.NaturalLanguage;
 using ITI.Text2UML.Parsing.PseudoCode;
+using ITI.Text2UML.Parsing.NaturalLanguage.UserInput;
 using Text2UML.View;
 using System.IO;
 using Dataweb.NShape.Layouters;
@@ -80,7 +81,6 @@ namespace Text2UML
         public void LoadPseudoCodeFromFile(bool IsPseudoCode)
         {
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-            dlg.FileName = "Document";
             dlg.DefaultExt = ".txt";
             dlg.Filter = "Text documents (.txt)|*.txt";
 

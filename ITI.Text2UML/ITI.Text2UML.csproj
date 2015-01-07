@@ -157,6 +157,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NUnit.3.0.0-alpha-3\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework" />
     <Reference Include="stanford-parser, Version=3.5.0.0, Culture=neutral, PublicKeyToken=f2aa5350432048ad, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Stanford.NLP.Parser.3.5.0.0\lib\stanford-parser.dll</HintPath>
@@ -181,6 +182,8 @@
     <Compile Include="Parsing\NaturalLanguage\StanfordParser.cs" />
     <Compile Include="Parsing\NaturalLanguage\Tools\Node.cs" />
     <Compile Include="Parsing\NaturalLanguage\Tools\Tree.cs" />
+    <Compile Include="Parsing\NaturalLanguage\UserInput\UserStructure.cs" />
+    <Compile Include="Parsing\NaturalLanguage\UserInput\UserStructureSet.cs" />
     <Compile Include="Parsing\PseudoCode\PCGrammar.cs" />
     <Compile Include="Parsing\PseudoCode\PCParser.cs" />
     <Compile Include="Parsing\PseudoCode\PCTokenizer.cs" />

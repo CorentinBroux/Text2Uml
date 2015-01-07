@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ITI.Text2UML.Parsing.NaturalLanguage.UserInput;
 
 namespace Text2UML.View
 {
@@ -19,9 +20,11 @@ namespace Text2UML.View
     /// </summary>
     public partial class Dialog_Structure : Window
     {
+        UserStructureSet uss;
         public Dialog_Structure()
         {
             InitializeComponent();
+            uss = new UserStructureSet();
         }
 
         public Dialog_Structure(List<string> sentences)
@@ -48,6 +51,20 @@ namespace Text2UML.View
             foreach (Tuple<string, string> t in tuples)
                 builder.AppendFormat("{0} {1} ", t.Item1, t.Item2);
             TB_Regex.Text = builder.ToString().Remove(builder.Length - 1);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            UserStructureType type = this.radio1.IsChecked == true ? UserStructureType.ByTree : UserStructureType.ByRegex;
+            string input = this.radio1.IsChecked == true ? this.TB_Tree.Text : this.TB_Regex.Text;
+            uss.AddStructure(new UserStructure(type,input,this.TB_PseudoCode.Text));
+        }
+
+        private void BT_Close_Click(object sender, RoutedEventArgs e)
+        {
+            if (uss.Structures.Count > 0)
+                uss.SaveToFile();
+            this.Close();
         }
 
 
