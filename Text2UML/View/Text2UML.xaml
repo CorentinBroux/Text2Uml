@@ -95,7 +95,7 @@
                                 <Button x:Name="BT_Open_NL" Content="Open file..." HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="5,0,0,0" Click="BT_Open_NL_Click"/>
                                 <Button x:Name="BT_Organize_Shapes" Content="Organize Shapes" HorizontalAlignment="Left" VerticalAlignment="Top" Width="106" Margin="5,0,0,0" Click="BT_Organize_Shapes_Click"/>
                                 <Button x:Name="BT_LoadStructures" Content="Load Structures" HorizontalAlignment="Left" VerticalAlignment="Top" Width="106" Margin="5,0,0,0" Click="BT_LoadStructures_Click"/>
-                                <CheckBox x:Name="Is_Auto_Process" Content="Auto Process" Margin="0,0,0,3" Width="92" VerticalAlignment="Bottom"/>
+                                <CheckBox x:Name="Is_Auto_Process" Content="Auto Process" Margin="0,0,0,3" Width="92" VerticalAlignment="Bottom" IsChecked="True"/>
                             </StackPanel>
                         </Grid>
                     </TabItem>

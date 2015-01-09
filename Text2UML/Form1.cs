@@ -57,7 +57,7 @@ namespace Text2UML
 
             display1.OpenDiagram("Test NShape diagram");
            
-            this.ParentForm.WindowState = FormWindowState.Maximized;    
+            //this.ParentForm.WindowState = FormWindowState.Maximized;    
         }
 
         #region Draw Boxes/Entity
