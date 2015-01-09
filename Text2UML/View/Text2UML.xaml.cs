@@ -23,6 +23,7 @@ using Text2UML.View;
 using System.IO;
 using Dataweb.NShape.Layouters;
 using System.Xml.Linq;
+using System.Text.RegularExpressions;
 
 
 namespace Text2UML
@@ -404,7 +405,7 @@ namespace Text2UML
             // Matches
             foreach (Tuple<List<string>, string> tuple in NLParser.Matches)
                 foreach (string s in tuple.Item1)
-                    output = output.Replace(s, tuple.Item2);
+                    output = Regex.Replace(output, @"\b"+s+@"\b", tuple.Item2);
 
             TB_PseudoCode.Text = output;
 

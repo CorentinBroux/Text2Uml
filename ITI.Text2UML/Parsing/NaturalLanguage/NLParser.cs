@@ -138,6 +138,11 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 Match(tuples);
                 return "";
             }
+            // Beeing (eg "A tiny cat")
+            else if (Regex.Match(type, "(DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+").Success)
+            {
+                return ComplexDefinition(tuples);
+            }
             // Reverse Definition
             else if (Regex.Match(type, "(DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ MD [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+ (DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+").Success)
             {
@@ -196,7 +201,9 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 i--;
             }// tuples now contains 3 elements (NN* VB* NN*)
 
-            if (NLGrammar.Verb_Be.Contains(tuples[1].Item2))
+            if (String.IsNullOrEmpty(tuples[1].Item2))
+                builder.AppendFormat("Class {0}", tuples[0].Item2);
+            else if (NLGrammar.Verb_Be.Contains(tuples[1].Item2))
                 builder.AppendFormat("Class {0} Class {1} {0} -> {1}", tuples[0].Item2, tuples[2].Item2);
             else if (NLGrammar.Verb_Have.Contains(tuples[1].Item2))
                 builder.AppendFormat("Class {0} {1} {2} {0} --> {2}", tuples[0].Item2, "Object", tuples[2].Item2);
@@ -327,7 +334,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 }
                     
 
-                if (t.Item1.StartsWith("VB"))
+                if (t.Item1.StartsWith("VB") && !NLGrammar.Verb_Be.Contains(t.Item2))
                     builder.AppendFormat("void {0}()", t.Item2);
             }
 
