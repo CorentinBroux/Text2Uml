@@ -16,7 +16,7 @@ namespace ITI.Text2UML.Parsing.PseudoCode
         /// <returns>Returns Tuple<List<Class>, List<Link>> representing classes and links found in the pseudo code.</returns>
         public static Tuple<List<Class>, List<Link>> Parse(string input)
         {
-            
+
             // Initialize PCTokenizer and lists
             PCTokenizer PCTokenizer = new PCTokenizer(input);
             List<Class> boxes = new List<Class>();
@@ -29,6 +29,8 @@ namespace ITI.Text2UML.Parsing.PseudoCode
             {
                 if (PCTokenizer.CurrentToken == PCTokenType.Error)
                     PCTokenizer.GetNextToken();
+                if (PCTokenizer.CurrentToken == PCTokenType.Link)
+                    PCTokenizer.GetNextToken();
                 token = PCTokenizer.CurrentToken;
                 if (token == PCTokenType.Keyword)
                 {
@@ -39,7 +41,7 @@ namespace ITI.Text2UML.Parsing.PseudoCode
                     if (token == PCTokenType.Word)
                     {
                         boxes.Last().Name = PCTokenizer.CurrentWordValue;
-                        
+
                         if (boxNames.Contains(PCTokenizer.CurrentWordValue))
                         {
                             boxes.Remove(boxes.Last());
@@ -52,13 +54,13 @@ namespace ITI.Text2UML.Parsing.PseudoCode
                             boxNames.Add(PCTokenizer.CurrentWordValue);
                         }
                     }
-                        
-                    
-                    
+
+
+
                     token = PCTokenizer.GetNextToken();
                     continue;
                 }
-                
+
                 if (token == PCTokenType.EndOfInput)
                     break;
 
@@ -71,14 +73,14 @@ namespace ITI.Text2UML.Parsing.PseudoCode
                     PCTokenType t3 = PCTokenizer.GetNextToken();
                     string v3 = PCTokenizer.CurrentWordValue;
 
-                    if(t2 == PCTokenType.Word && t3 == PCTokenType.OpenPar) // If method (meaning v2 == v3)
+                    if (t2 == PCTokenType.Word && t3 == PCTokenType.OpenPar) // If method (meaning v2 == v3)
                     {
                         Method m = new Method();
                         m.ParamTypes = new List<string>();
                         m.ReturnType = v1;
                         m.Name = v2;
                         token = PCTokenizer.GetNextToken();
-                        while(token != PCTokenType.ClosePar)
+                        while (token != PCTokenType.ClosePar)
                         {
                             if (token == PCTokenType.EndOfInput)
                                 throw new InvalidSyntaxException("Missing method closure");
@@ -92,13 +94,13 @@ namespace ITI.Text2UML.Parsing.PseudoCode
                         boxes.Last().Methods.Add(m);
                         token = PCTokenizer.GetNextToken();
                     }
-                    else if(t2 == PCTokenType.Word) // If field or property
+                    else if (t2 == PCTokenType.Word) // If field or property
                     {
                         ITI.Text2UML.Model.Attribute att = new ITI.Text2UML.Model.Attribute(v1, v2);
                         boxes.Last().Attributes.Add(att);
                         continue; // t3 not used then dont call PCTokenizer.GetNextToken()
                     }
-                    else if(t2 == PCTokenType.Link && t3 == PCTokenType.Word) // If link
+                    else if (t2 == PCTokenType.Link && t3 == PCTokenType.Word) // If link
                     {
                         Link link = new Link(v1, v3, Link.GetLinkTypeFromSymbol(v2));
                         links.Add(link);
@@ -106,15 +108,15 @@ namespace ITI.Text2UML.Parsing.PseudoCode
                     }
 
 
-                   
+
                 }
-                    
+
             }
-            
-            
-            
+
+
+
             // Return
-            return new Tuple<List<Class>,List<Link>>(boxes, links);
+            return new Tuple<List<Class>, List<Link>>(boxes, links);
         }
 
         /// <summary>
@@ -126,24 +128,25 @@ namespace ITI.Text2UML.Parsing.PseudoCode
         {
             foreach (Link link in links)
             {
-                foreach (Class box in boxes)
-                {
-                    if (link.From == box.Name)
+                if (link.From != link.To)
+                    foreach (Class box in boxes)
                     {
-                        box.IsLinked = true;
-                        foreach (Class box2 in boxes)
+                        if (link.From == box.Name)
                         {
-                            if (link.To == box2.Name)
+                            box.IsLinked = true;
+                            foreach (Class box2 in boxes)
                             {
-                                if (box.Linked == null)
-                                    box.Linked = new List<Tuple<Class, LinkTypes>>();
-                                box.Linked.Add(new Tuple<Class, LinkTypes>(box2, link.Type));
+                                if (link.To == box2.Name)
+                                {
+                                    if (box.Linked == null)
+                                        box.Linked = new List<Tuple<Class, LinkTypes>>();
+                                    box.Linked.Add(new Tuple<Class, LinkTypes>(box2, link.Type));
+                                }
+
                             }
-                                
+                            break;
                         }
-                        break;
                     }
-                }
             }
         }
     }

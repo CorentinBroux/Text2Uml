@@ -35,13 +35,13 @@ namespace Text2UML.View
                 // Specify specials types (defined by user input)
                 foreach (ITI.Text2UML.Model.Attribute a in c.Attributes)
                     foreach (Tuple<string, string> t in ITI.Text2UML.Parsing.NaturalLanguage.NLGrammar.Types)
-                        if (a.Name.Equals(t.Item1,StringComparison.InvariantCultureIgnoreCase))
+                        if (a.Name.Equals(t.Item1, StringComparison.InvariantCultureIgnoreCase))
                             a.Type = t.Item2;
 
                 //c.Attributes = c.Attributes.Distinct().ToList();
                 //c.Methods = c.Methods.Distinct().ToList();
                 //c.Attributes = RemoveDuplicates(c.Attributes);
-                
+
 
                 output += c.ToString();
             }
@@ -49,7 +49,8 @@ namespace Text2UML.View
             // Format links
             foreach (Link l in tuple.Item2)
             {
-                output += String.Format("{0}\n", l.ToString());
+                if (l.From != l.To)
+                    output += String.Format("{0}\n", l.ToString());
             }
 
             return output;
@@ -66,5 +67,5 @@ namespace Text2UML.View
         }
     }
 
-    
+
 }
