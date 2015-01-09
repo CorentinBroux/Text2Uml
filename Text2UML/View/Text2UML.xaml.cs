@@ -21,6 +21,7 @@ using ITI.Text2UML.Parsing.PseudoCode;
 using Text2UML.View;
 using System.IO;
 using Dataweb.NShape.Layouters;
+using System.Xml.Linq;
 
 
 namespace Text2UML
@@ -208,6 +209,137 @@ namespace Text2UML
                 myform.SaveText2UMLProject(dlg.FileName, TB_NativeLanguage.Text);
             }
 
+        }
+
+        public void LoadText2UML(string filename)
+        {
+            //Load xml
+            XDocument xdoc = XDocument.Load(filename);
+
+            List<Class> boxes = new List<Class>();
+            List<Link> links = new List<Link>();
+
+            List<Tuple<String, String, LinkTypes>> TmpTles = new List<Tuple<String, String, LinkTypes>>();
+
+            #region Boxes load
+            //Run query
+            var shs = from sh in xdoc.Descendants("Shapes")
+                      select new
+                      {
+                          Children = sh.Descendants("Shape")
+                      };
+
+            //Loop through results
+            foreach (var sh in shs)
+            {
+                foreach (var att in sh.Children)
+                {
+                    
+                    Class tmpBox = new Class(att.Attribute("Name").Value);
+
+                    foreach(var attr in att.Descendants("Attribute"))
+                    {
+                        ITI.Text2UML.Model.Attribute tmpatt = new ITI.Text2UML.Model.Attribute(attr.Attribute("Type").Value, attr.Attribute("Name").Value);
+                        tmpBox.Attributes.Add(tmpatt);
+                    }
+
+                    foreach (var mth in att.Descendants("Method"))
+                    {
+                        Method tmpmth = new Method();
+
+                        tmpmth.Name = mth.Attribute("Name").Value;
+                        tmpmth.ReturnType = mth.Attribute("ReturnType").Value;
+
+                        tmpmth.ParamTypes = mth.Elements("ParamType").Select(xe => xe.Value).ToList();
+
+                        tmpBox.Methods.Add(tmpmth);
+                    }
+
+                    if (att.Attribute("IsLinked").Value == "true")
+                        tmpBox.IsLinked = true;
+                    else
+                        tmpBox.IsLinked = false;
+
+                    foreach (var lk in att.Descendants("Link"))
+                    {
+
+
+                        LinkTypes lt;
+                        if (lk.Attribute("LinkType").ToString() == "Includes")
+                        {
+                            lt = LinkTypes.Includes;
+                        }
+                        else
+                        {
+                            lt = LinkTypes.Extends;
+                        }
+
+                        Tuple<String, String, LinkTypes> tmptupl = new Tuple<String, String, LinkTypes>(att.Attribute("Name").Value, lk.Attribute("ClassName").Value, lt);
+
+                        TmpTles.Add(tmptupl);
+                    }
+                    
+
+                    tmpBox.x = Convert.ToInt32(att.Attribute("x").Value);
+                    tmpBox.y = Convert.ToInt32(att.Attribute("y").Value);
+                       
+
+                    boxes.Add(tmpBox);
+                }
+            }
+
+            foreach(var tpl in TmpTles)
+            {
+                Class tmpClass = boxes.Find(x => x.Name == tpl.Item2);
+                Class tmpClass2 = boxes.Find(x => x.Name == tpl.Item1);
+                tmpClass2.Linked.Add(new Tuple<Class, LinkTypes>(tmpClass, tpl.Item3));
+            }
+
+            #endregion
+
+            #region Links load
+            //Run query
+            var lks = from lk in xdoc.Descendants("Links")
+                       select new
+                       {
+                           Children = lk.Descendants("Link")
+                       };
+
+            //Loop through results
+            foreach (var lk in lks)
+            {
+                foreach (var att in lk.Children)
+                {
+                    LinkTypes lt;
+                    if(att.Attribute("Type").ToString() == "Includes")
+                    {
+                        lt = LinkTypes.Includes;
+                    }
+                    else
+                    {
+                         lt = LinkTypes.Extends;
+                    }
+                    Link tmpLink = new Link(att.Attribute("From").Value, att.Attribute("To").Value, lt);
+
+                    links.Add(tmpLink);
+                }
+            }
+            #endregion
+
+
+            //Run query
+            var nls = from nl in xdoc.Descendants("Root")
+                      select new
+                      {
+                          Children = nl.Attribute("NativeLanguage")
+                      };
+
+            foreach(var nl in nls)
+            {
+            TB_NativeLanguage.Text = nl.Children.Value;
+            }
+
+            myform.LoadText2UMLDiagram(boxes, links);
         }
 
         private void SaveCanvasAsImage()

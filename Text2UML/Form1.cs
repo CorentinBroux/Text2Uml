@@ -67,7 +67,7 @@ namespace Text2UML
             int ymax = 0;
 
             // Clear existing drawing
-            diagram.Clear();
+            this.diagram.Clear();
             drawedShapes = new List<Tuple<Shape, string>>();
 
             // Draw boxes
@@ -210,11 +210,14 @@ namespace Text2UML
             myShape2.Height = size.Height + 30;
             myShape2.Width = size.Width + 30;
             myShape2.SetCaptionText(0, s);
-            myShape2.MoveTo(x, y);
+           // myShape2.MoveTo(x, y);
+            myShape2.X = x;
+            myShape2.Y = y;
             diagram.Shapes.Add(myShape2);
             this.project1.Repository.Insert((Shape)myShape2, diagram);
             this.project1.Repository.Update();
-
+            this.display1.Diagram = diagram;
+          
             
             // return the shape
             return myShape2;
@@ -260,9 +263,9 @@ namespace Text2UML
                     RectangleBase s2 = (RectangleBase)s;
                     string name = s2.GetCaptionText(0);
 
-                    // int idx = name.IndexOf
+                    
                     int i = name.IndexOf("\n");
-                    name.Substring(0, i);
+                    name = name.Substring(0, i);
 
                     foreach (ITI.Text2UML.Model.Class box in _boxes)
                     {
@@ -277,7 +280,7 @@ namespace Text2UML
             }
             #endregion
 
-
+            #region XML creation script
             try
             {
                 var xEle =  new XElement("Root",
@@ -285,45 +288,46 @@ namespace Text2UML
                             new XElement("Shapes",
                             from box in _boxes
                             select new XElement("Shape",
-                                           new XElement("Name", box.Name),
+                                           new XAttribute("Name", box.Name),
 
                                            new XElement("Attributes",
                                                from att in box.Attributes
                                                  select new XElement("Attribute",
-                                                     new XElement("Name", att.Name),
-                                                      new XElement("Type", att.Type))),
+                                                     new XAttribute("Name", att.Name),
+                                                      new XAttribute("Type", att.Type))),
 
                                            new XElement("Methods", 
                                                from met in box.Methods
                                                  select new XElement("Method",
-                                                     new XElement("Name", met.Name),
-                                                      new XElement("ReturnType", met.ReturnType),
+                                                     new XAttribute("Name", met.Name),
+                                                      new XAttribute("ReturnType", met.ReturnType),
 
                                                       new XElement("ParamTypes",
                                                           from param in met.ParamTypes
-                                                            select new XElement("ParamType", param.ToString())))),
+                                                          select new XElement("ParamType", param.ToString())
+                                                          ))),
 
-                                           new XElement("IsLinked", box.IsLinked),
+                                           new XAttribute("IsLinked", box.IsLinked),
 
                                             new XElement("Linked",
                                                from tup in box.Linked
-                                               select new XElement("Linked",
-                                                   new XElement("ClassName", tup.Item1.Name),
-                                                    new XElement("LinkType", tup.Item2))),
+                                               select new XElement("Link",
+                                                   new XAttribute("ClassName", tup.Item1.Name),
+                                                    new XAttribute("LinkType", tup.Item2))),
 
-                                            new XElement("x", box.x),
-                                            new XElement("y", box.y)
+                                            new XAttribute("x", box.x),
+                                            new XAttribute("y", box.y)
                                        )),
 
                                 new XElement("Links",
                                 from link in _links
                                  select new XElement("Link",
-                                             new XElement("From", link.From),
-                                             new XElement("To", link.To),
-                                             new XElement("Type", link.Type.ToString())
+                                             new XAttribute("From", link.From),
+                                             new XAttribute("To", link.To),
+                                             new XAttribute("Type", link.Type.ToString())
                                            )),
-                                       
-                                new XElement("NativeLanguage", nativelanguage)
+
+                                new XAttribute("NativeLanguage", nativelanguage)
 
                                        );
 
@@ -334,9 +338,137 @@ namespace Text2UML
             {
                 Console.WriteLine(ex.Message);
             }
-
+            #endregion
 
         }
+
+        public void LoadText2UMLDiagram(List<Class> boxes, List<Link> links)
+        {
+            DrawBoxesAfterLoad(boxes);
+        }
+
+        #region Draw Boxes/Entity After Load
+        public void DrawBoxesAfterLoad(List<ITI.Text2UML.Model.Class> boxes)
+        {
+            // Clear existing drawing
+            this.diagram.Shapes.Clear();
+            this.diagram.Clear();
+            drawedShapes = new List<Tuple<Shape, string>>();
+            
+            // Draw boxes
+            const int X = 800; // DEBUG value
+
+            int ymax = 0;
+
+            foreach (ITI.Text2UML.Model.Class box in boxes)
+            {
+                int x = box.x, y = box.y;
+                if (x > X)
+                {
+                    x = 120;
+                    y += ymax;
+
+                }
+                bool drawed1 = false;
+                Shape sh1 = null;
+                foreach (Tuple<Shape, string> t in drawedShapes)
+                    if (t.Item2 == box.Name)
+                    {
+                        drawed1 = true;
+                        sh1 = t.Item1;
+                    }
+
+                if (drawed1 == false)
+                {
+                    Size size1 = new Size();
+                    sh1 = DrawSingleBoxAfterLoad(box, ref size1);
+                    drawedShapes.Add(Tuple.Create(sh1, box.Name));
+                }
+
+
+                if (box.IsLinked == true)
+                {
+                    foreach (Tuple<Class, LinkTypes> tuple in box.Linked)
+                    {
+                        Class b = tuple.Item1;
+                        bool drawed = false;
+                        Shape sh2 = null;
+                        foreach (Tuple<Shape, string> t in drawedShapes)
+                            if (t.Item2 == b.Name)
+                            {
+                                drawed = true;
+                                sh2 = t.Item1;
+                            }
+
+                        if (drawed == false)
+                        {
+                            Size size2 = new Size();
+                            sh2 = DrawSingleBoxAfterLoad(b, ref size2);
+                            drawedShapes.Add(Tuple.Create(sh2, b.Name));
+                        }
+
+                        Polyline arrow = (Polyline)project1.ShapeTypes["Polyline"].CreateInstance();
+                        diagram.Shapes.Add(arrow);
+                        if (tuple.Item2 == LinkTypes.Extends)
+                            arrow.EndCapStyle = project1.Design.CapStyles.ClosedArrow;
+                        else
+                            arrow.EndCapStyle = project1.Design.CapStyles.OpenArrow;
+                        arrow.Connect(ControlPointId.FirstVertex, sh1, ControlPointId.Reference);
+                        arrow.Connect(ControlPointId.LastVertex, sh2, ControlPointId.Reference);
+                    }
+
+                }
+
+            }
+
+        }
+        #endregion
+
+        #region Draw boxe afer laod
+        private Shape DrawSingleBoxAfterLoad(ITI.Text2UML.Model.Class box, ref Size size)
+        {
+
+            // Generate string
+            string s = box.Name + "\n_______________";
+
+            foreach (ITI.Text2UML.Model.Attribute att in box.Attributes)
+            {
+                s += "\n\t" + att.Type + " " + att.Name;
+            }
+            s += "\n_______________";
+            foreach (ITI.Text2UML.Model.Method met in box.Methods)
+            {
+                s += "\n\t" + met.ReturnType + " " + met.Name + "(";
+                foreach (string str in met.ParamTypes)
+                {
+                    s += str + ", ";
+                }
+                if (met.ParamTypes.Count > 0)
+                    s = s.Remove(s.Length - 2);
+                s += ")";
+            }
+
+
+            // Draw the box
+            RectangleBase myShape3 = (RectangleBase)this.project1.ShapeTypes["RoundedBox"].CreateInstance();
+            myShape3.DisplayService = this.display1;
+            size = MeasureString(s);
+            myShape3.Height = size.Height + 30;
+            myShape3.Width = size.Width + 30;
+            myShape3.SetCaptionText(0, s);
+            // myShape2.MoveTo(x, y);
+            myShape3.X = box.x;
+            myShape3.Y = box.y;
+            diagram.Shapes.Add(myShape3);
+            this.project1.Repository.Insert((Shape)myShape3, diagram);
+            this.project1.Repository.Update();
+            this.display1.Diagram = diagram;
+
+
+            // return the shape
+            return myShape3;
+        }
+        #endregion
 
 
         #region Layouter - Shape organizer

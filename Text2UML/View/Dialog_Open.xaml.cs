@@ -87,5 +87,28 @@ namespace Text2UML.View
             MW.TB_NativeLanguage.ScrollToEnd();
             this.Close();
         }
+
+        private void bt_open_t2u(object sender, RoutedEventArgs e)
+        {
+            // Configure open file dialog box
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.FileName = "Document"; // Default file name
+            dlg.DefaultExt = ".t2u"; // Default file extension
+            dlg.Filter = "Text2UML (.t2u)|*.t2u"; // Filter files by extension 
+
+            // Show open file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process open file dialog box results 
+            if (result == true)
+            {
+                // Open document 
+                string filename = dlg.FileName;
+
+                MW.LoadText2UML(filename);
+            }
+
+            this.Close();
+        }
     }
 }
