@@ -389,7 +389,7 @@ namespace Text2UML
                 string str = NLParser.Parse(StanfordParser.Stanford_Parse(s), CurrentUserStructureSet);
                 if (str != "Unknown")
                     output += str + " ";
-                else
+                else if (!String.IsNullOrWhiteSpace(s))
                 {
                     error += String.Format("Unknown structure :\n{0}\n\n", s);
                     unknownSentences.Add(s);
