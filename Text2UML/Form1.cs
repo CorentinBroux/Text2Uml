@@ -56,7 +56,8 @@ namespace Text2UML
             this.cachedRepository1.Insert(diagram);
 
             display1.OpenDiagram("Test NShape diagram");
-          
+           
+            this.ParentForm.WindowState = FormWindowState.Maximized;    
         }
 
         #region Draw Boxes/Entity
@@ -530,8 +531,8 @@ namespace Text2UML
 
             layouter.AllShapes = this.display1.Diagram.Shapes;
             layouter.Shapes = this.display1.Diagram.Shapes;
-            ExecuteLayouter(layouter, stepTimeout);
-            ExecuteCommand(aggregatedCommand, layouter.CreateLayoutCommand());
+           ExecuteLayouter(layouter, stepTimeout);
+           ExecuteCommand(aggregatedCommand, layouter.CreateLayoutCommand());
             //
             // Now prepare and execute the layouter
             //layouter.Prepare();
@@ -549,7 +550,7 @@ namespace Text2UML
             // Add aggregated command to the history. 
             // Do not execute it as each step was executed before.
             project1.History.AddCommand(aggregatedCommand);
-            
+
             expansionLayouter.Fit(50, 50, display1.Diagram.Width - 100, display1.Diagram.Height - 100);
   
         }

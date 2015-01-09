@@ -414,7 +414,10 @@ namespace Text2UML
         private void TB_NativeLanguage_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == Key.Space || e.Key == Key.OemPeriod || e.Key == Key.OemComma || e.Key == Key.Enter)
-                NL_Process();
+            {
+                if (Is_Auto_Process.IsChecked == true)
+                    NL_Process();
+            }
         }
 
         private void TB_PseudoCode_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)

@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:WinForms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
-        Title="Text2UML" Height="600" Width="851" Icon="logo 1.png" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+        Title="Text2UML" Height="600" Width="1143" Icon="logo 1.png" WindowStartupLocation="CenterScreen" WindowState="Maximized">
 
     <Window.CommandBindings>
         <CommandBinding Command="Open" Executed="OpenCommand" />
@@ -40,7 +40,7 @@
         </Menu>
 
 
-        <Grid Grid.RowSpan="2" Margin="0,0,0,44">
+        <Grid Grid.RowSpan="2" Margin="0,5,0,39">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"/>
@@ -56,7 +56,7 @@
 
 
 
-                <TabControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <TabControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="-10,0,10,0">
                     <TabItem Name="tab1" Header="Diagram 1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                         <ScrollViewer Name ="scroll1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Visible">
 
@@ -81,8 +81,8 @@
                 </TabControl>
             </Grid>
             <GridSplitter Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" ResizeDirection="Columns" Height="Auto" Width="5" HorizontalAlignment="Stretch" Margin="0" Name="GridSplitter1" />
-            <Grid Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" Margin="0,5,5,5" Background="#FFF0F0F0">
-                <TabControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Grid Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,5,5,5" Background="#FFF0F0F0" Grid.ColumnSpan="2">
+                <TabControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,10,0">
                     <TabItem Header="Native language" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -95,6 +95,7 @@
                                 <Button x:Name="BT_Open_NL" Content="Open file..." HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="5,0,0,0" Click="BT_Open_NL_Click"/>
                                 <Button x:Name="BT_Organize_Shapes" Content="Organize Shapes" HorizontalAlignment="Left" VerticalAlignment="Top" Width="106" Margin="5,0,0,0" Click="BT_Organize_Shapes_Click"/>
                                 <Button x:Name="BT_LoadStructures" Content="Load Structures" HorizontalAlignment="Left" VerticalAlignment="Top" Width="106" Margin="5,0,0,0" Click="BT_LoadStructures_Click"/>
+                                <CheckBox x:Name="Is_Auto_Process" Content="Auto Process" Margin="0,0,0,3" Width="92" VerticalAlignment="Bottom"/>
                             </StackPanel>
                         </Grid>
                     </TabItem>
