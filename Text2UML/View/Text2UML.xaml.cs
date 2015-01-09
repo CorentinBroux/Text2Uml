@@ -59,7 +59,7 @@ namespace Text2UML
         {
             try
             {
-                if(warnings == true)
+                if (warnings == true)
                     TB_PseudoCode.Text = PCFormatter.Format(TB_PseudoCode.Text);
                 Tuple<List<Class>, List<Link>> tuple = PCParser.Parse(TB_PseudoCode.Text);
                 List<Class> boxes = tuple.Item1;
@@ -380,6 +380,7 @@ namespace Text2UML
             string output = "";
             string error = "";
             NLParser.j = 1;
+            NLParser.Matches = new List<Tuple<List<string>, string>>();
             //myform.ResetDiagram();
             unknownSentences = new List<string>();
             foreach (string s in input)
@@ -397,7 +398,15 @@ namespace Text2UML
             if (unknownSentences.Count > 0)
                 LB_Status.Content = String.Format("{0} unknown sentences. Click 'process' for more details.", unknownSentences.Count.ToString());
             else LB_Status.Content = "";
+
+
+            // Matches
+            foreach (Tuple<List<string>, string> tuple in NLParser.Matches)
+                foreach (string s in tuple.Item1)
+                    output = output.Replace(s, tuple.Item2);
+
             TB_PseudoCode.Text = output;
+
             if (output.Length > 0)
                 GenerateUML();
             if (error.Length > 0)

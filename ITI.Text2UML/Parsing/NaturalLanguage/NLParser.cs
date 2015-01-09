@@ -13,6 +13,11 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
     public static class NLParser
     {
         /// <summary>
+        /// Lists all matches
+        /// </summary>
+        public static List<Tuple<List<string>, string>> Matches = new List<Tuple<List<string>, string>>();
+        
+        /// <summary>
         /// Counter for unknown types (named 'thing1', 'thing2'...)
         /// </summary>
         public static int j = 1;
@@ -127,6 +132,12 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             // Type definition (X is a type of Y || X and Y are types of Z)
             if (Regex.Match(type, "NN[A-Z]* [a-zA-Z]+ VB[A-Z]* is DT a NN[A-Z]* type IN of NN[A-Z]* [a-zA-Z]+").Success || Regex.Match(type, "(NN[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)+ VB[A-Z]* are NN[A-Z]* types IN of NN[A-Z]* [a-zA-Z]+").Success)
                 return TypeDefinition(tuples);
+            // Match (Match A, B, and C as D || Match A, B, C as D)
+            if (Regex.Match(type, "[A-Z]* (M|m)atch (NN[A-Z]* [a-zA-Z]* (CC[A-Z]* [a-zA-Z]+ )*)+IN as NN[A-Z]* [a-zA-Z]+").Success || Regex.Match(type, "NN[A-Z]* (M|m)atch NN[A-Z]* [A-Z]* IN as NN[A-Z]* [A-Z]+").Success)
+            {
+                Match(tuples);
+                return "";
+            }
             // Reverse Definition
             else if (Regex.Match(type, "(DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ MD [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+ (DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+").Success)
             {
@@ -136,9 +147,11 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     if (tuples[i].Item1 == "DT" || tuples[i].Item1 == "MD")
                     {
                         tuples.RemoveAt(i);
-                        //i--;
+                        i--;
                     }
                     i--;
+                    if (i < 0)
+                        break;
                 }// tuples now contains 3 elements (NN* VB* NN*), but due to the modal, we have to reverse them
                 tuples.Reverse();
                 return SimpleDefinition(tuples);
@@ -274,6 +287,8 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             }
             return builder.ToString();
         }
+
+
         // Action
         
         /// <summary>
@@ -317,6 +332,36 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             }
 
             return builder.ToString();
+        }
+
+        // Match
+
+        private static void Match(List<Tuple<string, string>> tuples)
+        {
+            Tuple<List<string>, string> matchTuple;
+            List<string> list = new List<string>();
+            string last = "";
+            bool isAsReached = false;
+            tuples.RemoveAt(0);// Remove the first noun which is "Match"
+            foreach (Tuple<string, string> t in tuples)
+            {
+                if (t.Item1.StartsWith("NN"))
+                {
+                    if (isAsReached == true)
+                        last = t.Item2;
+                    else
+                        list.Add(t.Item2);
+                }
+
+                if (t.Item1.StartsWith("IN"))
+                {
+                    isAsReached = true;
+                }
+
+            }
+
+            matchTuple = new Tuple<List<string>, string>(list, last);
+            Matches.Add(matchTuple);
         }
     }
 }
