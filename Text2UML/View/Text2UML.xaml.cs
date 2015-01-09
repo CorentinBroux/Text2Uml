@@ -223,10 +223,10 @@ namespace Text2UML
                 LB_Status.Content = String.Format("{0} unknown sentences. Click 'process' for more details.", unknownSentences.Count.ToString());
             else LB_Status.Content = "";
             TB_PseudoCode.Text = output;
-            if (error.Length > 0)
-                return String.Format("Some sentences may not have been parsed !\n\n{0}", error);
             if (output.Length > 0)
                 GenerateUML();
+            if (error.Length > 0)
+                return String.Format("Some sentences may not have been parsed !\n\n{0}", error);
             return "";
         }
 

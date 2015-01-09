@@ -128,7 +128,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             if (Regex.Match(type, "NN[A-Z]* [a-zA-Z]+ VB[A-Z]* is DT a NN[A-Z]* type IN of NN[A-Z]* [a-zA-Z]+").Success || Regex.Match(type, "(NN[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)+ VB[A-Z]* are NN[A-Z]* types IN of NN[A-Z]* [a-zA-Z]+").Success)
                 return TypeDefinition(tuples);
             // Reverse Definition
-            else if (Regex.Match(type, "(DT [a-zA-Z]+)*( JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)* NN[A-Z]* [a-zA-Z]+ MD [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+( DT [a-zA-Z]+)*( JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)* NN[A-Z]* [a-zA-Z]+").Success)
+            else if (Regex.Match(type, "(DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ MD [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+ (DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+").Success)
             {
                 int i = tuples.Count - 1;
                 while (i != 0)
@@ -136,7 +136,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     if (tuples[i].Item1 == "DT" || tuples[i].Item1 == "MD")
                     {
                         tuples.RemoveAt(i);
-                        i--;
+                        //i--;
                     }
                     i--;
                 }// tuples now contains 3 elements (NN* VB* NN*), but due to the modal, we have to reverse them
@@ -144,12 +144,12 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 return SimpleDefinition(tuples);
             }
             // Definition
-            else if (Regex.Match(type, "(DT [a-zA-Z]+)*( JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)* NN[A-Z]* [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+( DT [a-zA-Z]+)*( JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)* NN[A-Z]* [a-zA-Z]+").Success)
+            else if (Regex.Match(type, "(DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+ (DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+").Success)
             {
                 return ComplexDefinition(tuples);
             }
             // Action without complement
-            else if (Regex.Match(type, "(DT [a-zA-Z]+)*( JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)* NN[A-Z]* [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+").Success)
+            else if (Regex.Match(type, "(DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+").Success)
             {
                 return SimpleAction(tuples);
             }
