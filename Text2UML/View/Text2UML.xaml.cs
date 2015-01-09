@@ -22,6 +22,7 @@ using ITI.Text2UML.Parsing.NaturalLanguage.UserInput;
 using Text2UML.View;
 using System.IO;
 using Dataweb.NShape.Layouters;
+using System.Xml.Linq;
 
 
 namespace Text2UML
@@ -32,6 +33,8 @@ namespace Text2UML
         List<string> previousSentences = new List<string>();
         List<string> unknownSentences = new List<string>();
         public static UserStructureSet CurrentUserStructureSet;
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -61,6 +64,8 @@ namespace Text2UML
                 Tuple<List<Class>, List<Link>> tuple = PCParser.Parse(TB_PseudoCode.Text);
                 List<Class> boxes = tuple.Item1;
                 List<Link> links = tuple.Item2;
+                myform._boxes = boxes;
+                myform._links = links;
                 PCParser.AddLinksToBoxes(links, boxes);
                 myform.DrawBoxes(boxes);
             }
@@ -84,6 +89,7 @@ namespace Text2UML
         public void LoadPseudoCodeFromFile(bool IsPseudoCode)
         {
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.FileName = "Document";
             dlg.DefaultExt = ".txt";
             dlg.Filter = "Text documents (.txt)|*.txt";
 
@@ -154,7 +160,7 @@ namespace Text2UML
         {
             // Configure save file dialog box
             Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
-            dlg.FileName = "Pseudocode";
+            dlg.FileName = "PseudoCode";
             dlg.DefaultExt = ".txt";
             dlg.Filter = "Text documents (.txt)|*.txt";
 
@@ -168,6 +174,175 @@ namespace Text2UML
                 System.IO.File.WriteAllText(dlg.FileName, TB_PseudoCode.Text);
 
             }
+        }
+
+        public void SaveNativeCode()
+        {
+            // Configure save file dialog box
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = "NativeCode";
+            dlg.DefaultExt = ".txt";
+            dlg.Filter = "Text documents (.txt)|*.txt";
+
+            // Show open file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process open file dialog box results 
+            if (result == true)
+            {
+                // Save document 
+                System.IO.File.WriteAllText(dlg.FileName, TB_NativeLanguage.Text);
+                
+            }
+        }
+
+        public void SaveText2UML()
+        {
+            // Configure save file dialog box
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = "Text2UML";
+            dlg.DefaultExt = ".t2u";
+            dlg.Filter = "Text2UML (.t2u)|*.t2u";
+
+            // Show open file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            if (result == true)
+            {
+                myform.SaveText2UMLProject(dlg.FileName, TB_NativeLanguage.Text);
+            }
+
+        }
+
+        public void LoadText2UML(string filename)
+        {
+            //Load xml
+            XDocument xdoc = XDocument.Load(filename);
+
+            List<Class> boxes = new List<Class>();
+            List<Link> links = new List<Link>();
+
+            List<Tuple<String, String, LinkTypes>> TmpTles = new List<Tuple<String, String, LinkTypes>>();
+
+            #region Boxes load
+            //Run query
+            var shs = from sh in xdoc.Descendants("Shapes")
+                      select new
+                      {
+                          Children = sh.Descendants("Shape")
+                      };
+
+            //Loop through results
+            foreach (var sh in shs)
+            {
+                foreach (var att in sh.Children)
+                {
+                    
+                    Class tmpBox = new Class(att.Attribute("Name").Value);
+
+                    foreach(var attr in att.Descendants("Attribute"))
+                    {
+                        ITI.Text2UML.Model.Attribute tmpatt = new ITI.Text2UML.Model.Attribute(attr.Attribute("Type").Value, attr.Attribute("Name").Value);
+                        tmpBox.Attributes.Add(tmpatt);
+                    }
+
+                    foreach (var mth in att.Descendants("Method"))
+                    {
+                        Method tmpmth = new Method();
+
+                        tmpmth.Name = mth.Attribute("Name").Value;
+                        tmpmth.ReturnType = mth.Attribute("ReturnType").Value;
+
+                        tmpmth.ParamTypes = mth.Elements("ParamType").Select(xe => xe.Value).ToList();
+
+                        tmpBox.Methods.Add(tmpmth);
+                    }
+
+                    if (att.Attribute("IsLinked").Value == "true")
+                        tmpBox.IsLinked = true;
+                    else
+                        tmpBox.IsLinked = false;
+
+                    foreach (var lk in att.Descendants("Link"))
+                    {
+
+
+                        LinkTypes lt;
+                        if (lk.Attribute("LinkType").ToString() == "Includes")
+                        {
+                            lt = LinkTypes.Includes;
+                        }
+                        else
+                        {
+                            lt = LinkTypes.Extends;
+                        }
+
+                        Tuple<String, String, LinkTypes> tmptupl = new Tuple<String, String, LinkTypes>(att.Attribute("Name").Value, lk.Attribute("ClassName").Value, lt);
+
+                        TmpTles.Add(tmptupl);
+                    }
+                    
+
+                    tmpBox.x = Convert.ToInt32(att.Attribute("x").Value);
+                    tmpBox.y = Convert.ToInt32(att.Attribute("y").Value);
+                       
+
+                    boxes.Add(tmpBox);
+                }
+            }
+
+            foreach(var tpl in TmpTles)
+            {
+                Class tmpClass = boxes.Find(x => x.Name == tpl.Item2);
+                Class tmpClass2 = boxes.Find(x => x.Name == tpl.Item1);
+                tmpClass2.Linked.Add(new Tuple<Class, LinkTypes>(tmpClass, tpl.Item3));
+            }
+
+            #endregion
+
+            #region Links load
+            //Run query
+            var lks = from lk in xdoc.Descendants("Links")
+                       select new
+                       {
+                           Children = lk.Descendants("Link")
+                       };
+
+            //Loop through results
+            foreach (var lk in lks)
+            {
+                foreach (var att in lk.Children)
+                {
+                    LinkTypes lt;
+                    if(att.Attribute("Type").ToString() == "Includes")
+                    {
+                        lt = LinkTypes.Includes;
+                    }
+                    else
+                    {
+                         lt = LinkTypes.Extends;
+                    }
+                    Link tmpLink = new Link(att.Attribute("From").Value, att.Attribute("To").Value, lt);
+
+                    links.Add(tmpLink);
+                }
+            }
+            #endregion
+
+
+            //Run query
+            var nls = from nl in xdoc.Descendants("Root")
+                      select new
+                      {
+                          Children = nl.Attribute("NativeLanguage")
+                      };
+
+            foreach(var nl in nls)
+            {
+            TB_NativeLanguage.Text = nl.Children.Value;
+            }
+
+            myform.LoadText2UMLDiagram(boxes, links);
         }
 
         private void SaveCanvasAsImage()

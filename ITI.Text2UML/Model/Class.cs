@@ -15,6 +15,8 @@ namespace ITI.Text2UML.Model
         public List<Method> Methods { get; set; }
         public bool IsLinked { get; set; }
         public List<Tuple<Class,LinkTypes>> Linked { get; set; }
+        public int x { get; set; }
+        public int y { get; set; }
         #endregion
 
         #region Constructors
