@@ -49,15 +49,11 @@ namespace Text2UML
             project1.AddLibrary(typeof(RoundedBox).Assembly, false);
             project1.Create();
           
-
-            
             diagram = new Diagram("Test NShape diagram");
             this.display1.Diagram = diagram;
             this.cachedRepository1.Insert(diagram);
 
             display1.OpenDiagram("Test NShape diagram");
-           
-            //this.ParentForm.WindowState = FormWindowState.Maximized;    
         }
 
         #region Draw Boxes/Entity
