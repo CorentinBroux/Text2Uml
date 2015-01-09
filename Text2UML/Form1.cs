@@ -54,6 +54,7 @@ namespace Text2UML
             this.cachedRepository1.Insert(diagram);
 
             display1.OpenDiagram("Test NShape diagram");
+            
         }
 
         #region Draw Boxes/Entity
@@ -214,7 +215,7 @@ namespace Text2UML
             this.project1.Repository.Insert((Shape)myShape2, diagram);
             this.project1.Repository.Update();
             this.display1.Diagram = diagram;
-          
+            this.display1.EnsureVisible(new Rectangle(0,0,100,100));
             
             // return the shape
             return myShape2;
