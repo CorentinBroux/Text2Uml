@@ -113,6 +113,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
             if (usss != null)
             {
+                usss.RemoveAll(item => item == null);
                 foreach (UserStructureSet uss in usss)
                     foreach (UserStructure us in uss.Structures)
                         switch (us.Type)
