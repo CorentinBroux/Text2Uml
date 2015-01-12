@@ -45,33 +45,8 @@
                 <ColumnDefinition MinWidth="200" />
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Margin="5,5,0,5" Background="#FFF0F0F0">
-
-
-
-                <TabControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="-10,0,10,0">
-                    <TabItem Name="tab1" Header="Diagram 1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                        <ScrollViewer Name ="scroll1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Visible">
-
-                            <Grid Name="toolBoxAndPropertyEditorGrid" Grid.Column="2" Margin="0,0,0,0" Background="{x:Null}" Opacity="1">
-                                <WindowsFormsHost Grid.Row="0" Name="toolBoxHost" />
-
-                                <WindowsFormsHost Grid.Row="2" Name="propertyGridHost" />
-                            </Grid>
-
-                        </ScrollViewer>
-
-
-
-                    </TabItem>
-                    <TabItem Header="Diagram 2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                        <Canvas Name="canvas1">
-                        </Canvas>
-                    </TabItem>
-                    <TabItem Header="Diagram 3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-
-                    </TabItem>
-                </TabControl>
+            <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Margin="5,5,5,5" Background="#FFF0F0F0">
+                <WindowsFormsHost Grid.Row="2" Name="propertyGridHost"/>
             </Grid>
             <GridSplitter Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" ResizeDirection="Columns" Height="Auto" Width="5" HorizontalAlignment="Stretch" Margin="0" Name="GridSplitter1" />
             <Grid Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,5,5,5" Background="#FFF0F0F0" Grid.ColumnSpan="2">
