@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using ITI.Text2UML.Parsing.PseudoCode;
 using ITI.Text2UML.Model;
 using MoreLinq;
+using ITI.Text2UML.Parsing.NaturalLanguage;
+using System.Text.RegularExpressions;
+
 
 namespace Text2UML.View
 {
@@ -26,15 +29,15 @@ namespace Text2UML.View
             // Format classes
             foreach (Class c in tuple.Item1)
             {
-                c.Attributes = c.Attributes.DistinctBy(x => x.Name).ToList();
-                c.Methods = c.Methods.DistinctBy(x => x.Name).ToList();
-
                 // Specify specials types (defined by user input)
                 foreach (ITI.Text2UML.Model.Attribute a in c.Attributes)
                     foreach (Tuple<string, string> t in ITI.Text2UML.Parsing.NaturalLanguage.NLGrammar.Types)
                         if (a.Name.Equals(t.Item1, StringComparison.InvariantCultureIgnoreCase))
                             a.Type = t.Item2;
 
+
+                c.Attributes = c.Attributes.DistinctBy(x => x.Name).ToList();
+                c.Methods = c.Methods.DistinctBy(x => x.Name).ToList();
 
 
                 output += c.ToString();
@@ -47,6 +50,11 @@ namespace Text2UML.View
                 if (l.From != l.To)
                     output += String.Format("{0}\n", l.ToString());
             }
+
+            // Matches
+            foreach (Tuple<List<string>, string> t in NLParser.Matches)
+                foreach (string s in t.Item1)
+                    output = Regex.Replace(output, @"\b" + s + @"\b", t.Item2);
 
             return output;
         }

@@ -401,11 +401,10 @@ namespace Text2UML
                 LB_Status.Content = String.Format("{0} unknown sentences. Click 'process' for more details.", unknownSentences.Count.ToString());
             else LB_Status.Content = "";
 
-
             // Matches
-            foreach (Tuple<List<string>, string> tuple in NLParser.Matches)
-                foreach (string s in tuple.Item1)
-                    output = Regex.Replace(output, @"\b"+s+@"\b", tuple.Item2);
+            foreach (Tuple<List<string>, string> t in NLParser.Matches)
+                foreach (string s in t.Item1)
+                    output = Regex.Replace(output, @"\b" + s + @"\b", t.Item2);
 
             TB_PseudoCode.Text = output;
 
