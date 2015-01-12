@@ -138,7 +138,6 @@ namespace ITI.Text2UML.Parsing.PseudoCode
                     {
                         if (Char.IsLetter(c) || Char.IsDigit(c))
                         {
-                            CurrentToken = PCTokenType.Word;
                             StringBuilder builder = new StringBuilder();
                             builder.Append(c);
                             while (!IsEnd && (Char.IsLetter(c = GetCurrentChar()) || Char.IsDigit(c)))
@@ -147,8 +146,10 @@ namespace ITI.Text2UML.Parsing.PseudoCode
                                 MoveNext();
                             }
                             CurrentWordValue = builder.ToString();
-                            if (PCGrammar.Keywords.Contains(CurrentWordValue))
+                            if (PCGrammar.Keywords.Contains(CurrentWordValue) && CurrentToken != PCTokenType.Keyword) // Avoid "Class Class" errors
                                 CurrentToken = PCTokenType.Keyword;
+                            else
+                                CurrentToken = PCTokenType.Word;
                         }
                         else if (c == '-')
                         {

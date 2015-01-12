@@ -26,10 +26,7 @@ namespace Text2UML.View
             // Format classes
             foreach (Class c in tuple.Item1)
             {
-                c.Attributes = c.Attributes.Distinct().ToList();
-                c.Methods = c.Methods.Distinct().ToList();
                 c.Attributes = c.Attributes.DistinctBy(x => x.Name).ToList();
-                //c.Methods = c.Methods.Distinct().ToList();
                 c.Methods = c.Methods.DistinctBy(x => x.Name).ToList();
 
                 // Specify specials types (defined by user input)
@@ -38,15 +35,13 @@ namespace Text2UML.View
                         if (a.Name.Equals(t.Item1, StringComparison.InvariantCultureIgnoreCase))
                             a.Type = t.Item2;
 
-                //c.Attributes = c.Attributes.Distinct().ToList();
-                //c.Methods = c.Methods.Distinct().ToList();
-                //c.Attributes = RemoveDuplicates(c.Attributes);
 
 
                 output += c.ToString();
             }
 
             // Format links
+            tuple = new Tuple<List<Class>,List<Link>>(tuple.Item1,tuple.Item2.Distinct().ToList());
             foreach (Link l in tuple.Item2)
             {
                 if (l.From != l.To)
@@ -54,16 +49,6 @@ namespace Text2UML.View
             }
 
             return output;
-        }
-
-
-        private static List<T> RemoveDuplicates<T>(List<T> inputList)
-        {
-            List<T> outputList = new List<T>();
-            foreach (T t in inputList)
-                if (!outputList.Contains(t))
-                    outputList.Add(t);
-            return outputList;
         }
     }
 

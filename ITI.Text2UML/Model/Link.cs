@@ -46,6 +46,17 @@ namespace ITI.Text2UML.Model
             }
                 
         }
+
+        public override bool Equals(object obj)
+        {
+            Link l = (Link)obj;
+            return From == l.From && To == l.To;
+        }
+
+        public override int GetHashCode()
+        {
+            return From.GetHashCode() * To.GetHashCode();
+        }
         #endregion
 
         #region Static methods
