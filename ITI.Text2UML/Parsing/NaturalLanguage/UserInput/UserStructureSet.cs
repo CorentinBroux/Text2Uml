@@ -14,6 +14,8 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage.UserInput
         #region Fields and properties
         public string Name { get; set; }
         public List<UserStructure> Structures { get; set; }
+        [NonSerialized]
+        public string path;
         #endregion
 
         #region Constructors
@@ -70,16 +72,27 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage.UserInput
             Nullable<bool> result = dlg.ShowDialog();
 
             if (result == true)
+            {
+                UserStructureSet uss;
                 using (FileStream fs = new FileStream(dlg.FileName, FileMode.Open))
                 using (var ms = new MemoryStream())
                 {
                     var formatter = new BinaryFormatter();
                     fs.CopyTo(ms);
                     ms.Position = 0;
-                    return (UserStructureSet)formatter.Deserialize(ms); // error if empty file
+                    uss = (UserStructureSet)formatter.Deserialize(ms); // error if empty file
                 }
+                uss.path = dlg.FileName;
+                return uss;
+            }
             else return null;
         }
+
+        public override string ToString()
+        {
+            return String.Format("{0} ({1})", Name, path);
+        }
+
         #endregion
     }
 }

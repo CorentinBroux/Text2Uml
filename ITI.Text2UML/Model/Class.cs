@@ -51,6 +51,31 @@ namespace ITI.Text2UML.Model
             builder.Append("\n");
             return builder.ToString();
         }
+
+        public override bool Equals(object obj)
+        {
+            Class c = (Class)obj;
+            if (this.Name == c.Name && this.Attributes.Count == c.Attributes.Count && this.Methods.Count == c.Methods.Count)
+            {
+                for (int i = 0; i < this.Attributes.Count; i++)
+                {
+                    if (this.Attributes[i] != c.Attributes[i])
+                        return false;
+                }
+                for (int i = 0; i < this.Methods.Count; i++)
+                {
+                    if (this.Methods[i] != c.Methods[i])
+                        return false;
+                }
+                return true;
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return Attributes.GetHashCode() * Methods.GetHashCode();
+        }
         #endregion
 
     }

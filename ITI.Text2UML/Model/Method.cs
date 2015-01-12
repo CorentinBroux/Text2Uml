@@ -41,8 +41,9 @@ namespace ITI.Text2UML.Model
             return String.Format("{0} {1}({2})", ReturnType, Name, par);
         }
 
-        public bool Equals(Method m)
+        public override bool Equals(Object obj)
         {
+            Method m = (Method)obj;
             if (this.Name == m.Name && this.ReturnType == m.ReturnType && this.ParamTypes.Count == m.ParamTypes.Count)
             {
                 for (int i = 0; i < this.ParamTypes.Count; i++)

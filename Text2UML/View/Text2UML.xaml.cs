@@ -33,13 +33,13 @@ namespace Text2UML
         Form1 myform;
         List<string> previousSentences = new List<string>();
         List<string> unknownSentences = new List<string>();
-        public static UserStructureSet CurrentUserStructureSet;
+        public static List<UserStructureSet> CurrentUserStructureSets;
 
 
         public MainWindow()
         {
             InitializeComponent();
-            CurrentUserStructureSet = new UserStructureSet();
+            CurrentUserStructureSets = new List<UserStructureSet>();
             myform = new Form1();
             propertyGridHost.Child = myform;
             
@@ -110,29 +110,29 @@ namespace Text2UML
             }
         }
 
-        private void submenu_lang_en_Click(object sender, RoutedEventArgs e)
-        {
-            ChangeCheckedLanguage("en");
-        }
+        //private void submenu_lang_en_Click(object sender, RoutedEventArgs e)
+        //{
+        //    ChangeCheckedLanguage("en");
+        //}
 
-        private void submenu_lang_fr_Click(object sender, RoutedEventArgs e)
-        {
-            ChangeCheckedLanguage("fr");
-        }
+        //private void submenu_lang_fr_Click(object sender, RoutedEventArgs e)
+        //{
+        //    ChangeCheckedLanguage("fr");
+        //}
 
-        private void ChangeCheckedLanguage(string To)
-        {
-            if (To == "en")
-            {
-                submenu_lang_fr.IsChecked = false;
-                submenu_lang_en.IsChecked = true;
-            }
-            else if (To == "fr")
-            {
-                submenu_lang_en.IsChecked = false;
-                submenu_lang_fr.IsChecked = true;
-            }
-        }
+        //private void ChangeCheckedLanguage(string To)
+        //{
+        //    if (To == "en")
+        //    {
+        //        submenu_lang_fr.IsChecked = false;
+        //        submenu_lang_en.IsChecked = true;
+        //    }
+        //    else if (To == "fr")
+        //    {
+        //        submenu_lang_en.IsChecked = false;
+        //        submenu_lang_fr.IsChecked = true;
+        //    }
+        //}
 
 
         private void OpenCommand(object sender, ExecutedRoutedEventArgs e)
@@ -387,7 +387,7 @@ namespace Text2UML
             unknownSentences = new List<string>();
             foreach (string s in input)
             {
-                string str = NLParser.Parse(StanfordParser.Stanford_Parse(s), CurrentUserStructureSet);
+                string str = NLParser.Parse(StanfordParser.Stanford_Parse(s), CurrentUserStructureSets);
                 if (str != "Unknown")
                     output += str + " ";
                 else if (!String.IsNullOrWhiteSpace(s))
@@ -442,7 +442,15 @@ namespace Text2UML
 
         private void BT_LoadStructures_Click(object sender, RoutedEventArgs e)
         {
-            CurrentUserStructureSet = UserStructureSet.LoadFromFile();
+            CurrentUserStructureSets.Add(UserStructureSet.LoadFromFile());
+        }
+
+        private void submenu_structures_Click(object sender, RoutedEventArgs e)
+        {
+            ManageStructures ms = new ManageStructures(CurrentUserStructureSets);
+            ms.Owner = this;
+            ms.ShowInTaskbar = false;
+            ms.ShowDialog();
         }
 
 

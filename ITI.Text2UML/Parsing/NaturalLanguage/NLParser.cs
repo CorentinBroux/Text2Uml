@@ -16,7 +16,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
         /// Lists all matches
         /// </summary>
         public static List<Tuple<List<string>, string>> Matches = new List<Tuple<List<string>, string>>();
-        
+
         /// <summary>
         /// Counter for unknown types (named 'thing1', 'thing2'...)
         /// </summary>
@@ -57,21 +57,21 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             NLTokenizer tokenizer = new NLTokenizer(input);
             Node root = new Node("root");
             Node currentNode = root;
-            
+
             tokenizer.GetNextToken();
-            
+
             // Parse
             while (tokenizer.CurrentToken != NLTokenType.EndOfInput)
             {
                 if (tokenizer.PreviousToken == NLTokenType.OpenPar)
                 {
-                    if(tokenizer.CurrentWordValue != "ROOT")
+                    if (tokenizer.CurrentWordValue != "ROOT")
                     {
                         Node node = new Node(tokenizer.CurrentWordValue);
                         currentNode.AddChild(node);
                         currentNode = node;
                     }
-                    
+
                 }
                 if (tokenizer.CurrentToken == NLTokenType.ClosePar)
                     currentNode = currentNode.Parent;
@@ -92,7 +92,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             StringBuilder builder = new StringBuilder();
             foreach (Tuple<string, string> t in tuples)
                 builder.AppendFormat(" {0} {1}", t.Item1, t.Item2);
-            if(builder.Length>0)
+            if (builder.Length > 0)
                 builder.Remove(0, 1); // Remove first char wich is a blank space
             return builder.ToString();
         }
@@ -102,7 +102,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
         /// </summary>
         /// <param name="input">Single sentence</param>
         /// <returns>Returns the pseudo code representing the sentence structure and data.</returns>
-        public static string Parse(string input, UserStructureSet uss = null)
+        public static string Parse(string input, List<UserStructureSet> usss = null)
         {
             // Initialize
             List<Tuple<string, string>> tuples = GetLowLevelTokens(input);
@@ -111,20 +111,21 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
             //*********************PARSE WITH USER STRUCTURES*********************
 
-            if (uss != null)
+            if (usss != null)
             {
-                foreach (UserStructure s in uss.Structures)
-                    switch(s.Type)
-                    {
-                        case UserStructureType.ByRegex:
-                            if (Regex.Match(type, s.Input).Success)
-                            return s.Output;
-                            break;
-                        case UserStructureType.ByTree:
-                            break;
-                        default :
-                            break;
-                    }   
+                foreach (UserStructureSet uss in usss)
+                    foreach (UserStructure us in uss.Structures)
+                        switch (us.Type)
+                        {
+                            case UserStructureType.ByRegex:
+                                if (Regex.Match(type, us.Input).Success)
+                                    return us.Output;
+                                break;
+                            case UserStructureType.ByTree:
+                                break;
+                            default:
+                                break;
+                        }
             }
 
             //********************************************************************
@@ -178,7 +179,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
 
         // Specialization
-        
+
         /// <summary>
         /// Returns the pseudo code for a simple definition sentence structure (noun verb noun).
         /// </summary>
@@ -265,7 +266,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 {
                     if (isLastName == false)
                     {
-                        if(isNewName == true)
+                        if (isNewName == true)
                             pos = builder.Length;
                         builder.AppendFormat("thing{0} {1} ", j, t.Item2);
                     }
@@ -279,11 +280,11 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     isLastName = true;
                     verb = t.Item2;
                 }
-                    
+
             }
 
             builder.Append(" " + builder2.ToString());
-            foreach(string name in firstNames)
+            foreach (string name in firstNames)
                 builder.Append(SimpleDefinition(new List<Tuple<string, string>>() { new Tuple<string, string>("NN", name), new Tuple<string, string>("VB", verb), new Tuple<string, string>("NN", lastName) }));
             return builder.ToString();
         }
@@ -311,7 +312,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
 
         // Action
-        
+
         /// <summary>
         /// Returns the pseudo code for a simple action sentence structure (adjectives noun verb).
         /// </summary>
@@ -346,7 +347,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     builder.AppendFormat("thing{0} {1} ", j, t.Item2);
                     j++;
                 }
-                    
+
 
                 if (t.Item1.StartsWith("VB") && !NLGrammar.Verb_Be.Contains(t.Item2))
                     builder.AppendFormat("void {0}()", t.Item2);
@@ -378,7 +379,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                         list.Add(t.Item2);
                 }
 
-                
+
 
             }
 

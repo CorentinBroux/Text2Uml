@@ -24,14 +24,7 @@
                 <MenuItem Name="submenu_export" Header="Export..." InputGestureText="Ctrl+E" Margin="0,0,1,0" Command="SaveAs"/>
             </MenuItem>
             <MenuItem Name="menu_edit" Header="Edit" Height="22">
-                <MenuItem x:Name="submenu_undo" Header="Undo" InputGestureText="Ctrl+Z" Margin="0,0,1,0"/>
-                <MenuItem x:Name="submenu_redo" Header="Redo" InputGestureText="Ctrl+Y" Margin="0,0,1,0"/>
-            </MenuItem>
-            <MenuItem Name="menu_options" Header="Options" Height="22">
-                <MenuItem x:Name="submenu_lang" Header="Language" HorizontalAlignment="Left">
-                    <MenuItem x:Name="submenu_lang_en" Header="English" Margin="0,0,1,0" IsCheckable="True" IsChecked="True" StaysOpenOnClick="True" Click="submenu_lang_en_Click"/>
-                    <MenuItem x:Name="submenu_lang_fr" Header="French" Margin="0,0,1,0" IsCheckable="True" IsChecked="False" StaysOpenOnClick="True" Click="submenu_lang_fr_Click"/>
-                </MenuItem>
+                <MenuItem x:Name="submenu_structures" Header="Manage structures" Margin="0,0,1,0" Click="submenu_structures_Click"/>
             </MenuItem>
             <MenuItem Name="menu_help" Header="?" Height="22">
                 <MenuItem x:Name="submenu_help" Header="Help" Margin="0,0,1,0"/>
