@@ -138,11 +138,6 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 Match(tuples);
                 return "";
             }
-            // Beeing (eg "A tiny cat")
-            else if (Regex.Match(type, "(DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+").Success)
-            {
-                return ComplexDefinition(tuples);
-            }
             // Reverse Definition
             else if (Regex.Match(type, "(DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ MD [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+ (DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+").Success)
             {
@@ -159,7 +154,12 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                         break;
                 }// tuples now contains 3 elements (NN* VB* NN*), but due to the modal, we have to reverse them
                 tuples.Reverse();
-                return SimpleDefinition(tuples);
+                return ComplexDefinition(tuples);
+            }
+            // Beeing (eg "A tiny cat")
+            else if (Regex.Match(type, "(DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+").Success)
+            {
+                return ComplexDefinition(tuples);
             }
             // Definition
             else if (Regex.Match(type, "((DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ )+VB[A-Z]* [a-zA-Z]+ (DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+").Success)
