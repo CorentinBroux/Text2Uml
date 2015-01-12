@@ -408,8 +408,8 @@ namespace Text2UML
 
             TB_PseudoCode.Text = output;
 
-            if (output.Length > 0)
-                GenerateUML();
+            GenerateUML();
+
             if (error.Length > 0)
                 return String.Format("Some sentences may not have been parsed !\n\n{0}", error);
             return "";
