@@ -447,7 +447,7 @@ namespace Text2UML
 
         private void submenu_structures_Click(object sender, RoutedEventArgs e)
         {
-            ManageStructures ms = new ManageStructures(CurrentUserStructureSets);
+            ManageStructures ms = new ManageStructures();
             ms.Owner = this;
             ms.ShowInTaskbar = false;
             ms.ShowDialog();

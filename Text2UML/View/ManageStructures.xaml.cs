@@ -20,16 +20,44 @@ namespace Text2UML.View
     /// </summary>
     public partial class ManageStructures : Window
     {
-        public ManageStructures(List<UserStructureSet> usss = null)
+        public ManageStructures()
         {
             InitializeComponent();
-            if (usss == null)
+            if (MainWindow.CurrentUserStructureSets == null)
                 return;
 
-            foreach (UserStructureSet uss in usss)
-                this.list_structures.Items.Add(uss);
 
-            this.list_structures.ContextMenu = new ContextMenu().menu
+            list_structures.ItemsSource = MainWindow.CurrentUserStructureSets;
+
+            ContextMenu cm = new ContextMenu();
+            MenuItem miDelete = new MenuItem();
+            miDelete.Header = "Remove selected structure set";
+            miDelete.Click += miDelete_Click;
+            cm.Items.Add(miDelete);
+            MenuItem miAdd = new MenuItem();
+            miAdd.Header = "Load a structure set";
+            miAdd.Click +=miAdd_Click;
+            cm.Items.Add(miAdd);
+            this.list_structures.ContextMenu = cm;
+        }
+
+
+        public void miDelete_Click(Object sender, RoutedEventArgs e)
+        {
+            UserStructureSet uss = (UserStructureSet)list_structures.SelectedItem;
+            if (uss == null)
+                return;
+            MessageBox.Show(uss.ToString());
+            MainWindow.CurrentUserStructureSets.Remove(uss);
+            list_structures.ItemsSource = null;
+            list_structures.ItemsSource = MainWindow.CurrentUserStructureSets;
+        }
+
+        public void miAdd_Click(Object sender, RoutedEventArgs e)
+        {
+            MainWindow.CurrentUserStructureSets.Add(UserStructureSet.LoadFromFile());
+            list_structures.ItemsSource = null;
+            list_structures.ItemsSource = MainWindow.CurrentUserStructureSets;
         }
     }
 }
