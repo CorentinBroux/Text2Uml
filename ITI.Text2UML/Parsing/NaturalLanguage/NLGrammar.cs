@@ -9,6 +9,8 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 {
     public static class NLGrammar
     {
+        public static char[] sentenceSeparators = { '.', '!', '?' };
+
         #region Words
         /// <summary>
         /// Lists all Penn Treebank P.O.S. Tags

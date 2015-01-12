@@ -47,7 +47,6 @@ namespace Text2UML.View
             UserStructureSet uss = (UserStructureSet)list_structures.SelectedItem;
             if (uss == null)
                 return;
-            MessageBox.Show(uss.ToString());
             MainWindow.CurrentUserStructureSets.Remove(uss);
             list_structures.ItemsSource = null;
             list_structures.ItemsSource = MainWindow.CurrentUserStructureSets;

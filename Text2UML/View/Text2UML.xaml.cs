@@ -24,6 +24,7 @@ using System.IO;
 using Dataweb.NShape.Layouters;
 using System.Xml.Linq;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
 
 
 namespace Text2UML
@@ -42,7 +43,17 @@ namespace Text2UML
             CurrentUserStructureSets = new List<UserStructureSet>();
             myform = new Form1();
             propertyGridHost.Child = myform;
-            
+
+            System.Windows.Controls.MenuItem mi = new System.Windows.Controls.MenuItem();
+            mi.Header = "Define personal structures...";
+            mi.Click += mi_Click;
+            System.Windows.Controls.MenuItem mis = new System.Windows.Controls.MenuItem();
+            mis.Header = "Manage structures...";
+            mis.Click +=mis_Click;
+            System.Windows.Controls.ContextMenu cm = new System.Windows.Controls.ContextMenu();
+            cm.Items.Add(mi);
+            cm.Items.Add(mis);
+            TB_NativeLanguage.ContextMenu = cm;
 
             // Parse a sentence to first load StanfordParser and avoid wait times
             NLParser.Parse(StanfordParser.Stanford_Parse("This is a test."));
@@ -50,6 +61,18 @@ namespace Text2UML
         }
 
 
+        public void mi_Click(Object sender, RoutedEventArgs e)
+        {
+            Dialog_Structure ds = new Dialog_Structure(TB_NativeLanguage.SelectedText.Split(NLGrammar.sentenceSeparators, StringSplitOptions.RemoveEmptyEntries).ToList());
+            ds.Owner = this;
+            ds.ShowInTaskbar = false;
+            ds.ShowDialog();
+
+        }
+        public void mis_Click(Object sender, RoutedEventArgs e)
+        {
+            ManageStructures();
+        }
 
         private void BT_Process_PC_Click(object sender, System.Windows.RoutedEventArgs e)
         {
@@ -372,19 +395,19 @@ namespace Text2UML
 
         private string NL_Process()
         {
+            Stopwatch stopwatch = new Stopwatch();
             // Reinitialize specialized types
             NLGrammar.Types = new List<Tuple<string, string>>();
-            char[] sentenceSeparators = { '.', '!', '?' };
+            char[] sentenceSeparators = NLGrammar.sentenceSeparators;
             List<string> input = TB_NativeLanguage.Text.Split(sentenceSeparators, StringSplitOptions.RemoveEmptyEntries).ToList();//.Except(previousSentences).ToList();
-            //previousSentences = TB_NativeLanguage.Text.Split(sentenceSeparators, StringSplitOptions.RemoveEmptyEntries).ToList();
-            //if (input.Count == 0)
-            //    input = previousSentences;
+
             string output = "";
             string error = "";
             NLParser.j = 1;
             NLParser.Matches = new List<Tuple<List<string>, string>>();
-            //myform.ResetDiagram();
+
             unknownSentences = new List<string>();
+            stopwatch.Start();
             foreach (string s in input)
             {
                 string str = NLParser.Parse(StanfordParser.Stanford_Parse(s), CurrentUserStructureSets);
@@ -397,6 +420,8 @@ namespace Text2UML
                 }
 
             }
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.ElapsedMilliseconds);
             if (unknownSentences.Count > 0)
                 LB_Status.Content = String.Format("{0} unknown sentences. Click 'process' for more details.", unknownSentences.Count.ToString());
             else LB_Status.Content = "";
@@ -406,9 +431,13 @@ namespace Text2UML
                 foreach (string s in t.Item1)
                     output = Regex.Replace(output, @"\b" + s + @"\b", t.Item2);
 
+            
             TB_PseudoCode.Text = output;
 
+            stopwatch.Restart();
             GenerateUML();
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.ElapsedMilliseconds);
 
             if (error.Length > 0)
                 return String.Format("Some sentences may not have been parsed !\n\n{0}", error);
@@ -446,6 +475,11 @@ namespace Text2UML
         }
 
         private void submenu_structures_Click(object sender, RoutedEventArgs e)
+        {
+            ManageStructures();
+        }
+
+        private void ManageStructures()
         {
             ManageStructures ms = new ManageStructures();
             ms.Owner = this;

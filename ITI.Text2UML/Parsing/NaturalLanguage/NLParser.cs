@@ -83,9 +83,9 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
         }
 
         /// <summary>
-        /// Express the content on a List<Tuple<string, string>> in a single string without ends of line.
+        /// Express the content on a List&lt;Tuple&lt;string, string&gt;&gt; in a single string without ends of line.
         /// </summary>
-        /// <param name="tuples">Input List<Tuple<string, string>> to express.</param>
+        /// <param name="tuples">Input List&lt;Tuple&lt;string, string&gt;&gt; to express.</param>
         /// <returns></returns>
         static string ExpressInLine(List<Tuple<string, string>> tuples)
         {
