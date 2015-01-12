@@ -71,7 +71,8 @@ namespace Text2UML.View
             StringBuilder builder = new StringBuilder();
             foreach (Tuple<string, string> t in tuples)
                 builder.AppendFormat("{0} {1} ", t.Item1, t.Item2);
-            TB_Regex.Text = builder.ToString().Remove(builder.Length - 1);
+            if(builder.Length > 0)
+                TB_Regex.Text = builder.ToString().Remove(builder.Length - 1);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
