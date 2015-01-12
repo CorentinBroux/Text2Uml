@@ -162,7 +162,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 return SimpleDefinition(tuples);
             }
             // Definition
-            else if (Regex.Match(type, "(DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+ (DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+").Success)
+            else if (Regex.Match(type, "((DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ )+VB[A-Z]* [a-zA-Z]+ (DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+").Success)
             {
                 return ComplexDefinition(tuples);
             }
@@ -202,13 +202,15 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             }// tuples now contains 3 elements (NN* VB* NN*)
 
             if (String.IsNullOrEmpty(tuples[1].Item2))
-                builder.AppendFormat("Class {0}", tuples[0].Item2);
-            else if (NLGrammar.Verb_Be.Contains(tuples[1].Item2))
-                builder.AppendFormat("Class {0} Class {1} {0} -> {1}", tuples[0].Item2, tuples[2].Item2);
-            else if (NLGrammar.Verb_Have.Contains(tuples[1].Item2))
-                builder.AppendFormat("Class {0} {1} {2} {0} --> {2}", tuples[0].Item2, "Object", tuples[2].Item2);
+                //builder.AppendFormat("Class {0} ", tuples[0].Item2);
+                builder.Append("");
             else
-                builder.AppendFormat("Class {0} void {1}({2})", tuples[0].Item2, tuples[1].Item2, tuples[2].Item2);
+                if (NLGrammar.Verb_Be.Contains(tuples[1].Item2))
+                    builder.AppendFormat("Class {0} Class {1} {0} -> {1} ", tuples[0].Item2, tuples[2].Item2);
+                else if (NLGrammar.Verb_Have.Contains(tuples[1].Item2))
+                    builder.AppendFormat("Class {0} {1} {2} {0} --> {2} ", tuples[0].Item2, "Object", tuples[2].Item2);
+                else
+                    builder.AppendFormat("Class {0} void {1}({2}) ", tuples[0].Item2, tuples[1].Item2, tuples[2].Item2);
             return builder.ToString();
         }
 
@@ -235,42 +237,54 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     i--;
                 }
                 i--;
-            }// tuples now contains elements ((JJ* )*NN* VB* (JJ* )*NN*)
+            }// tuples now contains elements (((JJ* )*NN*)+ VB* (JJ* )*NN*)
 
-            bool isFirstName = true;
-            string name1 = "", name2 = "", verb = "";
+            bool isLastName = false;
+            string lastName = "", verb = "";
+            List<string> firstNames = new List<string>();
+            int pos = 0; // position to insert names to
+            bool isNewName = false;
             foreach (Tuple<string, string> t in tuples)
             {
                 if (t.Item1.StartsWith("NN"))
                 {
-                    if (isFirstName == true)
+                    if (isLastName == false)
                     {
-                        name1 = t.Item2;
-                        isFirstName = false;
-                        builder.Insert(0, "Class " + t.Item2 + " ");
+                        isNewName = true;
+                        firstNames.Add(t.Item2);
+                        builder.Insert(pos, "Class " + t.Item2 + " ");
                     }
                     else
                     {
-                        name2 = t.Item2;
+                        lastName = t.Item2;
                         builder2.Insert(0, "Class " + t.Item2 + " ");
                     }
                 }
 
                 if (t.Item1.StartsWith("JJ"))
                 {
-                    if (isFirstName == true)
+                    if (isLastName == false)
+                    {
+                        if(isNewName == true)
+                            pos = builder.Length;
                         builder.AppendFormat("thing{0} {1} ", j, t.Item2);
+                    }
                     else
                         builder2.AppendFormat("thing{0} {1} ", j, t.Item2);
                     j++;
                 }
 
                 if (t.Item1.StartsWith("VB"))
+                {
+                    isLastName = true;
                     verb = t.Item2;
+                }
+                    
             }
 
             builder.Append(" " + builder2.ToString());
-            builder.Append(SimpleDefinition(new List<Tuple<string, string>>() { new Tuple<string, string>("NN", name1), new Tuple<string, string>("VB", verb), new Tuple<string, string>("NN", name2) }));
+            foreach(string name in firstNames)
+                builder.Append(SimpleDefinition(new List<Tuple<string, string>>() { new Tuple<string, string>("NN", name), new Tuple<string, string>("VB", verb), new Tuple<string, string>("NN", lastName) }));
             return builder.ToString();
         }
 
