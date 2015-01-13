@@ -135,7 +135,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             if (Regex.Match(type, "NN[A-Z]* [a-zA-Z]+ VB[A-Z]* is DT a NN[A-Z]* type IN of NN[A-Z]* [a-zA-Z]+").Success || Regex.Match(type, "(NN[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)*)+ VB[A-Z]* are NN[A-Z]* types IN of NN[A-Z]* [a-zA-Z]+").Success)
                 return TypeDefinition(tuples);
             // Match (Match A, B, and C as D || Match A, B, C as D)
-            if (Regex.Match(type, "[A-Z]+ (M|m)atch ([A-Z]+ [a-zA-Z]* (CC[A-Z]* [a-zA-Z]+ )*)+IN as [A-Z]+ [a-zA-Z]+").Success || Regex.Match(type, "NN[A-Z]* (M|m)atch NN[A-Z]* [A-Z]* IN as NN[A-Z]* [A-Z]+").Success)
+            if (Regex.Match(type, "[A-Z]+ (M|m)atch ([A-Z]+ [a-zA-Z]* (CC[A-Z]* [a-zA-Z]+ )*)+[A-Z]+ as [A-Z]+ [a-zA-Z]+").Success || Regex.Match(type, "NN[A-Z]* (M|m)atch NN[A-Z]* [A-Z]* [A-Z]+ as NN[A-Z]* [A-Z]+").Success)
             {
                 Match(tuples);
                 return "";
@@ -387,7 +387,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             tuples.RemoveAt(0);// Remove the first noun which is "Match"
             foreach (Tuple<string, string> t in tuples)
             {
-                if (t.Item1.StartsWith("IN"))
+                if (t.Item1.StartsWith("IN") || t.Item1.StartsWith("RB"))
                 {
                     isAsReached = true;
                 }
