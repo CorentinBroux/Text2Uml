@@ -159,12 +159,12 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 return ComplexDefinition(tuples);
             }
             // Definition
-            else if (Regex.Match(type, "((DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ )+VB[A-Z]* [a-zA-Z]+ ((DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ )+").Success)
+            else if (Regex.Match(type, "((DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ )+VB[A-Z]* [a-zA-Z]+ ((DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*(NN[A-Z]* [a-zA-Z]+ )*)+").Success)
             {
                 return ComplexDefinition(tuples);
             }
             // Beeing (eg "A tiny cat")
-            else if (Regex.Match(type, "(DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+").Success)
+            else if (Regex.Match(type, "((DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+( )*)+").Success)
             {
                 return ComplexDefinition(tuples, true);
             }
@@ -220,10 +220,10 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
         /// Returns the pseudo code for a complex definition sentence structure (adjectives noun verb adjectives noun).
         /// </summary>
         /// <param name="tuples">List<Tuple<string, string>> representing the sentence. Only pass List<Tuple<string, string>> tuples if sentence type is ComplexDefinition</param>
-        static string ComplexDefinition(List<Tuple<string, string>> tuples, bool noLastNames = false)
+        static string ComplexDefinition(List<Tuple<string, string>> tuples, bool be = false)
         {
-            StringBuilder builder = new StringBuilder();
 
+            //StringBuilder builder = new StringBuilder();
             if (tuples[0].Item1 == "DT")
                 tuples.RemoveAt(0);
 
@@ -244,23 +244,41 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             string verb = "";
             List<string> firstNames = new List<string>(); // before the verb
             List<string> lastNames = new List<string>(); // after the verb
-            List<Tuple<int, string>> adjectives = new List<Tuple<int, string>>(); // NB : only use if noLastNames == true
+            List<Tuple<int, string>> adjectives = new List<Tuple<int, string>>();
+            List<Tuple<int, string>> lastAdjectives = new List<Tuple<int, string>>();
             int pos = 0; // position to insert names to
+
+            List<Class> firstClasses = new List<Class>();
+            List<Class> lastClasses = new List<Class>();
+
             bool isNewName = false;
             foreach (Tuple<string, string> t in tuples)
             {
                 if (t.Item1.StartsWith("NN"))
                 {
+
+
                     isNewName = true;
                     if (isLastName == false)
                     {
-                        firstNames.Add(t.Item2);
-                        builder.Insert(pos, "Class " + t.Item2 + " ");
+                        //firstNames.Add(t.Item2);
+                        //builder.Insert(pos, "Class " + t.Item2 + " ");
+
+                        firstClasses.Add(new Class(t.Item2));
+                        foreach (Tuple<int, string> adj in adjectives)
+                            firstClasses.Last().Attributes.Add(new Model.Attribute(String.Format("thing{0}", adj.Item1), adj.Item2));
+                        adjectives.Clear();
+
                     }
                     else
                     {
-                        lastNames.Add(t.Item2);
-                        builder.Insert(pos, "Class " + t.Item2 + " ");
+                        //lastNames.Add(t.Item2);
+                        //builder.Insert(pos, "Class " + t.Item2 + " ");
+
+                        lastClasses.Add(new Class(t.Item2));
+                        foreach (Tuple<int, string> adj in lastAdjectives)
+                            lastClasses.Last().Attributes.Add(new Model.Attribute(String.Format("thing{0}", adj.Item1), adj.Item2));
+                        lastAdjectives.Clear();
                     }
                 }
 
@@ -268,19 +286,17 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 {
                     if (isLastName == false)
                     {
-                        if (isNewName == true)
-                            pos = builder.Length;
-                        builder.AppendFormat("thing{0} {1} ", j, t.Item2);
-                        if (noLastNames == true)
-                            adjectives.Add(new Tuple<int, string>(j, t.Item2));
+                        //if (isNewName == true)
+                        //    pos = builder.Length;
+                        //builder.AppendFormat("thing{0} {1} ", j, t.Item2);
+                        adjectives.Add(new Tuple<int, string>(j, t.Item2));
                     }
                     else
                     {
-                        if (isNewName == true)
-                            pos = builder.Length;
-                        builder.AppendFormat("thing{0} {1} ", j, t.Item2);
-                        if (noLastNames == true)
-                            adjectives.Add(new Tuple<int, string>(j, t.Item2));
+                        //if (isNewName == true)
+                        //    pos = builder.Length;
+                        //builder.AppendFormat("thing{0} {1} ", j, t.Item2);
+                        lastAdjectives.Add(new Tuple<int, string>(j, t.Item2));
                     }
 
                     j++;
@@ -294,19 +310,63 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
             }
 
-            if (noLastNames == true)
+
+            StringBuilder builder = new StringBuilder();
+
+            if (lastClasses.Count == 0)
             {
-                builder.Clear();
-                foreach (string name in firstNames)
-                    foreach (Tuple<int, string> adj in adjectives)
-                        builder.AppendFormat("Class {0} thing{1} {2} ", name, adj.Item1, adj.Item2);
+                foreach (Class c in firstClasses)
+                {
+                    foreach (Tuple<int, string> adj in lastAdjectives)
+                        c.Attributes.Add(new Model.Attribute(String.Format("thing{0}", adj.Item1), adj.Item2));
+                    builder.AppendFormat("{0} ", c.ToString());
+                }
                 return builder.ToString();
             }
 
-            foreach (string name1 in firstNames)
-                foreach (string name2 in lastNames)
-                    builder.Append(SimpleDefinition(new List<Tuple<string, string>>() { new Tuple<string, string>("NN", name1), new Tuple<string, string>("VB", verb), new Tuple<string, string>("NN", name2) }));
+            //foreach (Class c1 in firstClasses)
+            //    foreach (Class c2 in lastClasses)
+            //        builder.Append(SimpleDefinition(new List<Tuple<string, string>>() { new Tuple<string, string>("NN", c1.Name), new Tuple<string, string>("VB", verb), new Tuple<string, string>("NN", c2.Name) }));
+            //return builder.ToString();
+
+
+            if (NLGrammar.Verb_Be.Contains(verb))
+            {
+                foreach (Class c in firstClasses)
+                {
+                    builder.AppendFormat("{0} ", c.ToString());
+                    foreach (Class c2 in lastClasses)
+                    {
+                        builder.AppendFormat("{0} ", c2.ToString());
+                        builder.AppendFormat("{0} -> {1} ",c.Name, c2.Name);
+                    }
+                        
+                }
+                    
+            }
+            if (NLGrammar.Verb_Have.Contains(verb))
+            {
+                foreach (Class c in firstClasses)
+                {
+                    builder.AppendFormat("{0} ", c.ToString());
+                    foreach (Class c2 in lastClasses)
+                    {
+                        builder.AppendFormat("{0} ", c2.ToString());
+                        builder.AppendFormat("{0} --> {1} ", c.Name, c2.Name);
+                    }
+
+                }
+            }
+            else
+            {
+                foreach (Class c in firstClasses)
+                    builder.AppendFormat("{0} ", c.ToString());
+                foreach (Class c in lastClasses)
+                    builder.AppendFormat("{0} ", c.ToString());
+            }
+
             return builder.ToString();
+
         }
 
         /// <summary>
