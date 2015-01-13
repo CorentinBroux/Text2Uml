@@ -19,6 +19,7 @@ using Dataweb.NShape.Commands;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Linq;
+using System.Globalization;
 
 namespace Text2UML
 {
@@ -36,6 +37,9 @@ namespace Text2UML
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
+
+
             string path = Directory.GetCurrentDirectory();
 
             // Set path to the sample diagram and the diagram file extension
@@ -54,6 +58,7 @@ namespace Text2UML
             this.cachedRepository1.Insert(diagram);
 
             display1.OpenDiagram("Test NShape diagram");
+
             
         }
 
@@ -227,6 +232,8 @@ namespace Text2UML
             Font font = new Font("Arial", 12.0F);
             Size textSize = TextRenderer.MeasureText(str, font);
             return textSize;
+            
+           
         }
 
         public void SaveDiagramAsImage()
@@ -552,6 +559,155 @@ namespace Text2UML
   
         }
         #endregion
+
+        /*
+        public void OrganizeNewsShapes(List<Class> newboxes)
+        {
+            if (display1.Diagram.Shapes.Count == 0)
+            {
+                return;
+            }
+
+            List<Shape> newShapes = new List<Shape>();
+
+            foreach(Class c in _boxes)
+            {
+                if(newboxes.Contains(c))
+                {
+                    newboxes.Remove(c);
+                }
+
+            }
+
+            
+            #region abstract drawboxes
+
+            List<Tuple<Shape, string>> tmpdrawedShapes = new List<Tuple<Shape,string>>();
+
+            // Draw boxes
+            int x = 120, y = 100;
+            foreach (ITI.Text2UML.Model.Class box in newboxes)
+            {
+
+                bool drawed1 = false;
+                Shape sh1 = null;
+                foreach (Tuple<Shape, string> t in tmpdrawedShapes)
+                    if (t.Item2 == box.Name)
+                    {
+                        drawed1 = true;
+                        sh1 = t.Item1;
+                    }
+
+                if (drawed1 == false)
+                {
+                    Size size1 = new Size();
+                    sh1 = DrawSingleBox(box, x, y, ref size1);
+                    tmpdrawedShapes.Add(Tuple.Create(sh1, box.Name));
+                    newShapes.Add(sh1);
+                }
+
+
+                if (box.IsLinked == true)
+                {
+                    foreach (Tuple<Class, LinkTypes> tuple in box.Linked)
+                    {
+                        Class b = tuple.Item1;
+                        bool drawed = false;
+                        Shape sh2 = null;
+                        foreach (Tuple<Shape, string> t in tmpdrawedShapes)
+                            if (t.Item2 == b.Name)
+                            {
+                                drawed = true;
+                                sh2 = t.Item1;
+                            }
+
+                        if (drawed == false)
+                        {
+                            Size size2 = new Size();
+                            sh2 = DrawSingleBox(b, x, y, ref size2);
+                            tmpdrawedShapes.Add(Tuple.Create(sh2, b.Name));
+                            newShapes.Add(sh2);
+                        }
+
+                        Polyline arrow = (Polyline)project1.ShapeTypes["Polyline"].CreateInstance();
+                        diagram.Shapes.Add(arrow);
+                        if (tuple.Item2 == LinkTypes.Extends)
+                            arrow.EndCapStyle = project1.Design.CapStyles.ClosedArrow;
+                        else
+                            arrow.EndCapStyle = project1.Design.CapStyles.OpenArrow;
+                        arrow.Connect(ControlPointId.FirstVertex, sh1, ControlPointId.Reference);
+                        arrow.Connect(ControlPointId.LastVertex, sh2, ControlPointId.Reference);
+                    }
+
+                }
+
+            }
+            #endregion
+            
+            Class box = newboxes.Last();
+            Size Size1 = new Size();
+            Shape s = DrawSingleBox(box, 10, 10, ref Size1);
+            List<Shape> s1 = new List<Shape>();
+            s1.Add(s);
+
+            // Layout only the selected shapes
+            IEnumerable<Shape> allShapes = display1.Diagram.Shapes;
+            IEnumerable<Shape> shapesToLayout = s1;
+
+            const int stepTimeout = 10;
+
+            // Aggregated command for executing the 4 layouting steps at once
+            AggregatedCommand aggregatedCommand = new AggregatedCommand(project1.Repository);
+
+            ExpansionLayouter expansionLayouter = new ExpansionLayouter(project1);
+            expansionLayouter.HorizontalCompression = 50;
+            expansionLayouter.VerticalCompression = 80;
+            expansionLayouter.AllShapes = this.display1.Diagram.Shapes;
+            expansionLayouter.Shapes = shapesToLayout;
+            ExecuteLayouter(expansionLayouter, stepTimeout);
+            ExecuteCommand(aggregatedCommand, expansionLayouter.CreateLayoutCommand());
+
+
+            // Create the layouter and set up layout parameters
+            RepulsionLayouter layouter = new RepulsionLayouter(project1);
+            // Set the repulsion force and its range
+            layouter.SpringRate = 9;
+            layouter.Repulsion = 10;
+            layouter.RepulsionRange = 330;
+            // Set the friction and the mass of the shapes
+            layouter.Friction = 10;
+            layouter.Mass = 100;
+            // Set all shapes 
+            layouter.AllShapes = this.display1.Diagram.Shapes;
+            // Set shapes that should be layouted
+            layouter.Shapes = shapesToLayout;
+
+            layouter.AllShapes = this.display1.Diagram.Shapes;
+            layouter.Shapes = shapesToLayout;
+            ExecuteLayouter(layouter, stepTimeout);
+            ExecuteCommand(aggregatedCommand, layouter.CreateLayoutCommand());
+            //
+            // Now prepare and execute the layouter
+            //layouter.Prepare();
+            //layouter.Execute(10);
+            // Fit the result into the diagram bounds
+            //layouter.Fit(50, 50, display1.Diagram.Width - 100, display1.Diagram.Height - 100);
+
+            expansionLayouter.HorizontalCompression = 200;
+            expansionLayouter.VerticalCompression = 200;
+            expansionLayouter.AllShapes = this.display1.Diagram.Shapes;
+            expansionLayouter.Shapes = shapesToLayout;
+            ExecuteLayouter(expansionLayouter, stepTimeout);
+            ExecuteCommand(aggregatedCommand, expansionLayouter.CreateLayoutCommand());
+
+            // Add aggregated command to the history. 
+            // Do not execute it as each step was executed before.
+            project1.History.AddCommand(aggregatedCommand);
+
+            expansionLayouter.Fit(50, 50, display1.Diagram.Width - 100, display1.Diagram.Height - 100);
+       
+        }
+         */
 
         public void ResetDiagram()
         {
