@@ -181,40 +181,6 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
         // Specialization
 
-        /// <summary>
-        /// Returns the pseudo code for a simple definition sentence structure (noun verb noun).
-        /// </summary>
-        /// <param name="tuples">List<Tuple<string, string>> representing the sentence. Only pass List<Tuple<string, string>> tuples if sentence type is SimpleDefinition</param>
-        static string SimpleDefinition(List<Tuple<string, string>> tuples)
-        {
-            StringBuilder builder = new StringBuilder();
-
-            if (tuples[0].Item1 == "DT")
-                tuples.RemoveAt(0);
-
-            int i = tuples.Count - 1;
-            while (i != 0)
-            {
-                if (tuples[i].Item1 == "DT")
-                {
-                    tuples.RemoveAt(i);
-                    i--;
-                }
-                i--;
-            }// tuples now contains 3 elements (NN* VB* NN*)
-
-            if (String.IsNullOrEmpty(tuples[1].Item2))
-                //builder.AppendFormat("Class {0} ", tuples[0].Item2);
-                builder.Append("");
-            else
-                if (NLGrammar.Verb_Be.Contains(tuples[1].Item2))
-                    builder.AppendFormat("Class {0} Class {1} {0} -> {1} ", tuples[0].Item2, tuples[2].Item2);
-                else if (NLGrammar.Verb_Have.Contains(tuples[1].Item2))
-                    builder.AppendFormat("Class {0} {1} {2} {0} --> {2} ", tuples[0].Item2, "Object", tuples[2].Item2);
-                else
-                    builder.AppendFormat("Class {0} void {1}({2}) ", tuples[0].Item2, tuples[1].Item2, tuples[2].Item2);
-            return builder.ToString();
-        }
 
         /// <summary>
         /// Returns the pseudo code for a complex definition sentence structure (adjectives noun verb adjectives noun).
@@ -223,47 +189,21 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
         static string ComplexDefinition(List<Tuple<string, string>> tuples, bool be = false)
         {
 
-            //StringBuilder builder = new StringBuilder();
-            if (tuples[0].Item1 == "DT")
-                tuples.RemoveAt(0);
-
-            int i = tuples.Count - 1;
-            while (i != 0)
-            {
-                if (i < 0)
-                    break;
-                if (tuples[i].Item1 == "DT" || tuples[i].Item1 == "CC")
-                {
-                    tuples.RemoveAt(i);
-                    i--;
-                }
-                i--;
-            }// tuples now contains elements (((JJ* )*NN*)+ VB* ((JJ* )*NN*)+)
-
             bool isLastName = false;
             string verb = "";
-            List<string> firstNames = new List<string>(); // before the verb
-            List<string> lastNames = new List<string>(); // after the verb
             List<Tuple<int, string>> adjectives = new List<Tuple<int, string>>();
             List<Tuple<int, string>> lastAdjectives = new List<Tuple<int, string>>();
-            int pos = 0; // position to insert names to
 
             List<Class> firstClasses = new List<Class>();
             List<Class> lastClasses = new List<Class>();
 
-            bool isNewName = false;
             foreach (Tuple<string, string> t in tuples)
             {
                 if (t.Item1.StartsWith("NN"))
                 {
 
-
-                    isNewName = true;
                     if (isLastName == false)
                     {
-                        //firstNames.Add(t.Item2);
-                        //builder.Insert(pos, "Class " + t.Item2 + " ");
-
                         firstClasses.Add(new Class(t.Item2));
                         foreach (Tuple<int, string> adj in adjectives)
                             firstClasses.Last().Attributes.Add(new Model.Attribute(String.Format("thing{0}", adj.Item1), adj.Item2));
@@ -272,9 +212,6 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     }
                     else
                     {
-                        //lastNames.Add(t.Item2);
-                        //builder.Insert(pos, "Class " + t.Item2 + " ");
-
                         lastClasses.Add(new Class(t.Item2));
                         foreach (Tuple<int, string> adj in lastAdjectives)
                             lastClasses.Last().Attributes.Add(new Model.Attribute(String.Format("thing{0}", adj.Item1), adj.Item2));
@@ -285,19 +222,9 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 if (t.Item1.StartsWith("JJ"))
                 {
                     if (isLastName == false)
-                    {
-                        //if (isNewName == true)
-                        //    pos = builder.Length;
-                        //builder.AppendFormat("thing{0} {1} ", j, t.Item2);
                         adjectives.Add(new Tuple<int, string>(j, t.Item2));
-                    }
                     else
-                    {
-                        //if (isNewName == true)
-                        //    pos = builder.Length;
-                        //builder.AppendFormat("thing{0} {1} ", j, t.Item2);
                         lastAdjectives.Add(new Tuple<int, string>(j, t.Item2));
-                    }
 
                     j++;
                 }
@@ -324,11 +251,6 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 return builder.ToString();
             }
 
-            //foreach (Class c1 in firstClasses)
-            //    foreach (Class c2 in lastClasses)
-            //        builder.Append(SimpleDefinition(new List<Tuple<string, string>>() { new Tuple<string, string>("NN", c1.Name), new Tuple<string, string>("VB", verb), new Tuple<string, string>("NN", c2.Name) }));
-            //return builder.ToString();
-
 
             if (NLGrammar.Verb_Be.Contains(verb))
             {
@@ -338,11 +260,11 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     foreach (Class c2 in lastClasses)
                     {
                         builder.AppendFormat("{0} ", c2.ToString());
-                        builder.AppendFormat("{0} -> {1} ",c.Name, c2.Name);
+                        builder.AppendFormat("{0} -> {1} ", c.Name, c2.Name);
                     }
-                        
+
                 }
-                    
+
             }
             if (NLGrammar.Verb_Have.Contains(verb))
             {
