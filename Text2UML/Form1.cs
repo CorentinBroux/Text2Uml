@@ -37,6 +37,9 @@ namespace Text2UML
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
+
+
             string path = Directory.GetCurrentDirectory();
 
             // Set path to the sample diagram and the diagram file extension

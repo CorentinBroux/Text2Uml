@@ -8,6 +8,7 @@ using ITI.Text2UML.Model;
 using MoreLinq;
 using ITI.Text2UML.Parsing.NaturalLanguage;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 
 namespace Text2UML.View
@@ -24,6 +25,9 @@ namespace Text2UML.View
             // Initialize
             Tuple<List<Class>, List<Link>> tuple = PCParser.Parse(input);
             string output = "";
+
+            //Service to pluralize/singularize words
+            var PLurService = System.Data.Entity.Design.PluralizationServices.PluralizationService.CreateService(CultureInfo.GetCultureInfo("en-us"));
 
             // Format classes
             foreach (Class c in tuple.Item1)
@@ -77,11 +81,21 @@ namespace Text2UML.View
                     output += String.Format("{0}\n", l.ToString());
             }
 
-
+            
             // Matches
             foreach (Tuple<List<string>, string> t in NLParser.Matches)
                 foreach (string s in t.Item1)
                     output = Regex.Replace(output, @"\b" + s + @"\b", t.Item2);
+
+            string[] split = output.Split(new Char[] { ' ', ',', '.', ':', '\t', '!', '?', '\r', '\n' });
+
+
+            foreach (string s in split)
+            {
+                output = Regex.Replace(output, @"\b" + s + @"\b", PLurService.Singularize(s));
+            }
+
+                
 
             return output;
         }
