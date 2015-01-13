@@ -158,13 +158,13 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 tuples.Reverse();
                 return ComplexDefinition(tuples);
             }
-            // Beeing (eg "A tiny cat")
-            else if (Regex.Match(type, "(DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+").Success)
+            // Definition
+            else if (Regex.Match(type, "((DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ )+VB[A-Z]* [a-zA-Z]+ ((DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ )+").Success)
             {
                 return ComplexDefinition(tuples);
             }
-            // Definition
-            else if (Regex.Match(type, "((DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ )+VB[A-Z]* [a-zA-Z]+ (DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+").Success)
+            // Beeing (eg "A tiny cat")
+            else if (Regex.Match(type, "(DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+").Success)
             {
                 return ComplexDefinition(tuples);
             }
@@ -223,7 +223,6 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
         static string ComplexDefinition(List<Tuple<string, string>> tuples)
         {
             StringBuilder builder = new StringBuilder();
-            StringBuilder builder2 = new StringBuilder();
 
             if (tuples[0].Item1 == "DT")
                 tuples.RemoveAt(0);
@@ -239,27 +238,28 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     i--;
                 }
                 i--;
-            }// tuples now contains elements (((JJ* )*NN*)+ VB* (JJ* )*NN*)
+            }// tuples now contains elements (((JJ* )*NN*)+ VB* ((JJ* )*NN*)+)
 
             bool isLastName = false;
             string lastName = "", verb = "";
-            List<string> firstNames = new List<string>();
+            List<string> firstNames = new List<string>(); // before the verb
+            List<string> lastNames = new List<string>(); // after the verb
             int pos = 0; // position to insert names to
             bool isNewName = false;
             foreach (Tuple<string, string> t in tuples)
             {
                 if (t.Item1.StartsWith("NN"))
                 {
+                    isNewName = true;
                     if (isLastName == false)
                     {
-                        isNewName = true;
                         firstNames.Add(t.Item2);
                         builder.Insert(pos, "Class " + t.Item2 + " ");
                     }
                     else
                     {
-                        lastName = t.Item2;
-                        builder2.Insert(0, "Class " + t.Item2 + " ");
+                        lastNames.Add(t.Item2);
+                        builder.Insert(pos, "Class " + t.Item2 + " ");
                     }
                 }
 
@@ -272,7 +272,12 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                         builder.AppendFormat("thing{0} {1} ", j, t.Item2);
                     }
                     else
-                        builder2.AppendFormat("thing{0} {1} ", j, t.Item2);
+                    {
+                        if (isNewName == true)
+                            pos = builder.Length;
+                        builder.AppendFormat("thing{0} {1} ", j, t.Item2);
+                    }
+
                     j++;
                 }
 
@@ -284,9 +289,9 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
             }
 
-            builder.Append(" " + builder2.ToString());
-            foreach (string name in firstNames)
-                builder.Append(SimpleDefinition(new List<Tuple<string, string>>() { new Tuple<string, string>("NN", name), new Tuple<string, string>("VB", verb), new Tuple<string, string>("NN", lastName) }));
+            foreach (string name1 in firstNames)
+                foreach (string name2 in lastNames)
+                    builder.Append(SimpleDefinition(new List<Tuple<string, string>>() { new Tuple<string, string>("NN", name1), new Tuple<string, string>("VB", verb), new Tuple<string, string>("NN", name2) }));
             return builder.ToString();
         }
 
