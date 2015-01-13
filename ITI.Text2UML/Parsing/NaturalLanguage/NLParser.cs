@@ -261,6 +261,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     {
                         builder.AppendFormat("{0} ", c2.ToString());
                         builder.AppendFormat("{0} -> {1} ", c.Name, c2.Name);
+                        NLGrammar.Types.Add(new Tuple<string, string>(c.Name, c2.Name));
                     }
 
                 }

@@ -32,6 +32,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             sent2Reader.close();
             var tree = lp.apply(rawWords2);
 
+            tokenizerFactory.setOptions("dcoref.singular");
             // Extract dependencies from lexical tree
             var tlp = new PennTreebankLanguagePack();
             var gsf = tlp.grammaticalStructureFactory();
