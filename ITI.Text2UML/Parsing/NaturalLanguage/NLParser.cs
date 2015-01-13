@@ -166,7 +166,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             // Beeing (eg "A tiny cat")
             else if (Regex.Match(type, "(DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+").Success)
             {
-                return ComplexDefinition(tuples);
+                return ComplexDefinition(tuples, true);
             }
             // Action without complement
             else if (Regex.Match(type, "(DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+").Success)
@@ -220,7 +220,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
         /// Returns the pseudo code for a complex definition sentence structure (adjectives noun verb adjectives noun).
         /// </summary>
         /// <param name="tuples">List<Tuple<string, string>> representing the sentence. Only pass List<Tuple<string, string>> tuples if sentence type is ComplexDefinition</param>
-        static string ComplexDefinition(List<Tuple<string, string>> tuples)
+        static string ComplexDefinition(List<Tuple<string, string>> tuples, bool noLastNames = false)
         {
             StringBuilder builder = new StringBuilder();
 
@@ -241,9 +241,10 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             }// tuples now contains elements (((JJ* )*NN*)+ VB* ((JJ* )*NN*)+)
 
             bool isLastName = false;
-            string lastName = "", verb = "";
+            string verb = "";
             List<string> firstNames = new List<string>(); // before the verb
             List<string> lastNames = new List<string>(); // after the verb
+            List<Tuple<int, string>> adjectives = new List<Tuple<int, string>>(); // NB : only use if noLastNames == true
             int pos = 0; // position to insert names to
             bool isNewName = false;
             foreach (Tuple<string, string> t in tuples)
@@ -270,12 +271,16 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                         if (isNewName == true)
                             pos = builder.Length;
                         builder.AppendFormat("thing{0} {1} ", j, t.Item2);
+                        if (noLastNames == true)
+                            adjectives.Add(new Tuple<int, string>(j, t.Item2));
                     }
                     else
                     {
                         if (isNewName == true)
                             pos = builder.Length;
                         builder.AppendFormat("thing{0} {1} ", j, t.Item2);
+                        if (noLastNames == true)
+                            adjectives.Add(new Tuple<int, string>(j, t.Item2));
                     }
 
                     j++;
@@ -287,6 +292,15 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     verb = t.Item2;
                 }
 
+            }
+
+            if (noLastNames == true)
+            {
+                builder.Clear();
+                foreach (string name in firstNames)
+                    foreach (Tuple<int, string> adj in adjectives)
+                        builder.AppendFormat("Class {0} thing{1} {2} ", name, adj.Item1, adj.Item2);
+                return builder.ToString();
             }
 
             foreach (string name1 in firstNames)
