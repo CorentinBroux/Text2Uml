@@ -141,7 +141,8 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 return "";
             }
             // Reverse Definition
-            else if (Regex.Match(type, "(DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ MD [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+ (DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+").Success)
+            //else if (Regex.Match(type, "(DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ MD [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+ (DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+").Success)
+            else if (Regex.Match(type, "(DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ MD [a-zA-Z]+ VB[A-Z]*( [a-zA-Z]+)+").Success)
             {
                 //int i = tuples.Count - 1;
                 //while (i != 0)
@@ -195,7 +196,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
         /// Returns the pseudo code for a complex definition sentence structure (adjectives noun verb adjectives noun).
         /// </summary>
         /// <param name="tuples">List<Tuple<string, string>> representing the sentence. Only pass List<Tuple<string, string>> tuples if sentence type is ComplexDefinition</param>
-        static string ComplexDefinition(List<Tuple<string, string>> tuples, bool be = false, bool withIN = false, bool isModal = false, bool isJJRJJS =false)
+        static string ComplexDefinition(List<Tuple<string, string>> tuples, bool be = false, bool withIN = false, bool isModal = false, bool isJJRJJS = false)
         {
             if (withIN == true) // if "in", "on", "at"... 
             {
@@ -241,7 +242,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     }
                 }
 
-                if (t.Item1=="JJ")
+                if (t.Item1 == "JJ")
                 {
                     if (isLastName == false)
                         adjectives.Add(new Tuple<int, string>(j, t.Item2));
@@ -282,6 +283,13 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
             if (NLGrammar.Verb_Be.Contains(verb) && withIN == false)
             {
+                if (isModal && firstClasses.Count == 0)
+                {
+                    foreach (Class c2 in lastClasses)
+                        foreach (Tuple<int, string> adj in lastAdjectives)
+                            NLGrammar.Types.Add(new Tuple<string, string>(adj.Item2, c2.Name));
+
+                }
                 foreach (Class c in firstClasses)
                 {
                     builder.AppendFormat("{0} ", c.ToString());
@@ -289,7 +297,10 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     {
                         builder.AppendFormat("{0} ", c2.ToString());
                         builder.AppendFormat("{0} -> {1} ", c.Name, c2.Name);
-                        NLGrammar.Types.Add(new Tuple<string, string>(c.Name, c2.Name));
+                        if (isModal == false)
+                            NLGrammar.Types.Add(new Tuple<string, string>(c.Name, c2.Name));
+                        else
+                            NLGrammar.Types.Add(new Tuple<string, string>(c2.Name, c.Name));
                     }
 
                 }
