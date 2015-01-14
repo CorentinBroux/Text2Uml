@@ -213,7 +213,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
             foreach (Tuple<string, string> t in tuples)
             {
-                if (t.Item1.StartsWith("NN"))
+                if (t.Item1.StartsWith("NN") || t.Item1.StartsWith("CD"))
                 {
 
                     if (isLastName == false)
