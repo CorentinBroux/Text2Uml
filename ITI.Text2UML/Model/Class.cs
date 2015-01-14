@@ -74,7 +74,7 @@ namespace ITI.Text2UML.Model
 
         public override int GetHashCode()
         {
-            return Attributes.GetHashCode() * Methods.GetHashCode();
+            return Attributes.GetHashCode() + 17 * Methods.GetHashCode();
         }
         #endregion
 

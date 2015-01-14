@@ -27,11 +27,17 @@ namespace ITI.Text2UML.Model
             return String.Format("{0} {1}", Type, Name);
         }
 
-        public bool Equals(ITI.Text2UML.Model.Attribute a)
+        public override bool Equals(Object obj)
         {
+            ITI.Text2UML.Model.Attribute a = (ITI.Text2UML.Model.Attribute) obj;
             if (this.Name == a.Name && this.Type == a.Type)
                 return true;
             return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode() + 17 * Type.GetHashCode();
         }
         #endregion
     }

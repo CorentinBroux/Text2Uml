@@ -202,15 +202,6 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             {
                 tuples.Reverse();
             }
-            //else if (isModal == true)
-            //{
-            //    foreach (Tuple<string, string> t in tuples)
-            //        if (t.Item1.StartsWith("VB") && NLGrammar.Verb_Be.Contains(t.Item2))
-            //        {
-            //            tuples.Reverse();
-            //            break;
-            //        }
-            //}
 
             bool isLastName = false;
             string verb = "";
@@ -308,6 +299,12 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             }
             if (NLGrammar.Verb_Have.Contains(verb) || withIN == true)
             {
+                string linkLabel = "";
+                if (isJJRJJS == true)
+                {
+                    linkLabel = "0..n";
+                }
+                
                 foreach (Class c in firstClasses)
                 {
                     builder.AppendFormat("{0} ", c.ToString());

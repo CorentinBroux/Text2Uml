@@ -56,6 +56,10 @@ namespace ITI.Text2UML.Model
             return false;
         }
 
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode() + 17 * ReturnType.GetHashCode() + 23 * ParamTypes.GetHashCode();
+        }
 
         #endregion
     }

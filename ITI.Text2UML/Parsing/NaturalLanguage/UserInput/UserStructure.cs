@@ -44,7 +44,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage.UserInput
 
         public override int GetHashCode()
         {
-            return Input.GetHashCode() * Output.GetHashCode(); // ***************************** ???? 
+            return Input.GetHashCode() + 17 * Output.GetHashCode();
         }
 
         public override string ToString()
