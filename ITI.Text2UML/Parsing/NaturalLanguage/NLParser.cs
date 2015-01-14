@@ -143,25 +143,25 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             // Reverse Definition
             else if (Regex.Match(type, "(DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ MD [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+ (DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+").Success)
             {
-                int i = tuples.Count - 1;
-                while (i != 0)
-                {
-                    if (tuples[i].Item1 == "DT" || tuples[i].Item1 == "MD")
-                    {
-                        tuples.RemoveAt(i);
-                        i--;
-                    }
-                    i--;
-                    if (i < 0)
-                        break;
-                }// tuples now contains 3 elements (NN* VB* NN*), but due to the modal, we have to reverse them
-                tuples.Reverse();
-                return ComplexDefinition(tuples);
+                //int i = tuples.Count - 1;
+                //while (i != 0)
+                //{
+                //    if (tuples[i].Item1 == "DT" || tuples[i].Item1 == "MD")
+                //    {
+                //        tuples.RemoveAt(i);
+                //        i--;
+                //    }
+                //    i--;
+                //    if (i < 0)
+                //        break;
+                //}// tuples now contains 3 elements (NN* VB* NN*), but due to the modal, we have to reverse them
+                //tuples.Reverse();
+                return ComplexDefinition(tuples, false, false, true);
             }
             // Definition
             else if (Regex.Match(type, "((DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ )+VB[A-Z]* [a-zA-Z]+ (IN [a-zA-Z]+ (DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*(NN[A-Z]* [a-zA-Z]+ )*)+").Success)
             {
-                return ComplexDefinition(tuples,false,true);
+                return ComplexDefinition(tuples, false, true);
             }
             else if (Regex.Match(type, "((DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ )+VB[A-Z]* [a-zA-Z]+ ((DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*(NN[A-Z]* [a-zA-Z]+ )*)+").Success)
             {
@@ -190,13 +190,22 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
         /// Returns the pseudo code for a complex definition sentence structure (adjectives noun verb adjectives noun).
         /// </summary>
         /// <param name="tuples">List<Tuple<string, string>> representing the sentence. Only pass List<Tuple<string, string>> tuples if sentence type is ComplexDefinition</param>
-        static string ComplexDefinition(List<Tuple<string, string>> tuples, bool be = false, bool withIN = false)
+        static string ComplexDefinition(List<Tuple<string, string>> tuples, bool be = false, bool withIN = false, bool isModal = false)
         {
-            if(withIN == true) // if "in", "on", "at"... 
+            if (withIN == true) // if "in", "on", "at"... 
             {
                 tuples.Reverse();
             }
-            
+            else if (isModal == true)
+            {
+                foreach (Tuple<string, string> t in tuples)
+                    if (t.Item1.StartsWith("VB") && NLGrammar.Verb_Be.Contains(t.Item2))
+                    {
+                        tuples.Reverse();
+                        break;
+                    }
+            }
+
             bool isLastName = false;
             string verb = "";
             List<Tuple<int, string>> adjectives = new List<Tuple<int, string>>();
