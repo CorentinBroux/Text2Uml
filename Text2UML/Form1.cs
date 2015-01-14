@@ -174,7 +174,7 @@ namespace Text2UML
                         cardin.MoveControlPointTo(gluePtId, dstPos.X, dstPos.Y, ResizeModifiers.None);
                         cardin.Connect(gluePtId, arrow, ControlPointId.Reference);
                         //cardin.MaintainOrientation = true; // Label will rotate when the line's angle changes
-                        cardin.SetCaptionText(0, "testlabel");
+                        cardin.SetCaptionText(0, tuple.Item3);
                         diagram.Shapes.Add(cardin);   
                         this.project1.Repository.Insert((Shape)cardin, diagram);
                         
