@@ -158,6 +158,11 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 //tuples.Reverse();
                 return ComplexDefinition(tuples, false, false, true);
             }
+            // TEST : JJR / JJS
+            else if (Regex.Match(type, "([a-zA-Z]+ )+JJ(R|S)( [a-zA-Z]+)+").Success)
+            {
+                return ComplexDefinition(tuples, false, false, false, true);
+            }
             // Definition
             else if (Regex.Match(type, "((DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ )+VB[A-Z]* [a-zA-Z]+ (IN [a-zA-Z]+ (DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*(NN[A-Z]* [a-zA-Z]+ )*)+").Success)
             {
@@ -190,21 +195,21 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
         /// Returns the pseudo code for a complex definition sentence structure (adjectives noun verb adjectives noun).
         /// </summary>
         /// <param name="tuples">List<Tuple<string, string>> representing the sentence. Only pass List<Tuple<string, string>> tuples if sentence type is ComplexDefinition</param>
-        static string ComplexDefinition(List<Tuple<string, string>> tuples, bool be = false, bool withIN = false, bool isModal = false)
+        static string ComplexDefinition(List<Tuple<string, string>> tuples, bool be = false, bool withIN = false, bool isModal = false, bool isJJRJJS =false)
         {
             if (withIN == true) // if "in", "on", "at"... 
             {
                 tuples.Reverse();
             }
-            else if (isModal == true)
-            {
-                foreach (Tuple<string, string> t in tuples)
-                    if (t.Item1.StartsWith("VB") && NLGrammar.Verb_Be.Contains(t.Item2))
-                    {
-                        tuples.Reverse();
-                        break;
-                    }
-            }
+            //else if (isModal == true)
+            //{
+            //    foreach (Tuple<string, string> t in tuples)
+            //        if (t.Item1.StartsWith("VB") && NLGrammar.Verb_Be.Contains(t.Item2))
+            //        {
+            //            tuples.Reverse();
+            //            break;
+            //        }
+            //}
 
             bool isLastName = false;
             string verb = "";
@@ -236,7 +241,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     }
                 }
 
-                if (t.Item1.StartsWith("JJ"))
+                if (t.Item1=="JJ")
                 {
                     if (isLastName == false)
                         adjectives.Add(new Tuple<int, string>(j, t.Item2));
@@ -254,6 +259,12 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
             }
 
+            if (isModal == true)
+            {
+                List<Class> temp = firstClasses;
+                firstClasses = lastClasses;
+                lastClasses = temp;
+            }
 
             StringBuilder builder = new StringBuilder();
 

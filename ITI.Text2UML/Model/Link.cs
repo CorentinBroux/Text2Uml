@@ -9,7 +9,7 @@ namespace ITI.Text2UML.Model
     public enum LinkTypes
     {
         Includes,
-        Extends
+        Extends,
     };
 
     public class Link
@@ -20,6 +20,7 @@ namespace ITI.Text2UML.Model
         public string From { get; set; }
         public string To { get; set; }
         public LinkTypes Type { get; set; }
+        public string Label { get; set; }
         #endregion
 
         #region Constructors
@@ -28,6 +29,7 @@ namespace ITI.Text2UML.Model
             From = from;
             To = to;
             Type = type;
+            Label = "";
         }
         #endregion
 
