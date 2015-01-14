@@ -200,6 +200,8 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             List<Method> methods = new List<Method>();
             Method m = null;
 
+            string linkLabel = "";
+
             string min = "0", max = "n";
 
             string jrss = "";
@@ -252,6 +254,8 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                             max = StringToNumber(t.Item2).ToString();
                             break;
                     }
+                    
+                    linkLabel = String.Format("({0} {1})", min, max);
                 }
 
                 else if (t.Item1 == "JJ")
@@ -334,12 +338,6 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             }
             else if (NLGrammar.Verb_Have.Contains(verb) || withIN == true)
             {
-                string linkLabel = "";
-                if (isJJRJJS == true)
-                {
-                    linkLabel = String.Format("({0} {1})", min, max);
-                }
-
                 foreach (Class c in firstClasses)
                 {
                     builder.AppendFormat("{0} ", c.ToString());
