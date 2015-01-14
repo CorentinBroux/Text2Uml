@@ -95,6 +95,7 @@ namespace ITI.Text2UML.Parsing.PseudoCode
                     {
                         ITI.Text2UML.Model.Attribute att = new ITI.Text2UML.Model.Attribute(v1, v2);
                         boxes.Last().Attributes.Add(att);
+                        token = t3;
                         continue; // t3 not used then dont call PCTokenizer.GetNextToken()
                     }
                     else if (t2 == PCTokenType.Link && t3 == PCTokenType.Word) // If link

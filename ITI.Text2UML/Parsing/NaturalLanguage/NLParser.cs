@@ -321,7 +321,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 }
 
             }
-            if (NLGrammar.Verb_Have.Contains(verb) || withIN == true)
+            else if (NLGrammar.Verb_Have.Contains(verb) || withIN == true)
             {
                 string linkLabel = "";
                 if (isJJRJJS == true)
