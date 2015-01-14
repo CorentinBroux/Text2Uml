@@ -43,7 +43,7 @@ namespace ITI.Text2UML.Model
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();
-            builder.AppendFormat("Class {0}\n", Name);
+            builder.AppendFormat("class {0}\n", Name);
             foreach (Attribute a in Attributes)
                 builder.AppendFormat("\t{0}\n", a.ToString());
             foreach (Method m in Methods)

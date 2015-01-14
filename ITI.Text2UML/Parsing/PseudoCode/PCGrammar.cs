@@ -12,9 +12,7 @@ namespace ITI.Text2UML.Parsing.PseudoCode
         /// Lists all pseudo code keywords
         /// </summary>
         public static List<string> Keywords = new List<string>() { 
-            "Class",
-            "Interface",
-            "Abstract",
+            "class"
         };
 
         /// <summary>

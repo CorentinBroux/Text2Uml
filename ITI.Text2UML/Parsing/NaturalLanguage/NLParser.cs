@@ -414,7 +414,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             foreach (Tuple<string, string> t in tuples)
             {
                 if (t.Item1.StartsWith("NN"))
-                    builder.Insert(0, "Class " + t.Item2 + " ");
+                    builder.Insert(0, "class " + t.Item2 + " ");
 
                 if (t.Item1.StartsWith("JJ"))
                 {

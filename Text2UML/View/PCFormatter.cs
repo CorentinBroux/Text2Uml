@@ -99,7 +99,7 @@ namespace Text2UML.View
 
                 
 
-            return output;
+            return output.ToLower();
         }
     }
 
