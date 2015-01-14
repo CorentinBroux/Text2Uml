@@ -178,13 +178,6 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
         // Specialization
 
-        enum jjrsType
-        {
-            less,
-            more,
-            least,
-            equals
-        };
 
         /// <summary>
         /// Returns the pseudo code for a complex definition sentence structure (adjectives noun verb adjectives noun).
@@ -207,8 +200,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
             string min = "0", max = "n";
 
-            List<Tuple<jjrsType, int>> jjrss = new List<Tuple<jjrsType, int>>();
-            jjrsType jjrs = jjrsType.equals;
+            string jrss = "";
 
             foreach (Tuple<string, string> t in tuples)
             {
@@ -234,9 +226,25 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 
                 else if (t.Item1.StartsWith("CD"))
                 {
-                    int i;
-                    Int32.TryParse(t.Item2, out i);
-                    jjrss.Add(new Tuple<jjrsType, int>(jjrs, i));
+                    //int i;
+                    //Int32.TryParse(t.Item2, out i);
+                    //jjrss.Add(new Tuple<jjrsType, int>(jjrs, i));
+                    switch (jrss)
+                    {
+                        case "more":
+                            min = t.Item2.ToString();
+                            break;
+                        case "less":
+                            max = t.Item2.ToString();
+                            break;
+                        case "least":
+                            min = t.Item2.ToString();
+                            break;
+                        default:
+                            min = t.Item2.ToString();
+                            max = t.Item2.ToString();
+                            break;
+                    }
                 }
 
                 else if (t.Item1 == "JJ")
@@ -251,21 +259,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
                 else if (t.Item1 == "JJS" || t.Item1 == "JJR")
                 {
-                    switch (t.Item2)
-                    {
-                        case "more":
-                            jjrs = jjrsType.more;
-                            break;
-                        case "less":
-                            jjrs = jjrsType.less;
-                            break;
-                        case "least":
-                            jjrs = jjrsType.least;
-                            break;
-                        default:
-                            jjrs = jjrsType.equals;
-                            break;
-                    }
+                    jrss = t.Item2;
                 }
                 else if (t.Item1.StartsWith("VB"))
                 {
@@ -326,7 +320,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 string linkLabel = "";
                 if (isJJRJJS == true)
                 {
-                    linkLabel = "0..n";
+                    linkLabel = String.Format("({0} {1})", min, max);
                 }
                 
                 foreach (Class c in firstClasses)
@@ -335,7 +329,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     foreach (Class c2 in lastClasses)
                     {
                         builder.AppendFormat("{0} ", c2.ToString());
-                        builder.AppendFormat("{0} --> {1} ", c.Name, c2.Name);
+                        builder.AppendFormat("{0} --> {1} {2}", c.Name, c2.Name, linkLabel);
                     }
 
                 }
