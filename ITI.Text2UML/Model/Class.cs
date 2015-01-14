@@ -55,7 +55,7 @@ namespace ITI.Text2UML.Model
         public override bool Equals(object obj)
         {
             Class c = (Class)obj;
-            if (this.Name == c.Name && this.Attributes.Count == c.Attributes.Count && this.Methods.Count == c.Methods.Count)
+            if (this.Name.Equals(c.Name,StringComparison.InvariantCultureIgnoreCase) && this.Attributes.Count == c.Attributes.Count && this.Methods.Count == c.Methods.Count)
             {
                 for (int i = 0; i < this.Attributes.Count; i++)
                 {

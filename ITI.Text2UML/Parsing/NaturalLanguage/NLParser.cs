@@ -197,6 +197,8 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
             List<Class> firstClasses = new List<Class>();
             List<Class> lastClasses = new List<Class>();
+            List<Method> methods = new List<Method>();
+            Method m = null;
 
             string min = "0", max = "n";
 
@@ -221,6 +223,11 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                         foreach (Tuple<int, string> adj in lastAdjectives)
                             lastClasses.Last().Attributes.Add(new Model.Attribute(String.Format("thing{0}", adj.Item1), adj.Item2));
                         lastAdjectives.Clear();
+                        if (m != null)
+                        {
+                            m.ParamTypes.Add(t.Item2);
+                            m = null;
+                        }
                     }
                 }
 
@@ -265,9 +272,19 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 {
                     isLastName = true;
                     verb = t.Item2;
+                    if (!NLGrammar.Verb_Be.Contains(verb) && !NLGrammar.Verb_Have.Contains(verb))
+                    {
+                        m = new Method("void", verb, new List<string>());
+                        methods.Add(m);
+                    }
+
                 }
 
             }
+
+            foreach (Method method in methods)
+                foreach (Class c in firstClasses)
+                    c.Methods.Add(method);
 
             if (isModal == true)
             {
