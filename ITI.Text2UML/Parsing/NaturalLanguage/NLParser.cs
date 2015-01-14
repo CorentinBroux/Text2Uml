@@ -128,22 +128,6 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                                 break;
                         }
             }
-            Console.WriteLine("two");
-            Console.WriteLine(StringToNumber("two"));
-            Console.WriteLine("sixty-four");
-            Console.WriteLine(StringToNumber("sixty-four"));
-            Console.WriteLine("one hundred");
-            Console.WriteLine(StringToNumber("one hundred"));
-            Console.WriteLine("two hundred");
-            Console.WriteLine(StringToNumber("two hundred"));
-            Console.WriteLine("eleven thousand five hundred sixty eight");
-            Console.WriteLine(StringToNumber("eleven thousand five hundred sixty eight"));
-            Console.WriteLine("twenty-two thousand");
-            Console.WriteLine(StringToNumber("twenty-two thousand"));
-            Console.WriteLine("two hundred million five hundred thousand two hundred and seventy two");
-            Console.WriteLine(StringToNumber("two million five hundred"));
-
-
 
             //********************************************************************
 
