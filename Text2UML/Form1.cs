@@ -128,6 +128,7 @@ namespace Text2UML
                             
                         Polyline arrow = (Polyline)project1.ShapeTypes["Polyline"].CreateInstance();
                         diagram.Shapes.Add(arrow);
+                        this.project1.Repository.Insert((Shape)arrow, diagram);
                         if (tuple.Item2 == LinkTypes.Extends)
                             arrow.EndCapStyle = project1.Design.CapStyles.ClosedArrow;
                         else
@@ -414,6 +415,7 @@ namespace Text2UML
 
                         Polyline arrow = (Polyline)project1.ShapeTypes["Polyline"].CreateInstance();
                         diagram.Shapes.Add(arrow);
+                        this.project1.Repository.Insert((Shape)arrow, diagram);
                         if (tuple.Item2 == LinkTypes.Extends)
                             arrow.EndCapStyle = project1.Design.CapStyles.ClosedArrow;
                         else
