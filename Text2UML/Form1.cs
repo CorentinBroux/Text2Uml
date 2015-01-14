@@ -51,6 +51,7 @@ namespace Text2UML
             project1.LibrarySearchPaths.Add(path);
             // Open the NShape project
             project1.AddLibrary(typeof(RoundedBox).Assembly, false);
+            
             project1.Create();
           
             diagram = new Diagram("Test NShape diagram");
@@ -59,7 +60,6 @@ namespace Text2UML
 
             display1.OpenDiagram("Test NShape diagram");
 
-            
         }
 
         #region Draw Boxes/Entity
@@ -128,17 +128,62 @@ namespace Text2UML
                             
                         Polyline arrow = (Polyline)project1.ShapeTypes["Polyline"].CreateInstance();
                         diagram.Shapes.Add(arrow);
+                        this.project1.Repository.Insert((Shape)arrow, diagram);
+
                         if (tuple.Item2 == LinkTypes.Extends)
                             arrow.EndCapStyle = project1.Design.CapStyles.ClosedArrow;
                         else
                             arrow.EndCapStyle = project1.Design.CapStyles.OpenArrow;
                         arrow.Connect(ControlPointId.FirstVertex, sh1, ControlPointId.Reference);
                         arrow.Connect(ControlPointId.LastVertex, sh2, ControlPointId.Reference);
+
+                        
+
+                        // Attach the label to the middle of a single-segment line:
+                        //
+                        // Calculate the middle of the line
+
+                        /*
+                        ControlPointId targetPtId = ControlPointId.Reference;
+                        Point pos1 = arrow.GetControlPointPosition(ControlPointId.FirstVertex);
+                        Point pos2 = arrow.GetControlPointPosition(ControlPointId.LastVertex);
+                        Point targetPos = Point.Round(new PointF((pos1.X + pos2.X) / 2f, (pos1.Y + pos2.Y) / 2f));
+                        */
+
+
+                        Point p1 = arrow.GetControlPointPosition(arrow.GetControlPointIds(ControlPointCapabilities.Glue).First());
+                        Point p2 = arrow.GetControlPointPosition(arrow.GetControlPointIds(ControlPointCapabilities.Glue).Last());
+                        int dx  = p2.X - p1.X;
+                        int dy = p2.Y - p1.Y;
+
+                        Point dstPos = Point.Empty;
+                        dstPos.X = p1.X + (int)(dx / 2f);
+                        dstPos.Y = p1.Y + (int)(dy / 2f);
+                        //
+                        // Get ControlPointId of the label's glue point
+
+                        Dataweb.NShape.GeneralShapes.Label cardin = (Dataweb.NShape.GeneralShapes.Label)project1.ShapeTypes["Label"].CreateInstance();
+
+                        ControlPointId gluePtId = ControlPointId.None;
+                        foreach (ControlPointId id in cardin.GetControlPointIds(ControlPointCapabilities.Glue))
+                            gluePtId = id;
+                        
+                        // Move glue point to desired position and connect with the line (Point-To-Shape connection with reference point)
+                        cardin.MoveTo(dstPos.X, dstPos.Y);
+                        cardin.MoveControlPointTo(gluePtId, dstPos.X, dstPos.Y, ResizeModifiers.None);
+                        cardin.Connect(gluePtId, arrow, ControlPointId.Reference);
+                        //cardin.MaintainOrientation = true; // Label will rotate when the line's angle changes
+                        cardin.SetCaptionText(0, "testlabel");
+                        diagram.Shapes.Add(cardin);   
+                        this.project1.Repository.Insert((Shape)cardin, diagram);
+                        
+                        
                     }
                     
                 }
                 
             }
+            this.project1.Repository.Update();
 
         }
 
@@ -414,6 +459,7 @@ namespace Text2UML
 
                         Polyline arrow = (Polyline)project1.ShapeTypes["Polyline"].CreateInstance();
                         diagram.Shapes.Add(arrow);
+                        this.project1.Repository.Insert((Shape)arrow, diagram);
                         if (tuple.Item2 == LinkTypes.Extends)
                             arrow.EndCapStyle = project1.Design.CapStyles.ClosedArrow;
                         else
