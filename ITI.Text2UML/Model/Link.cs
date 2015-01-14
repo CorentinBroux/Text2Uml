@@ -40,11 +40,11 @@ namespace ITI.Text2UML.Model
             switch (Type)
             {
                 case LinkTypes.Extends:
-                    return String.Format("{0} -> {1}{2}", From, To, Label);
+                    return String.Format("{0} -> {1} {2}", From, To, Label);
                 case LinkTypes.Includes:
-                    return String.Format("{0} --> {1}{2}", From, To, Label);
+                    return String.Format("{0} --> {1} {2}", From, To, Label);
                 default:
-                    return String.Format("{0} -> {1}{2}", From, To, Label);
+                    return String.Format("{0} -> {1} {2}", From, To, Label);
             }
 
         }

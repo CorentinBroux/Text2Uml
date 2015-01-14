@@ -60,7 +60,6 @@ namespace Text2UML
 
             display1.OpenDiagram("Test NShape diagram");
 
-            
         }
 
         #region Draw Boxes/Entity
@@ -130,7 +129,10 @@ namespace Text2UML
                         Polyline arrow = (Polyline)project1.ShapeTypes["Polyline"].CreateInstance();
                         diagram.Shapes.Add(arrow);
                         this.project1.Repository.Insert((Shape)arrow, diagram);
+<<<<<<< HEAD
+=======
 
+>>>>>>> origin/Labelfeature
                         if (tuple.Item2 == LinkTypes.Extends)
                             arrow.EndCapStyle = project1.Design.CapStyles.ClosedArrow;
                         else

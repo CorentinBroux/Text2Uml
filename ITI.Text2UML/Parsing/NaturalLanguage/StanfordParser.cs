@@ -39,7 +39,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             var gs = gsf.newGrammaticalStructure(tree);
             var tdl = gs.typedDependenciesCCprocessed();
 
-
+            
 #if DEBUG
             Tools.Tree t = NLParser.GetTree(tree.toString());
             Tools.Tree t2 = t.GetSubTree(1);
