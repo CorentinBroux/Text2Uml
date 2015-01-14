@@ -128,6 +128,22 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                                 break;
                         }
             }
+            Console.WriteLine("two");
+            Console.WriteLine(StringToNumber("two"));
+            Console.WriteLine("sixty-four");
+            Console.WriteLine(StringToNumber("sixty-four"));
+            Console.WriteLine("one hundred");
+            Console.WriteLine(StringToNumber("one hundred"));
+            Console.WriteLine("two hundred");
+            Console.WriteLine(StringToNumber("two hundred"));
+            Console.WriteLine("eleven thousand five hundred sixty eight");
+            Console.WriteLine(StringToNumber("eleven thousand five hundred sixty eight"));
+            Console.WriteLine("twenty-two thousand");
+            Console.WriteLine(StringToNumber("twenty-two thousand"));
+            Console.WriteLine("two hundred million five hundred thousand two hundred and seventy two");
+            Console.WriteLine(StringToNumber("two million five hundred"));
+
+
 
             //********************************************************************
 
@@ -388,6 +404,96 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
             matchTuple = new Tuple<List<string>, string>(list, last);
             Matches.Add(matchTuple);
+        }
+
+
+        private static int StringToNumber(string number)
+        {
+            int n = 0;
+
+            if (String.IsNullOrEmpty(number)) return 0;
+
+            var dict = new Dictionary<string, int>();
+            dict.Add("zero", 0);
+            dict.Add("nought", 0);
+            dict.Add("one", 1);
+            dict.Add("two", 2);
+            dict.Add("three", 3);
+            dict.Add("four", 4);
+            dict.Add("five", 5);
+            dict.Add("six", 6);
+            dict.Add("seven", 7);
+            dict.Add("eight", 8);
+            dict.Add("nine", 9);
+            dict.Add("ten", 10);
+            dict.Add("eleven", 11);
+            dict.Add("twelve", 12);
+            dict.Add("thirteen", 13);
+            dict.Add("fourteen", 14);
+            dict.Add("fifteen", 15);
+            dict.Add("sixteen", 16);
+            dict.Add("seventeen", 17);
+            dict.Add("eighteen", 18);
+            dict.Add("nineteen", 19);
+            dict.Add("twenty", 20);
+            dict.Add("thirty", 30);
+            dict.Add("forty", 40);
+            dict.Add("fifty", 50);
+            dict.Add("sixty", 60);
+            dict.Add("seventy", 70);
+            dict.Add("eighty", 80);
+            dict.Add("ninety", 90);
+            dict.Add("hundred", 100);
+            dict.Add("thousand", 1000);
+            dict.Add("million", 1000000);
+
+            // rough check whether it's a valid number
+            string temp = number.ToLower().Trim().Replace(" and ", " ");
+            string[] words = temp.Split(new char[] { ' ', '-' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (words.Length > 1)
+            {
+                foreach (string word in words)
+                {
+                    if (!dict.ContainsKey(word)) return n;
+                }
+            }
+
+            int i;
+            int j;
+            
+            for (i = words.Length - 1; i > (-1); i--)
+            {
+                if (words[i] == "hundred")
+                {
+                    n = (dict[words[i - 1]] * dict[words[i]]) + n;
+                    i--;
+                }
+                else if(words[i] == "thousand")
+                {
+                    string[] tmpwords = new string[i];
+                    for (j = i - 1; j > -1; j--)
+                        tmpwords[j] = words[j];
+
+                    n = (StringToNumber(string.Join(" ", tmpwords)) * dict[words[i]]) + n;
+                    i = i - tmpwords.Length;
+                }
+                else if (words[i] == "million")
+                {
+                    string[] tmpwords2 = new string[i];
+                    for (j = i - 1; j > -1; j--)
+                        tmpwords2[j] = words[j];
+
+                    n = (StringToNumber(string.Join(" ", tmpwords2)) * dict[words[i]]) + n;
+                    i = i - tmpwords2.Length;
+                }
+                else
+                {
+                    n = n + dict[words[i]];
+                }
+            }
+            return n;
+
         }
     }
 }
