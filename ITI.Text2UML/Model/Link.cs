@@ -14,7 +14,7 @@ namespace ITI.Text2UML.Model
 
     public class Link
     {
-        
+
 
         #region Fields and properties
         public string From { get; set; }
@@ -37,16 +37,16 @@ namespace ITI.Text2UML.Model
 
         public override string ToString()
         {
-            switch(Type)
+            switch (Type)
             {
                 case LinkTypes.Extends:
-                    return String.Format("{0} -> {1}", From, To);
+                    return String.Format("{0} -> {1}{2}", From, To, Label);
                 case LinkTypes.Includes:
-                    return String.Format("{0} --> {1}", From, To);
+                    return String.Format("{0} --> {1}{2}", From, To, Label);
                 default:
-                    return String.Format("{0} -> {1}", From, To);
+                    return String.Format("{0} -> {1}{2}", From, To, Label);
             }
-                
+
         }
 
         public override bool Equals(object obj)
@@ -75,7 +75,7 @@ namespace ITI.Text2UML.Model
                     return LinkTypes.Extends;
                 //throw new InvalidSyntaxException("Error : unknown link sybol");
             }
-            
+
         }
 
         #endregion

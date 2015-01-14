@@ -144,19 +144,6 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             //else if (Regex.Match(type, "(DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ MD [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+ (DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+").Success)
             else if (Regex.Match(type, "(DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ MD [a-zA-Z]+ VB[A-Z]*( [a-zA-Z]+)+").Success)
             {
-                //int i = tuples.Count - 1;
-                //while (i != 0)
-                //{
-                //    if (tuples[i].Item1 == "DT" || tuples[i].Item1 == "MD")
-                //    {
-                //        tuples.RemoveAt(i);
-                //        i--;
-                //    }
-                //    i--;
-                //    if (i < 0)
-                //        break;
-                //}// tuples now contains 3 elements (NN* VB* NN*), but due to the modal, we have to reverse them
-                //tuples.Reverse();
                 return ComplexDefinition(tuples, false, false, true);
             }
             // TEST : JJR / JJS
@@ -191,6 +178,13 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
         // Specialization
 
+        enum jjrsType
+        {
+            less,
+            more,
+            least,
+            equals
+        };
 
         /// <summary>
         /// Returns the pseudo code for a complex definition sentence structure (adjectives noun verb adjectives noun).
@@ -211,9 +205,14 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             List<Class> firstClasses = new List<Class>();
             List<Class> lastClasses = new List<Class>();
 
+            string min = "0", max = "n";
+
+            List<Tuple<jjrsType, int>> jjrss = new List<Tuple<jjrsType, int>>();
+            jjrsType jjrs = jjrsType.equals;
+
             foreach (Tuple<string, string> t in tuples)
             {
-                if (t.Item1.StartsWith("NN") || t.Item1.StartsWith("CD"))
+                if (t.Item1.StartsWith("NN") || (t.Item1.StartsWith("CD") && verb == ""))
                 {
 
                     if (isLastName == false)
@@ -232,8 +231,15 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                         lastAdjectives.Clear();
                     }
                 }
+                
+                else if (t.Item1.StartsWith("CD"))
+                {
+                    int i;
+                    Int32.TryParse(t.Item2, out i);
+                    jjrss.Add(new Tuple<jjrsType, int>(jjrs, i));
+                }
 
-                if (t.Item1 == "JJ")
+                else if (t.Item1 == "JJ")
                 {
                     if (isLastName == false)
                         adjectives.Add(new Tuple<int, string>(j, t.Item2));
@@ -243,7 +249,25 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     j++;
                 }
 
-                if (t.Item1.StartsWith("VB"))
+                else if (t.Item1 == "JJS" || t.Item1 == "JJR")
+                {
+                    switch (t.Item2)
+                    {
+                        case "more":
+                            jjrs = jjrsType.more;
+                            break;
+                        case "less":
+                            jjrs = jjrsType.less;
+                            break;
+                        case "least":
+                            jjrs = jjrsType.least;
+                            break;
+                        default:
+                            jjrs = jjrsType.equals;
+                            break;
+                    }
+                }
+                else if (t.Item1.StartsWith("VB"))
                 {
                     isLastName = true;
                     verb = t.Item2;

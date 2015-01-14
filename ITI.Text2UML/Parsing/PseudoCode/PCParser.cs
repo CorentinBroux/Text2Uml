@@ -27,11 +27,8 @@ namespace ITI.Text2UML.Parsing.PseudoCode
             // Tokenize and parse
             while (PCTokenizer.CurrentToken != PCTokenType.EndOfInput)
             {
-                if (PCTokenizer.CurrentToken == PCTokenType.Error)
-                    PCTokenizer.GetNextToken();
-                if (PCTokenizer.CurrentToken == PCTokenType.Link)
-                    PCTokenizer.GetNextToken();
-                token = PCTokenizer.CurrentToken;
+                if (token != PCTokenType.Word && token != PCTokenType.EndOfInput && token != PCTokenType.Keyword)
+                    token = PCTokenizer.GetNextToken();
                 if (token == PCTokenType.Keyword)
                 {
                     boxes.Add(new Class("Unnamed box"));
@@ -103,8 +100,25 @@ namespace ITI.Text2UML.Parsing.PseudoCode
                     else if (t2 == PCTokenType.Link && t3 == PCTokenType.Word) // If link
                     {
                         Link link = new Link(v1, v3, Link.GetLinkTypeFromSymbol(v2));
-                        links.Add(link);
+                        
                         token = PCTokenizer.GetNextToken();
+
+                        if(token == PCTokenType.OpenPar) // if label
+                        {
+                            PCTokenType ta = PCTokenizer.GetNextToken();
+                            string va = PCTokenizer.CurrentWordValue;
+                            PCTokenType tb = PCTokenizer.GetNextToken();
+                            string vb = PCTokenizer.CurrentWordValue;
+
+                            if (ta == PCTokenType.Word && tb == PCTokenType.Word)
+                            {
+                                link.Label = String.Format("({0} {1})", va, vb);
+                            }
+
+                            //token = PCTokenizer.GetNextToken();
+                        }
+
+                        links.Add(link);
                     }
 
 

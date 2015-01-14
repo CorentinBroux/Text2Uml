@@ -82,12 +82,19 @@ namespace Text2UML.View
                 foreach (string s in t.Item1)
                     output = Regex.Replace(output, @"\b" + s + @"\b", t.Item2);
 
-            string[] split = output.Split(new Char[] { ' ', ',', '.', ':', '\t', '!', '?', '\r', '\n' });
+            string[] split = output.Split(new Char[] { ' ', ',', '.', ':', '\t', '!', '?', '\r', '\n' },StringSplitOptions.RemoveEmptyEntries);
 
 
             foreach (string s in split)
             {
-                output = Regex.Replace(output, @"\b" + s + @"\b", PLurService.Singularize(s));
+                try
+                {
+                    output = Regex.Replace(output, @"\b" + s + @"\b", PLurService.Singularize(s));
+                }
+                catch
+                {
+                    continue;
+                }
             }
 
                 
