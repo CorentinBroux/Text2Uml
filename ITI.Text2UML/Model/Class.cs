@@ -14,7 +14,7 @@ namespace ITI.Text2UML.Model
         public List<Attribute> Attributes { get; set; }
         public List<Method> Methods { get; set; }
         public bool IsLinked { get; set; }
-        public List<Tuple<Class,LinkTypes>> Linked { get; set; }
+        public List<Tuple<Class,LinkTypes, string>> Linked { get; set; }
         public int x { get; set; }
         public int y { get; set; }
         #endregion
@@ -25,7 +25,7 @@ namespace ITI.Text2UML.Model
             Name = name;
             Attributes = new List<Attribute>();
             Methods = new List<Method>();
-            Linked = new List<Tuple<Class, LinkTypes>>();
+            Linked = new List<Tuple<Class, LinkTypes, string>>();
         }
 
         public Class(string name,List<Attribute> attributes, List<Method> methods)
@@ -33,7 +33,7 @@ namespace ITI.Text2UML.Model
             Name = name;
             Attributes = attributes;
             Methods = methods;
-            Linked = new List<Tuple<Class, LinkTypes>>();
+            Linked = new List<Tuple<Class, LinkTypes, string>>();
 
         }
         #endregion

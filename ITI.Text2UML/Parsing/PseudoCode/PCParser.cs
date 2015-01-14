@@ -154,8 +154,8 @@ namespace ITI.Text2UML.Parsing.PseudoCode
                                 if (link.To == box2.Name)
                                 {
                                     if (box.Linked == null)
-                                        box.Linked = new List<Tuple<Class, LinkTypes>>();
-                                    box.Linked.Add(new Tuple<Class, LinkTypes>(box2, link.Type));
+                                        box.Linked = new List<Tuple<Class, LinkTypes, string>>();
+                                    box.Linked.Add(new Tuple<Class, LinkTypes, string>(box2, link.Type, link.Label));
                                 }
 
                             }

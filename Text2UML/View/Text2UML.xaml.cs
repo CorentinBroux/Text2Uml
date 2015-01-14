@@ -320,7 +320,7 @@ namespace Text2UML
             {
                 Class tmpClass = boxes.Find(x => x.Name == tpl.Item2);
                 Class tmpClass2 = boxes.Find(x => x.Name == tpl.Item1);
-                tmpClass2.Linked.Add(new Tuple<Class, LinkTypes>(tmpClass, tpl.Item3));
+                tmpClass2.Linked.Add(new Tuple<Class, LinkTypes, string>(tmpClass, tpl.Item3, "WHAT ?"));
             }
 
             #endregion

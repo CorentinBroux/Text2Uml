@@ -223,7 +223,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                         lastAdjectives.Clear();
                     }
                 }
-                
+
                 else if (t.Item1.StartsWith("CD"))
                 {
                     //int i;
@@ -232,17 +232,17 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     switch (jrss)
                     {
                         case "more":
-                            min = t.Item2.ToString();
+                            min = StringToNumber(t.Item2).ToString();
                             break;
                         case "less":
-                            max = t.Item2.ToString();
+                            max = StringToNumber(t.Item2).ToString();
                             break;
                         case "least":
-                            min = t.Item2.ToString();
+                            min = StringToNumber(t.Item2).ToString();
                             break;
                         default:
-                            min = t.Item2.ToString();
-                            max = t.Item2.ToString();
+                            min = StringToNumber(t.Item2).ToString();
+                            max = StringToNumber(t.Item2).ToString();
                             break;
                     }
                 }
@@ -322,7 +322,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 {
                     linkLabel = String.Format("({0} {1})", min, max);
                 }
-                
+
                 foreach (Class c in firstClasses)
                 {
                     builder.AppendFormat("{0} ", c.ToString());
@@ -447,6 +447,9 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
         private static int StringToNumber(string number)
         {
+            int ii = 0;
+            if (Int32.TryParse(number, out ii) == true)
+                return ii;
             int n = 0;
 
             if (String.IsNullOrEmpty(number)) return 0;
@@ -499,7 +502,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
             int i;
             int j;
-            
+
             for (i = words.Length - 1; i > (-1); i--)
             {
                 if (words[i] == "hundred")
@@ -507,7 +510,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     n = (dict[words[i - 1]] * dict[words[i]]) + n;
                     i--;
                 }
-                else if(words[i] == "thousand")
+                else if (words[i] == "thousand")
                 {
                     string[] tmpwords = new string[i];
                     for (j = i - 1; j > -1; j--)
@@ -531,7 +534,6 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 }
             }
             return n;
-
         }
     }
 }

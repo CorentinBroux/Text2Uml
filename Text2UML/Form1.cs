@@ -106,7 +106,7 @@ namespace Text2UML
                 
                 if (box.IsLinked == true)
                 {
-                    foreach (Tuple<Class,LinkTypes> tuple in box.Linked)
+                    foreach (Tuple<Class,LinkTypes, string> tuple in box.Linked)
                     {
                         Class b = tuple.Item1;
                         bool drawed = false;
@@ -439,7 +439,7 @@ namespace Text2UML
 
                 if (box.IsLinked == true)
                 {
-                    foreach (Tuple<Class, LinkTypes> tuple in box.Linked)
+                    foreach (Tuple<Class, LinkTypes, string> tuple in box.Linked)
                     {
                         Class b = tuple.Item1;
                         bool drawed = false;
@@ -656,7 +656,7 @@ namespace Text2UML
 
                 if (box.IsLinked == true)
                 {
-                    foreach (Tuple<Class, LinkTypes> tuple in box.Linked)
+                    foreach (Tuple<Class, LinkTypes, string> tuple in box.Linked)
                     {
                         Class b = tuple.Item1;
                         bool drawed = false;
