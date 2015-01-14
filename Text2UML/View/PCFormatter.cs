@@ -63,11 +63,6 @@ namespace Text2UML.View
             foreach (Class c in tuple.Item1)
                 if (!(types.Contains(c.Name.ToLower()) && adj.Contains(c.Name.ToLower())))
                 {
-                    //bool add = true;
-                    //foreach (ITI.Text2UML.Model.Attribute a in c.Attributes)
-                    //    if (adj.Contains(a.Name))
-                    //        add = false;
-                    //if (add == true)
                     classes.Add(c);
                     output += c.ToString();
                 }

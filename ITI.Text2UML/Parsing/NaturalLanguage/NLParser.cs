@@ -159,6 +159,10 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 return ComplexDefinition(tuples);
             }
             // Definition
+            else if (Regex.Match(type, "((DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ )+VB[A-Z]* [a-zA-Z]+ (IN [a-zA-Z]+ (DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*(NN[A-Z]* [a-zA-Z]+ )*)+").Success)
+            {
+                return ComplexDefinition(tuples,false,true);
+            }
             else if (Regex.Match(type, "((DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ )+VB[A-Z]* [a-zA-Z]+ ((DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*(NN[A-Z]* [a-zA-Z]+ )*)+").Success)
             {
                 return ComplexDefinition(tuples);
@@ -186,9 +190,13 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
         /// Returns the pseudo code for a complex definition sentence structure (adjectives noun verb adjectives noun).
         /// </summary>
         /// <param name="tuples">List<Tuple<string, string>> representing the sentence. Only pass List<Tuple<string, string>> tuples if sentence type is ComplexDefinition</param>
-        static string ComplexDefinition(List<Tuple<string, string>> tuples, bool be = false)
+        static string ComplexDefinition(List<Tuple<string, string>> tuples, bool be = false, bool withIN = false)
         {
-
+            if(withIN == true) // if "in", "on", "at"... 
+            {
+                tuples.Reverse();
+            }
+            
             bool isLastName = false;
             string verb = "";
             List<Tuple<int, string>> adjectives = new List<Tuple<int, string>>();
@@ -252,7 +260,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             }
 
 
-            if (NLGrammar.Verb_Be.Contains(verb))
+            if (NLGrammar.Verb_Be.Contains(verb) && withIN == false)
             {
                 foreach (Class c in firstClasses)
                 {
@@ -267,7 +275,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 }
 
             }
-            if (NLGrammar.Verb_Have.Contains(verb))
+            if (NLGrammar.Verb_Have.Contains(verb) || withIN == true)
             {
                 foreach (Class c in firstClasses)
                 {

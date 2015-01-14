@@ -65,7 +65,7 @@ namespace Text2UML
         #region Draw Boxes/Entity
         public void DrawBoxes(List<ITI.Text2UML.Model.Class> boxes)
         {
-            const int X = 800; // DEBUG value
+            int X = display1.Diagram.Size.Width-100;
 
             int ymax = 0;
 
@@ -74,13 +74,13 @@ namespace Text2UML
             drawedShapes = new List<Tuple<Shape, string>>();
 
             // Draw boxes
-            int x = 120, y = 100;
+            int x = 100, y = 100;
             foreach (ITI.Text2UML.Model.Class box in boxes)
             {
                 
                 if (x > X)
                 {
-                    x = 120;
+                    x = 100;
                     y += ymax;
 
                 }
@@ -370,7 +370,7 @@ namespace Text2UML
                 int x = box.x, y = box.y;
                 if (x > X)
                 {
-                    x = 120;
+                    x = 100;
                     y += ymax;
 
                 }
