@@ -101,10 +101,10 @@ namespace ITI.Text2UML.Parsing.PseudoCode
                     else if (t2 == PCTokenType.Link && t3 == PCTokenType.Word) // If link
                     {
                         Link link = new Link(v1, v3, Link.GetLinkTypeFromSymbol(v2));
-                        
+
                         token = PCTokenizer.GetNextToken();
 
-                        if(token == PCTokenType.OpenPar) // if label
+                        if (token == PCTokenType.OpenPar) // if label
                         {
                             PCTokenType ta = PCTokenizer.GetNextToken();
                             string va = PCTokenizer.CurrentWordValue;
@@ -141,6 +141,43 @@ namespace ITI.Text2UML.Parsing.PseudoCode
         /// <param name="boxes">Boxes found in the pseudo code.</param>
         public static void AddLinksToBoxes(List<Link> links, List<Class> boxes)
         {
+            List<Link> temp = links;
+            List<Link> newLinks = new List<Link>();
+            List<Link> deadLinks = new List<Link>();
+
+            foreach (Link l in temp)
+                foreach (Link l2 in links)
+                {
+                    if (l.From == l2.From && l.To == l2.To && l.Label != l2.Label)
+                    {
+                        int a1, b1, a2, b2; string min, max = "";
+                        string[] str1 = l.Label.Split(new string[] { "(", " ", ")" }, StringSplitOptions.RemoveEmptyEntries);
+                        string[] str2 = l2.Label.Split(new string[] { "(", " ", ")" }, StringSplitOptions.RemoveEmptyEntries);
+                        Int32.TryParse(str1[0], out a1);
+                        if (Int32.TryParse(str1[1], out a2) == false)
+                            max += "n";
+                        Int32.TryParse(str2[0], out b1);
+                        if (Int32.TryParse(str2[1], out b2) == false)
+                            max += "n";
+                        min = Math.Max(a1, b1).ToString();
+                        if (max == "")
+                            max = Math.Min(a2, b2).ToString();
+                        else if (max == "nn")
+                            max = "n";
+                        else
+                            max = Math.Max(a2, b2).ToString(); ;
+                        newLinks.Add(new Link(l.From, l.To, l.Type, String.Format("({0} {1})", min, max)));
+                        deadLinks.Add(l);
+                        deadLinks.Add(l2);
+                    }
+                }
+            foreach (Link l in deadLinks)
+                links.Remove(l);
+            foreach (Link l in newLinks)
+                links.Add(l);
+            links = links.Distinct().ToList();
+            
+
             foreach (Link link in links)
             {
                 if (link.From != link.To)

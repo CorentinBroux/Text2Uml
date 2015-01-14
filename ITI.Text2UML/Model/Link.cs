@@ -24,13 +24,14 @@ namespace ITI.Text2UML.Model
         #endregion
 
         #region Constructors
-        public Link(string from, string to, LinkTypes type)
+        public Link(string from, string to, LinkTypes type, string label = "")
         {
             From = from;
             To = to;
             Type = type;
-            Label = "";
+            Label = label;
         }
+
         #endregion
 
         #region Methods
