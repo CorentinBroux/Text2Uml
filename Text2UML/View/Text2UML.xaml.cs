@@ -133,31 +133,6 @@ namespace Text2UML
             }
         }
 
-        //private void submenu_lang_en_Click(object sender, RoutedEventArgs e)
-        //{
-        //    ChangeCheckedLanguage("en");
-        //}
-
-        //private void submenu_lang_fr_Click(object sender, RoutedEventArgs e)
-        //{
-        //    ChangeCheckedLanguage("fr");
-        //}
-
-        //private void ChangeCheckedLanguage(string To)
-        //{
-        //    if (To == "en")
-        //    {
-        //        submenu_lang_fr.IsChecked = false;
-        //        submenu_lang_en.IsChecked = true;
-        //    }
-        //    else if (To == "fr")
-        //    {
-        //        submenu_lang_en.IsChecked = false;
-        //        submenu_lang_fr.IsChecked = true;
-        //    }
-        //}
-
-
         private void OpenCommand(object sender, ExecutedRoutedEventArgs e)
         {
             View.Dialog_Open diao = new View.Dialog_Open(getThis());
@@ -377,7 +352,6 @@ namespace Text2UML
 
         private void BT_Process_NL_Click(object sender, RoutedEventArgs e)
         {
-            //TB_PseudoCode.Text = "";
             string msg = NL_Process();
             if (msg.Length > 0)
             {
@@ -399,7 +373,7 @@ namespace Text2UML
             // Reinitialize specialized types
             NLGrammar.Types = new List<Tuple<string, string>>();
             char[] sentenceSeparators = NLGrammar.sentenceSeparators;
-            List<string> input = TB_NativeLanguage.Text.Split(sentenceSeparators, StringSplitOptions.RemoveEmptyEntries).ToList();//.Except(previousSentences).ToList();
+            List<string> input = TB_NativeLanguage.Text.Split(sentenceSeparators, StringSplitOptions.RemoveEmptyEntries).ToList();
 
             string output = "";
             string error = "";

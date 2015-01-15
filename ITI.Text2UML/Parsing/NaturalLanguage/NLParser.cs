@@ -235,9 +235,6 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
                 else if (t.Item1.StartsWith("CD"))
                 {
-                    //int i;
-                    //Int32.TryParse(t.Item2, out i);
-                    //jjrss.Add(new Tuple<jjrsType, int>(jjrs, i));
                     switch (jrss)
                     {
                         case "more":
