@@ -407,7 +407,7 @@ namespace Text2UML
             drawedShapes = new List<Tuple<Shape, string>>();
             
             // Draw boxes
-            const int X = 800; // DEBUG value
+            int X = display1.Diagram.Size.Width - 100;
 
             int ymax = 0;
 
