@@ -60,6 +60,7 @@ namespace Text2UML.View
                 }
 
             List<Class> classes = new List<Class>();
+            
             foreach (Class c in tuple.Item1)
                 if (!(types.Contains(c.Name.ToLower()) && adj.Contains(c.Name.ToLower())))
                 {
@@ -72,6 +73,7 @@ namespace Text2UML.View
             tuple = new Tuple<List<Class>, List<Link>>(tuple.Item1, tuple.Item2.Distinct().ToList());
             foreach (Link l in tuple.Item2)
             {
+                
                 if (l.From != l.To)
                     output += String.Format("{0}\n", l.ToString());
             }
