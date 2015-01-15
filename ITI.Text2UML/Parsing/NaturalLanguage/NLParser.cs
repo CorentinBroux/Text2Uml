@@ -351,7 +351,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     foreach (Class c2 in lastClasses)
                     {
                         builder.AppendFormat("{0} ", c2.ToString());
-                        if(jrss != "least")
+                        if (jrss != "least" || NLGrammar.Verb_Be.Contains(verb))
                             builder.AppendFormat("{0} --> {1} {2}", c.Name, c2.Name, linkLabel);
                         else
                             builder.AppendFormat("{0} --> {1} {2}", c2.Name, c.Name, linkLabel);
