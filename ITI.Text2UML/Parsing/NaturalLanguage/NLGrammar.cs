@@ -73,6 +73,8 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             "have",
             "has",
             "had",
+            "contain",
+            "contains"
         };
         #endregion
 

@@ -157,7 +157,7 @@ namespace Text2UML
                             gluePtId = id;
                         
                         // Move glue point to desired position and connect with the line (Point-To-Shape connection with reference point)
-                        cardin.MoveTo(dstPos.X, dstPos.Y);
+                        cardin.MoveTo(dstPos.X + 20, dstPos.Y + 20);
                         cardin.MoveControlPointTo(gluePtId, dstPos.X, dstPos.Y, ResizeModifiers.None);
                         cardin.Connect(gluePtId, arrow, ControlPointId.Reference);
                         //cardin.MaintainOrientation = true; // Label will rotate when the line's angle changes
