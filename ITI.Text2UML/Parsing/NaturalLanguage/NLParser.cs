@@ -146,8 +146,9 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             {
                 return ComplexDefinition(tuples, false, false, true);
             }
-            // TEST : JJR / JJS
-            else if (Regex.Match(type, "([a-zA-Z]+ )+JJ(R|S)( [a-zA-Z]+)+").Success)
+            // JJR / JJS
+            //else if (Regex.Match(type, "([a-zA-Z]+ )+JJ(R|S)( [a-zA-Z]+)+").Success)
+            else if (Regex.Match(type, "([a-zA-Z]+ )*JJ(R|S)( [a-zA-Z]+)*").Success)
             {
                 return ComplexDefinition(tuples, false, false, false, true);
             }
@@ -208,7 +209,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
             foreach (Tuple<string, string> t in tuples)
             {
-                if (t.Item1.StartsWith("NN") || (t.Item1.StartsWith("CD") && verb == ""))
+                if (t.Item1.StartsWith("NN") || (t.Item1.StartsWith("CD") && verb == "" && jrss == "")) // if jrss == "stuff" that means that there is a JJR|S at the beggining of the sentence
                 {
 
                     if (isLastName == false)
@@ -235,7 +236,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
                 else if (t.Item1.StartsWith("CD"))
                 {
-                    switch (jrss)
+                    switch (jrss.ToLower())
                     {
                         case "more":
                             min = StringToNumber(t.Item2).ToString();
@@ -279,6 +280,10 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                         methods.Add(m);
                     }
 
+                }
+                else if (t.Item1.StartsWith("IN"))
+                {
+                    withIN = true;
                 }
 
             }
