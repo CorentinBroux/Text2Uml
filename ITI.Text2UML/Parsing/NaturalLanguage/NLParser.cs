@@ -186,10 +186,10 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
         /// <param name="tuples">List<Tuple<string, string>> representing the sentence. Only pass List<Tuple<string, string>> tuples if sentence type is ComplexDefinition</param>
         static string ComplexDefinition(List<Tuple<string, string>> tuples, bool be = false, bool withIN = false, bool isModal = false, bool isJJRJJS = false)
         {
-            if (withIN == true) // if "in", "on", "at"... 
-            {
-                tuples.Reverse();
-            }
+            //if (withIN == true) // if "in", "on", "at"... 
+            //{
+            //    tuples.Reverse();
+            //}
 
             bool isLastName = false;
             string verb = "";
@@ -206,12 +206,15 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             string min = "0", max = "n";
 
             string jrss = "";
+            Tuple<string, string> lastTuple = null;
 
             foreach (Tuple<string, string> t in tuples)
             {
-                if (t.Item1.StartsWith("NN") || (t.Item1.StartsWith("CD") && verb == "" && jrss == "")) // if jrss == "stuff" that means that there is a JJR|S at the beggining of the sentence
+                if (t.Item1.StartsWith("NN") || (t.Item1.StartsWith("CD") && verb == "" && jrss == "" && withIN == false)) // if jrss == "stuff" that means that there is a JJR|S at the beggining of the sentence
                 {
-
+                    if (lastTuple != null)
+                        if (lastTuple.Item1 == "CD" && t.Item1 != "CD" && firstClasses.Count > 0 && verb == "")
+                            firstClasses.RemoveAt(firstClasses.Count - 1);
                     if (isLastName == false)
                     {
                         firstClasses.Add(new Class(t.Item2));
@@ -252,7 +255,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                             max = StringToNumber(t.Item2).ToString();
                             break;
                     }
-                    
+
                     linkLabel = String.Format("({0} {1})", min, max);
                 }
 
@@ -281,10 +284,12 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     }
 
                 }
-                else if (t.Item1.StartsWith("IN"))
+                else if (t.Item1.StartsWith("IN") && verb != "" && t.Item2 != "than") // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! "than" est un IN !!!
                 {
                     withIN = true;
                 }
+
+                lastTuple = t;
 
             }
 
@@ -292,7 +297,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 foreach (Class c in firstClasses)
                     c.Methods.Add(method);
 
-            if (isModal == true)
+            if (isModal == true || withIN == true)
             {
                 List<Class> temp = firstClasses;
                 firstClasses = lastClasses;
