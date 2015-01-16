@@ -186,10 +186,94 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
         /// <param name="tuples">List<Tuple<string, string>> representing the sentence. Only pass List<Tuple<string, string>> tuples if sentence type is ComplexDefinition</param>
         static string ComplexDefinition(List<Tuple<string, string>> tuples, bool be = false, bool withIN = false, bool isModal = false, bool isJJRJJS = false)
         {
-            //if (withIN == true) // if "in", "on", "at"... 
-            //{
-            //    tuples.Reverse();
-            //}
+            List<List<Tuple<string, string>>> sentences = new List<List<Tuple<string, string>>>();
+            List<Tuple<string, string>> temp = new List<Tuple<string, string>>();
+
+
+            SplitCC(tuples, sentences);
+            SplitBeforeVB(ref sentences);
+            MakeSentences(sentences);
+
+            StringBuilder builder = new StringBuilder();
+            foreach (List<Tuple<string, string>> sentence in sentences)
+                builder.Append(ProcessSingle(sentence, be, withIN, isModal, isJJRJJS));
+            return builder.ToString();
+        }
+
+        private static void SplitCC(List<Tuple<string, string>> tuples, List<List<Tuple<string, string>>> sentences)
+        {
+            List<Tuple<string, string>> temp = new List<Tuple<string, string>>();
+            foreach (Tuple<string, string> t in tuples)
+            {
+                if (t.Item1 == "CC")
+                {
+                    sentences.Add(temp);
+                    temp = new List<Tuple<string, string>>();
+                }
+                else
+                    temp.Add(t);
+            }
+            sentences.Add(temp);
+        }
+
+        private static void SplitBeforeVB(ref List<List<Tuple<string, string>>> sentences)
+        {
+            List<List<Tuple<string, string>>> tempSentences = new List<List<Tuple<string, string>>>();
+            List<Tuple<string, string>> temp = new List<Tuple<string, string>>();
+            foreach (List<Tuple<string, string>> l in sentences)
+            {
+                foreach (Tuple<string, string> t in l)
+                {
+
+                    if (t.Item1.StartsWith("VB"))
+                    {
+                        tempSentences.Add(temp);
+                        temp = new List<Tuple<string, string>>();
+                    }
+                    temp.Add(t);
+                }
+                tempSentences.Add(temp);
+                temp = new List<Tuple<string, string>>();
+            }
+           sentences = tempSentences;
+        }
+
+        private static void MakeSentences(List<List<Tuple<string, string>>> sentences)
+        {
+            List<Tuple<string, string>> temp = new List<Tuple<string, string>>();
+            List<List<Tuple<string, string>>> tempSentences = new List<List<Tuple<string, string>>>();
+            bool previousHaveAVerb = false;
+            foreach (List<Tuple<string, string>> l in sentences)
+            {
+                if (tempSentences.Count == 0) // always add the first sentence
+                    tempSentences.Add(l);
+                else if (l.First().Item1.StartsWith("VB"))
+                {
+                    tempSentences.Last().AddRange(l);
+                    previousHaveAVerb = true;
+                    continue;
+                }
+                else if (previousHaveAVerb == true)
+                    temp = l;
+                else if (temp.Count == 0)
+                    tempSentences.Last().AddRange(l);
+                else if (!temp.First().Item1.StartsWith("VB"))
+                {
+                    tempSentences.Last().AddRange(temp);
+                    tempSentences.Add(l);
+                }
+                else
+                {
+                    tempSentences.Add(temp);
+                    tempSentences.Last().AddRange(l);
+                }
+                previousHaveAVerb = false;
+            }
+
+        }
+
+        private static string ProcessSingle(List<Tuple<string, string>> tuples, bool be = false, bool withIN = false, bool isModal = false, bool isJJRJJS = false)
+        {
 
             bool isLastName = false;
             string verb = "";
@@ -368,7 +452,6 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             }
 
             return builder.ToString();
-
         }
 
         /// <summary>
@@ -560,5 +643,8 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             }
             return n;
         }
+
+
+
     }
 }
