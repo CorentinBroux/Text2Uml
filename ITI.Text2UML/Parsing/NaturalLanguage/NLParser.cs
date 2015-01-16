@@ -192,7 +192,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
             SplitCC(tuples, sentences);
             SplitBeforeVB(ref sentences);
-            MakeSentences(sentences);
+            MakeSentences(ref sentences);
 
             StringBuilder builder = new StringBuilder();
             foreach (List<Tuple<string, string>> sentence in sentences)
@@ -238,18 +238,27 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
            sentences = tempSentences;
         }
 
-        private static void MakeSentences(List<List<Tuple<string, string>>> sentences)
+        private static void MakeSentences(ref List<List<Tuple<string, string>>> sentences)
         {
             List<Tuple<string, string>> temp = new List<Tuple<string, string>>();
             List<List<Tuple<string, string>>> tempSentences = new List<List<Tuple<string, string>>>();
             bool previousHaveAVerb = false;
             foreach (List<Tuple<string, string>> l in sentences)
             {
+                if (l.Count == 0)
+                    continue;
                 if (tempSentences.Count == 0) // always add the first sentence
                     tempSentences.Add(l);
                 else if (l.First().Item1.StartsWith("VB"))
                 {
-                    tempSentences.Last().AddRange(l);
+                    if(temp.Count==0)
+                        tempSentences.Last().AddRange(l);
+                    else
+                    {
+                        tempSentences.Add(temp);
+                        tempSentences.Last().AddRange(l);
+                        temp = new List<Tuple<string, string>>();
+                    }
                     previousHaveAVerb = true;
                     continue;
                 }
@@ -261,15 +270,19 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 {
                     tempSentences.Last().AddRange(temp);
                     tempSentences.Add(l);
+                    temp = new List<Tuple<string, string>>();
                 }
                 else
                 {
                     tempSentences.Add(temp);
                     tempSentences.Last().AddRange(l);
+                    temp = new List<Tuple<string, string>>();
                 }
                 previousHaveAVerb = false;
             }
-
+            if (temp.Count > 0)
+                tempSentences.Last().AddRange(temp);
+            sentences = tempSentences;
         }
 
         private static string ProcessSingle(List<Tuple<string, string>> tuples, bool be = false, bool withIN = false, bool isModal = false, bool isJJRJJS = false)
