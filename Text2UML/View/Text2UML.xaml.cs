@@ -58,6 +58,8 @@ namespace Text2UML
             // Parse a sentence to first load StanfordParser and avoid wait times
             NLParser.Parse(StanfordParser.Stanford_Parse("This is a test."));
 
+
+            
         }
 
 
@@ -192,7 +194,7 @@ namespace Text2UML
             {
                 // Save document 
                 System.IO.File.WriteAllText(dlg.FileName, TB_NativeLanguage.Text);
-                
+
             }
         }
 
@@ -237,10 +239,10 @@ namespace Text2UML
             {
                 foreach (var att in sh.Children)
                 {
-                    
+
                     Class tmpBox = new Class(att.Attribute("Name").Value);
 
-                    foreach(var attr in att.Descendants("Attribute"))
+                    foreach (var attr in att.Descendants("Attribute"))
                     {
                         ITI.Text2UML.Model.Attribute tmpatt = new ITI.Text2UML.Model.Attribute(attr.Attribute("Type").Value, attr.Attribute("Name").Value);
                         tmpBox.Attributes.Add(tmpatt);
@@ -281,17 +283,17 @@ namespace Text2UML
 
                         TmpTles.Add(tmptupl);
                     }
-                    
+
 
                     tmpBox.x = Convert.ToInt32(att.Attribute("x").Value);
                     tmpBox.y = Convert.ToInt32(att.Attribute("y").Value);
-                       
+
 
                     boxes.Add(tmpBox);
                 }
             }
 
-            foreach(var tpl in TmpTles)
+            foreach (var tpl in TmpTles)
             {
                 Class tmpClass = boxes.Find(x => x.Name == tpl.Item2);
                 Class tmpClass2 = boxes.Find(x => x.Name == tpl.Item1);
@@ -303,10 +305,10 @@ namespace Text2UML
             #region Links load
             //Run query
             var lks = from lk in xdoc.Descendants("Links")
-                       select new
-                       {
-                           Children = lk.Descendants("Link")
-                       };
+                      select new
+                      {
+                          Children = lk.Descendants("Link")
+                      };
 
             //Loop through results
             foreach (var lk in lks)
@@ -314,13 +316,13 @@ namespace Text2UML
                 foreach (var att in lk.Children)
                 {
                     LinkTypes lt;
-                    if(att.Attribute("Type").ToString() == "Includes")
+                    if (att.Attribute("Type").ToString() == "Includes")
                     {
                         lt = LinkTypes.Includes;
                     }
                     else
                     {
-                         lt = LinkTypes.Extends;
+                        lt = LinkTypes.Extends;
                     }
                     Link tmpLink = new Link(att.Attribute("From").Value, att.Attribute("To").Value, lt);
 
@@ -337,9 +339,9 @@ namespace Text2UML
                           Children = nl.Attribute("NativeLanguage")
                       };
 
-            foreach(var nl in nls)
+            foreach (var nl in nls)
             {
-            TB_NativeLanguage.Text = nl.Children.Value;
+                TB_NativeLanguage.Text = nl.Children.Value;
             }
 
             myform.LoadText2UMLDiagram(boxes, links);
@@ -405,7 +407,7 @@ namespace Text2UML
                 foreach (string s in t.Item1)
                     output = Regex.Replace(output, @"\b" + s + @"\b", t.Item2);
 
-            
+
             TB_PseudoCode.Text = output;
 
             stopwatch.Restart();

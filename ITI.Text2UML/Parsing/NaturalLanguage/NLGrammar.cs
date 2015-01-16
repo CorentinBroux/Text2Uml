@@ -80,7 +80,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
         #region User input
         // Filled with user input
-        public static List<Tuple<string, string>> Types;
+        public static List<Tuple<string, string>> Types = new List<Tuple<string, string>>();
         #endregion
 
         #region Structures
