@@ -426,6 +426,11 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                             NLGrammar.Types.Add(new Tuple<string, string>(adj.Item2, c2.Name));
 
                 }
+                else if (firstClasses.Count == 0 && adjectives.Count >0)
+                {
+                    foreach (Tuple<int, string> adj in adjectives)
+                        firstClasses.Add(new Class(adj.Item2));
+                }
                 foreach (Class c in firstClasses)
                 {
                     builder.AppendFormat("{0} ", c.ToString());

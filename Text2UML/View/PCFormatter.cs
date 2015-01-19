@@ -50,7 +50,7 @@ namespace Text2UML.View
             foreach (Tuple<string, string> t in NLGrammar.Types)
             {
                 types.Add(t.Item1.ToLower());
-                types.Add(t.Item2.ToLower());
+                //types.Add(t.Item2.ToLower());
             }
             foreach (Class c in tuple.Item1)
                 foreach (ITI.Text2UML.Model.Attribute a in c.Attributes)
