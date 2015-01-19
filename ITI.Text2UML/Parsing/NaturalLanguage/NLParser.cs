@@ -354,6 +354,8 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     }
 
                     linkLabel = String.Format("({0} {1})", min, max);
+                    min = "0";
+                    max = "n";
                 }
 
                 else if (t.Item1 == "JJ")

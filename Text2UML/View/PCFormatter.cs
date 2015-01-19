@@ -70,6 +70,7 @@ namespace Text2UML.View
             tuple = new Tuple<List<Class>, List<Link>>(classes, tuple.Item2);
 
             // Format links
+            PCParser.AddLinksToBoxes(tuple.Item2, tuple.Item1);
             tuple = new Tuple<List<Class>, List<Link>>(tuple.Item1, tuple.Item2.Distinct().ToList());
             foreach (Link l in tuple.Item2)
             {
