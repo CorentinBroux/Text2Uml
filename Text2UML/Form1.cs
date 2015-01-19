@@ -529,12 +529,18 @@ namespace Text2UML
                 return;
             }
 
+            List<Shape> ShapesToLayout = new List<Shape>();
 
             // First, place all shapes to the same position
             foreach (Shape s in display1.Diagram.Shapes)
             {
-                s.X = 100;
-                s.Y = 100;
+                if (s.GetType().Name != "Label")
+                {
+                    ShapesToLayout.Add(s);
+                    s.X = 100;
+                    s.Y = 100;
+                }
+
             }
 
             const int stepTimeout = 10;
@@ -545,8 +551,8 @@ namespace Text2UML
             ExpansionLayouter expansionLayouter = new ExpansionLayouter(project1);
             expansionLayouter.HorizontalCompression = 50;
             expansionLayouter.VerticalCompression = 80;
-            expansionLayouter.AllShapes = this.display1.Diagram.Shapes;
-            expansionLayouter.Shapes = this.display1.Diagram.Shapes;
+            expansionLayouter.AllShapes = ShapesToLayout;
+            expansionLayouter.Shapes = ShapesToLayout;
             ExecuteLayouter(expansionLayouter, stepTimeout);
             ExecuteCommand(aggregatedCommand, expansionLayouter.CreateLayoutCommand());
 
@@ -561,20 +567,20 @@ namespace Text2UML
             layouter.Friction = 10;
             layouter.Mass = 100;
             // Set all shapes 
-            layouter.AllShapes = this.display1.Diagram.Shapes;
+            layouter.AllShapes = ShapesToLayout;
             // Set shapes that should be layouted
-            layouter.Shapes = this.display1.Diagram.Shapes;
+            layouter.Shapes = ShapesToLayout;
 
-            layouter.AllShapes = this.display1.Diagram.Shapes;
-            layouter.Shapes = this.display1.Diagram.Shapes;
+            layouter.AllShapes = ShapesToLayout;
+            layouter.Shapes = ShapesToLayout;
            ExecuteLayouter(layouter, stepTimeout);
            ExecuteCommand(aggregatedCommand, layouter.CreateLayoutCommand());
             
 
             expansionLayouter.HorizontalCompression = 200;
             expansionLayouter.VerticalCompression = 200;
-            expansionLayouter.AllShapes = this.display1.Diagram.Shapes;
-            expansionLayouter.Shapes = this.display1.Diagram.Shapes;
+            expansionLayouter.AllShapes = ShapesToLayout;
+            expansionLayouter.Shapes = ShapesToLayout;
             ExecuteLayouter(expansionLayouter, stepTimeout);
             ExecuteCommand(aggregatedCommand, expansionLayouter.CreateLayoutCommand());
 
@@ -583,7 +589,7 @@ namespace Text2UML
             project1.History.AddCommand(aggregatedCommand);
 
             expansionLayouter.Fit(50, 50, display1.Diagram.Width - 100, display1.Diagram.Height - 100);
-  
+
         }
         #endregion
 
