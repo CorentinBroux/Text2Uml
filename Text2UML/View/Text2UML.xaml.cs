@@ -375,7 +375,7 @@ namespace Text2UML
             // Reinitialize specialized types
             NLGrammar.Types = new List<Tuple<string, string>>();
             char[] sentenceSeparators = NLGrammar.sentenceSeparators;
-            List<string> input = TB_NativeLanguage.Text.Split(sentenceSeparators, StringSplitOptions.RemoveEmptyEntries).ToList();
+            List<string> input = TB_NativeLanguage.Text.ToLower().Split(sentenceSeparators, StringSplitOptions.RemoveEmptyEntries).ToList();
 
             string output = "";
             string error = "";

@@ -334,7 +334,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     }
                 }
 
-                else if (t.Item1.StartsWith("CD"))
+                else if (t.Item1.StartsWith("CD") || t.Item2 == "a" || t.Item2 == "an")
                 {
                     switch (jrss.ToLower())
                     {
@@ -579,6 +579,8 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             dict.Add("zero", 0);
             dict.Add("nought", 0);
             dict.Add("one", 1);
+            dict.Add("a", 1);
+            dict.Add("an", 1);
             dict.Add("two", 2);
             dict.Add("three", 3);
             dict.Add("four", 4);
