@@ -45,15 +45,8 @@ namespace ITI.Text2UML.Tests
         [Test]
         public void DefinitionStructure()
         {
-            String expect = PCFormatter.Format("class cat thing1 blue thing2 yellow thing3 tiny class dog thing4 big thing5 weird class animal thing6 red class pet thing7 green cat -> animal dog -> animal cat -> pet dog -> pet");
-            Assert.AreEqual(expect, PCFormatter.Format(NLParser.Parse(StanfordParser.Stanford_Parse("A blue, yellow and tiny cat and a stupid and big dog are weird and red animals and green pets"))));
-        }
-
-        [Test]
-        public void TypeStructure()
-        {
-            String expect = PCFormatter.Format("class cat color blue blue -> color ");
-            Assert.AreEqual(expect, PCFormatter.Format(NLParser.Parse(StanfordParser.Stanford_Parse("A blue cat. Blue is a color."))));
+            String expect = PCFormatter.Format("class cat thing1 blue thing2 yellow thing3 tiny class dog thing4 stupid thing5 big class animal thing6 weird class pet thing7 green cat -> animal cat -> pet dog -> animal dog -> pet ");
+            Assert.AreEqual(expect, PCFormatter.Format(NLParser.Parse(StanfordParser.Stanford_Parse("A blue, yellow and tiny cat and a stupid and big dog are weird animals and green pets"))));
         }
 
         [Test]
@@ -89,13 +82,6 @@ namespace ITI.Text2UML.Tests
         {
             String expect = PCFormatter.Format("class cat class foot cat --> foot (0 5)");
             Assert.AreEqual(expect, PCFormatter.Format(NLParser.Parse(StanfordParser.Stanford_Parse("A cat have less than five feet"))));
-        }
-
-        [Test]
-        public void PossessionStructure_have_and_less()
-        {
-            String expect = PCFormatter.Format("class cat class foot cat --> foot (1 5)");
-            Assert.AreEqual(expect, PCFormatter.Format(NLParser.Parse(StanfordParser.Stanford_Parse("A cat have a foot. A cat have less than five feet."))));
         }
 
         [Test]
