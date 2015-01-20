@@ -294,7 +294,7 @@ namespace Text2UML
             foreach (Shape s in diagram.Shapes)
             {
                 Console.WriteLine(s.GetType().ToString());
-                if (s.GetType().ToString() != "Dataweb.NShape.GeneralShapes.Polyline")
+                if (s.GetType().ToString() != "Dataweb.NShape.GeneralShapes.Polyline" && s.GetType().ToString() != "Dataweb.NShape.GeneralShapes.Label")
                 {
                     RectangleBase s2 = (RectangleBase)s;
                     string name = s2.GetCaptionText(0);
@@ -360,7 +360,8 @@ namespace Text2UML
                                  select new XElement("Link",
                                              new XAttribute("From", link.From),
                                              new XAttribute("To", link.To),
-                                             new XAttribute("Type", link.Type.ToString())
+                                             new XAttribute("Type", link.Type.ToString()),
+                                             new XAttribute("Label", link.Label)
                                            )),
 
                                 new XAttribute("NativeLanguage", nativelanguage)
@@ -452,6 +453,32 @@ namespace Text2UML
                             arrow.EndCapStyle = project1.Design.CapStyles.OpenArrow;
                         arrow.Connect(ControlPointId.FirstVertex, sh1, ControlPointId.Reference);
                         arrow.Connect(ControlPointId.LastVertex, sh2, ControlPointId.Reference);
+
+                         Point p1 = arrow.GetControlPointPosition(arrow.GetControlPointIds(ControlPointCapabilities.Glue).First());
+                        Point p2 = arrow.GetControlPointPosition(arrow.GetControlPointIds(ControlPointCapabilities.Glue).Last());
+                        int dx  = p2.X - p1.X;
+                        int dy = p2.Y - p1.Y;
+
+                        Point dstPos = Point.Empty;
+                        dstPos.X = p1.X + (int)(dx / 2f);
+                        dstPos.Y = p1.Y + (int)(dy / 2f);
+                        
+                        // Get ControlPointId of the label's glue point
+
+                        Dataweb.NShape.GeneralShapes.Label cardin = (Dataweb.NShape.GeneralShapes.Label)project1.ShapeTypes["Label"].CreateInstance();
+
+                        ControlPointId gluePtId = ControlPointId.None;
+                        foreach (ControlPointId id in cardin.GetControlPointIds(ControlPointCapabilities.Glue))
+                            gluePtId = id;
+                        
+                        // Move glue point to desired position and connect with the line (Point-To-Shape connection with reference point)
+                        cardin.MoveTo(dstPos.X + 20, dstPos.Y + 20);
+                        cardin.MoveControlPointTo(gluePtId, dstPos.X, dstPos.Y, ResizeModifiers.None);
+                        cardin.Connect(gluePtId, arrow, ControlPointId.Reference);
+                        //cardin.MaintainOrientation = true; // Label will rotate when the line's angle changes
+                        cardin.SetCaptionText(0, tuple.Item3);
+                        diagram.Shapes.Add(cardin);   
+                        this.project1.Repository.Insert((Shape)cardin, diagram);
                     }
 
                 }
@@ -506,7 +533,6 @@ namespace Text2UML
             return myShape3;
         }
         #endregion
-
 
         #region Layouter - Shape organizer
         private static void ExecuteLayouter(ILayouter layouter, Int32 timeout)
