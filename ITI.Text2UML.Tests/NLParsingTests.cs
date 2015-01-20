@@ -88,7 +88,7 @@ namespace ITI.Text2UML.Tests
         public void PossessionStructure_have_less_and_more()
         {
             String expect = PCFormatter.Format("class cat class foot cat --> foot (2 5)");
-            Assert.AreEqual(expect, PCFormatter.Format(NLParser.Parse(StanfordParser.Stanford_Parse("A cat have less than five and more than two feet"))));
+            Assert.AreEqual(expect, PCFormatter.Format(NLParser.Parse(StanfordParser.Stanford_Parse("A cat have less than five feet and more than two feet"))));
         }
 
         [Test]

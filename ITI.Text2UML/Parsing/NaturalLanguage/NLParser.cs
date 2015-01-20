@@ -196,6 +196,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
             StringBuilder builder = new StringBuilder();
             foreach (List<Tuple<string, string>> sentence in sentences)
+               // if(sentence == sentences.First() && sentence.First().)
                 builder.Append(ProcessSingle(sentence, be, withIN, isModal, isJJRJJS));
             return builder.ToString();
         }
@@ -334,7 +335,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     }
                 }
 
-                else if (t.Item1.StartsWith("CD") || t.Item2 == "a" || t.Item2 == "an")
+                else if (t.Item1.StartsWith("CD") || t.Item2 == "a"  || t.Item2 == "an")
                 {
                     switch (jrss.ToLower())
                     {
@@ -354,8 +355,11 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     }
 
                     linkLabel = String.Format("({0} {1})", min, max);
-                    min = "0";
-                    max = "n";
+                    if (min != "0" && max != "n")
+                    {
+                        min = "0";
+                        max = "n";
+                    }
                 }
 
                 else if (t.Item1 == "JJ")
