@@ -618,52 +618,60 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             dict.Add("thousand", 1000);
             dict.Add("million", 1000000);
 
-            // rough check whether it's a valid number
-            string temp = number.ToLower().Trim().Replace(" and ", " ");
-            string[] words = temp.Split(new char[] { ' ', '-' }, StringSplitOptions.RemoveEmptyEntries);
-
-            if (words.Length > 1)
+            try
             {
-                foreach (string word in words)
+
+                // rough check whether it's a valid number
+                string temp = number.ToLower().Trim().Replace(" and ", " ");
+                string[] words = temp.Split(new char[] { ' ', '-' }, StringSplitOptions.RemoveEmptyEntries);
+
+                if (words.Length > 1)
                 {
-                    if (!dict.ContainsKey(word)) return n;
+                    foreach (string word in words)
+                    {
+                        if (!dict.ContainsKey(word)) return n;
+                    }
                 }
+
+                int i;
+                int j;
+
+                for (i = words.Length - 1; i > (-1); i--)
+                {
+                    if (words[i] == "hundred")
+                    {
+                        n = (dict[words[i - 1]] * dict[words[i]]) + n;
+                        i--;
+                    }
+                    else if (words[i] == "thousand")
+                    {
+                        string[] tmpwords = new string[i];
+                        for (j = i - 1; j > -1; j--)
+                            tmpwords[j] = words[j];
+
+                        n = (StringToNumber(string.Join(" ", tmpwords)) * dict[words[i]]) + n;
+                        i = i - tmpwords.Length;
+                    }
+                    else if (words[i] == "million")
+                    {
+                        string[] tmpwords2 = new string[i];
+                        for (j = i - 1; j > -1; j--)
+                            tmpwords2[j] = words[j];
+
+                        n = (StringToNumber(string.Join(" ", tmpwords2)) * dict[words[i]]) + n;
+                        i = i - tmpwords2.Length;
+                    }
+                    else
+                    {
+                        n = n + dict[words[i]];
+                    }
+                }
+                return n;
             }
-
-            int i;
-            int j;
-
-            for (i = words.Length - 1; i > (-1); i--)
+            catch (Exception)
             {
-                if (words[i] == "hundred")
-                {
-                    n = (dict[words[i - 1]] * dict[words[i]]) + n;
-                    i--;
-                }
-                else if (words[i] == "thousand")
-                {
-                    string[] tmpwords = new string[i];
-                    for (j = i - 1; j > -1; j--)
-                        tmpwords[j] = words[j];
-
-                    n = (StringToNumber(string.Join(" ", tmpwords)) * dict[words[i]]) + n;
-                    i = i - tmpwords.Length;
-                }
-                else if (words[i] == "million")
-                {
-                    string[] tmpwords2 = new string[i];
-                    for (j = i - 1; j > -1; j--)
-                        tmpwords2[j] = words[j];
-
-                    n = (StringToNumber(string.Join(" ", tmpwords2)) * dict[words[i]]) + n;
-                    i = i - tmpwords2.Length;
-                }
-                else
-                {
-                    n = n + dict[words[i]];
-                }
+                return 0;   
             }
-            return n;
         }
 
 
