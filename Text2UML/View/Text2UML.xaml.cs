@@ -293,12 +293,7 @@ namespace Text2UML
                 }
             }
 
-            foreach (var tpl in TmpTles)
-            {
-                Class tmpClass = boxes.Find(x => x.Name == tpl.Item2);
-                Class tmpClass2 = boxes.Find(x => x.Name == tpl.Item1);
-                tmpClass2.Linked.Add(new Tuple<Class, LinkTypes, string>(tmpClass, tpl.Item3, "WHAT ?"));
-            }
+
 
             #endregion
 
@@ -324,9 +319,17 @@ namespace Text2UML
                     {
                         lt = LinkTypes.Extends;
                     }
-                    Link tmpLink = new Link(att.Attribute("From").Value, att.Attribute("To").Value, lt);
+                    Link tmpLink = new Link(att.Attribute("From").Value, att.Attribute("To").Value, lt, att.Attribute("Label").Value);
 
                     links.Add(tmpLink);
+
+                    foreach (var tpl in TmpTles)
+                    {
+                        Class tmpClass = boxes.Find(x => x.Name == tpl.Item2);
+                        Class tmpClass2 = boxes.Find(x => x.Name == tpl.Item1);
+                        if(tmpLink.To == tpl.Item2)
+                        tmpClass2.Linked.Add(new Tuple<Class, LinkTypes, string>(tmpClass, tpl.Item3, att.Attribute("Label").Value));
+                    }
                 }
             }
             #endregion

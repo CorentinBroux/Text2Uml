@@ -196,6 +196,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
 
             StringBuilder builder = new StringBuilder();
             foreach (List<Tuple<string, string>> sentence in sentences)
+               // if(sentence == sentences.First() && sentence.First().)
                 builder.Append(ProcessSingle(sentence, be, withIN, isModal, isJJRJJS));
             return builder.ToString();
         }
@@ -210,7 +211,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     sentences.Add(temp);
                     temp = new List<Tuple<string, string>>();
                 }
-                else
+                //else
                     temp.Add(t);
             }
             sentences.Add(temp);
@@ -309,6 +310,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             {
                 if (t.Item1.StartsWith("NN") || (t.Item1.StartsWith("CD") && verb == "" && jrss == "" && withIN == false)) // if jrss == "stuff" that means that there is a JJR|S at the beggining of the sentence
                 {
+
                     if (lastTuple != null)
                         if (lastTuple.Item1 == "CD" && t.Item1 != "CD" && firstClasses.Count > 0 && verb == "")
                             firstClasses.RemoveAt(firstClasses.Count - 1);
@@ -333,8 +335,12 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                         }
                     }
                 }
-
-                else if (t.Item1.StartsWith("CD") || t.Item2 == "a" || t.Item2 == "an")
+                else if (t.Item1.StartsWith("CC") && lastTuple != null && lastTuple.Item1.StartsWith("NN"))
+                {
+                    min = "0";
+                    max = "n";
+                }
+                else if (t.Item1.StartsWith("CD") || t.Item2 == "a"  || t.Item2 == "an")
                 {
                     switch (jrss.ToLower())
                     {
@@ -354,8 +360,11 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     }
 
                     linkLabel = String.Format("({0} {1})", min, max);
-                    min = "0";
-                    max = "n";
+                    if (min != "0" && max != "n")
+                    {
+                        min = "0";
+                        max = "n";
+                    }
                 }
 
                 else if (t.Item1 == "JJ")
