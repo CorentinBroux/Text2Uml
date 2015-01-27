@@ -395,7 +395,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     }
 
                 }
-                else if (t.Item1.StartsWith("IN") && verb != "" && t.Item2 != "than") // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! "than" est un IN !!!
+                else if (t.Item1.StartsWith("IN") && verb != "" && t.Item2 != "than")
                 {
                     withIN = true;
                 }
@@ -425,6 +425,9 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                         c.Attributes.Add(new Model.Attribute(String.Format("thing{0}", adj.Item1), adj.Item2));
                     builder.AppendFormat("{0} ", c.ToString());
                 }
+                if(firstClasses.Count == 0)
+                    foreach(Tuple<int,string> adj in adjectives)
+                        builder.AppendFormat("class {0} ", adj.Item2);
                 return builder.ToString();
             }
 
