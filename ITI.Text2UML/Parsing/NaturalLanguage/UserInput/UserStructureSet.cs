@@ -60,6 +60,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage.UserInput
                     formatter.Serialize(ms, this);
                     ms.Position = 0;
                     ms.CopyTo(fs);
+                    this.path = dlg.FileName;
                 }
         }
 

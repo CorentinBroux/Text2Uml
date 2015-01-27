@@ -304,6 +304,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             string min = "0", max = "n";
 
             string jrss = "";
+            bool jjrsContainsLeast = false;
             Tuple<string, string> lastTuple = null;
 
             foreach (Tuple<string, string> t in tuples)
@@ -367,7 +368,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     }
                 }
 
-                else if (t.Item1 == "JJ")
+                else if (t.Item1 == "JJ" || t.Item1 == "RB")
                 {
                     if (isLastName == false)
                         adjectives.Add(new Tuple<int, string>(j, t.Item2));
@@ -380,6 +381,8 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                 else if (t.Item1 == "JJS" || t.Item1 == "JJR")
                 {
                     jrss = t.Item2;
+                    if (jrss.ToLower() == "least")
+                        jjrsContainsLeast = true;
                 }
                 else if (t.Item1.StartsWith("VB"))
                 {
@@ -464,7 +467,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                     foreach (Class c2 in lastClasses)
                     {
                         builder.AppendFormat("{0} ", c2.ToString());
-                        if (jrss != "least" || NLGrammar.Verb_Be.Contains(verb))
+                        if (jjrsContainsLeast == false || NLGrammar.Verb_Be.Contains(verb))
                             builder.AppendFormat("{0} --> {1} {2}", c.Name, c2.Name, linkLabel);
                         else
                             builder.AppendFormat("{0} --> {1} {2}", c2.Name, c.Name, linkLabel);
