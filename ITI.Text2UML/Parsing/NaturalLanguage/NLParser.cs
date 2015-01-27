@@ -166,6 +166,11 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
             {
                 return ComplexDefinition(tuples, true);
             }
+            // Adj only
+            else if (Regex.Match(type, "(DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+)+").Success)
+            {
+                return ComplexDefinition(tuples, true);
+            }
             // Action without complement
             else if (Regex.Match(type, "(DT [a-zA-Z]+ )*(JJ[A-Z]* [a-zA-Z]+( CC[A-Z]* [a-zA-Z]+)* )*NN[A-Z]* [a-zA-Z]+ VB[A-Z]* [a-zA-Z]+").Success)
             {
