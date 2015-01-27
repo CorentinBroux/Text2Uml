@@ -454,6 +454,7 @@ namespace Text2UML
             CurrentUserStructureSets.Add(UserStructureSet.LoadFromFile());
         }
 
+
         private void submenu_structures_Click(object sender, RoutedEventArgs e)
         {
             ManageStructures();

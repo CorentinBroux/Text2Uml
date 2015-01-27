@@ -86,6 +86,7 @@ namespace Text2UML.View
         {
             if (uss.Structures.Count > 0)
                 uss.SaveToFile();
+            MainWindow.CurrentUserStructureSets.Add(uss);
             this.Close();
         }
 
