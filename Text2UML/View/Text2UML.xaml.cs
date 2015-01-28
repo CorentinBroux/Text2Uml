@@ -256,7 +256,7 @@ namespace Text2UML
                         tmpmth.Name = mth.Attribute("Name").Value;
                         tmpmth.ReturnType = mth.Attribute("ReturnType").Value;
 
-                        tmpmth.ParamTypes = mth.Elements("ParamType").Select(xe => xe.Value).ToList();
+                        tmpmth.ParamTypes = mth.Elements("ParamTypes").Select(xe => xe.Value).ToList();
 
                         tmpBox.Methods.Add(tmpmth);
                     }
