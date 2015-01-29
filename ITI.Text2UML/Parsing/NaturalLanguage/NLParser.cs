@@ -119,7 +119,7 @@ namespace ITI.Text2UML.Parsing.NaturalLanguage
                         switch (us.Type)
                         {
                             case UserStructureType.ByRegex:
-                                if (Regex.Match(type, us.Input).Success)
+                                if (Regex.Match(type.ToLower(), us.Input.ToLower()).Success)
                                     return us.Output;
                                 break;
                             case UserStructureType.ByTree:
